@@ -16,14 +16,15 @@
     "validate-on-windows": "npm run validate-html && npm run sonar-windows"
   },
   "dependencies": {
+    "axios": "^1.7.7",
     "sonar-scanner": "^3.1.0",
     "vnu-jar": "^20.2.28",
     "vue": "^3.4.29",
     "vue-router": "^4.3.3"
   },
   "devDependencies": {
-    "rimraf": "^5.0.5",
     "@vitejs/plugin-vue": "^5.0.5",
+    "rimraf": "^5.0.5",
     "vite": "^5.3.1"
   }
 }
