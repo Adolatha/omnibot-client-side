@@ -1,4 +1,3 @@
-import axios from "axios";
 
 const API_URL = "https://project-2.ti.howest.be/monitor/apis/group-23";
 export default {
