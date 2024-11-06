@@ -6,30 +6,35 @@
         <img src="/src/assets/images/OMNIBOT.png" alt="Omnibot Logo" class="logo">
         <ul class="features-list">
           <li>
-            <span class="icon">🌿</span>
+            <img src="../assets/images/sustainable.png" alt="sustainable"class="icon">
             <span>Sustainable Product</span>
           </li>
+          <hr class="feature-divider"/>
           <li>
-            <span class="icon">🚚</span>
+            <img src="../assets/images/delivery.png" alt="Fast Delivery Icon" class="icon">
             <span>Fast Delivery</span>
           </li>
+          <hr class="feature-divider"/>
           <li>
-            <span class="icon">💰</span>
+            <img src="../assets/images/refund.png" alt="Easy Refund and Return Icon" class="icon">
             <span>Easy Refund and Return</span>
           </li>
+          <hr class="feature-divider"/>
           <li>
-            <span class="icon">🔒</span>
+            <img src="../assets/images/secure.png" alt="Secure and Safe Icon" class="icon">
             <span>Secure and Safe</span>
           </li>
         </ul>
       </div>
 
+      <!-- Right Section with Login Button -->
       <div class="right-section">
-        <button class="login-button" @click=goToLogin>LOGIN</button>
+        <button class="login-button" @click="goToLogin">LOGIN</button>
       </div>
     </div>
   </div>
 </template>
+
 <script>
 export default {
   name: "TheWelcome",
@@ -43,26 +48,77 @@ export default {
 </script>
 
 <style scoped>
-.welcome-container {
-  text-align: center;
-  margin-top: 50px;
+.auth-container {
+  display: flex;
+  min-height: 75vh;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
 }
 
-h1 {
-  font-size: 2.5rem;
+.auth-box {
+  display: flex;
+  background-color: #fff;
+  border-radius: 8px;
+  width: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 3rem;
+  margin: 5rem;
+}
+
+.left-section, .right-section {
+  padding: 40px;
+}
+
+.left-section {
+  width: 60%;
+  border-right: 1px dashed #ddd;
+}
+
+.right-section {
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  width: 90%;
+  margin: 1rem 1rem 3rem 0;
+}
+
+.features-list {
+  list-style: none;
+  padding: 0;
+}
+
+.features-list li {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
   color: #333;
+  margin-bottom: 20px;
 }
 
-p {
-  font-size: 1.2rem;
-  color: #555;
-  margin-top: 10px;
+.icon {
+  font-size: 24px;
+  color: #000;
+  margin-right: 10px;
+  width: 24px; height: 24px;
 }
 
+.feature-divider {
+  border: 0;
+  border-top: 1px solid #ddd;
+  margin: 10px 0;
+}
 
 button {
   margin-top: 20px;
-  padding: 15px 30px;
+  margin-left: 2rem;
+  padding: 1.5rem 3rem;
   font-size: 1.2rem;
   background-color: #007bff;
   color: #fff;
@@ -77,5 +133,4 @@ button:hover {
   background-color: #0056b3;
   transform: translateY(-2px);
 }
-
 </style>
