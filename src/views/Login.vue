@@ -1,34 +1,33 @@
 <template>
-  <div class="login-container">
-    <h1>LOGIN</h1>
-    <form @submit.prevent="handleLogin">
-      <input v-model="adriaId" type="text" placeholder="Enter your Adria ID" required/>
-      <button type="submit"> Log In</button>
-    </form>
-    <p v-if="error" class="error-message">{{ error }}</p>
+  <div class="outer-container">
+    <div class="login-card">
+      <h1>LOGIN</h1>
+      <form @submit.prevent="handleLogin">
+        <input v-model="adriaId" type="text" placeholder="Enter your Adria ID" required />
+        <button type="submit">Log In</button>
+      </form>
+      <p v-if="error" class="error-message">{{ error }}</p>
+    </div>
   </div>
 </template>
 
 <script>
-
 import authService from "@/services/authService.js";
 
 export default {
   data() {
-    console.log("data function called");
     return {
       adriaId: "",
       error: null,
     };
   },
-
   methods: {
-    async handleLogin(){
-      try{
+    async handleLogin() {
+      try {
         await authService.login(this.adriaId);
         this.$router.push("/dashboard");
-      }catch (err){
-        this.error = "Login failed. Please check your Adria ID and try again."
+      } catch (err) {
+        this.error = "Login failed. Please check your Adria ID and try again.";
       }
     },
   },
@@ -36,10 +35,20 @@ export default {
 </script>
 
 <style scoped>
+.outer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 75vh; /* Center content vertically */
+}
 
-.login-container {
+.login-card {
   max-width: 400px;
-  margin: 50px auto;
+  width: 100%;
+  padding: 40px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
   text-align: center;
 }
 
@@ -76,5 +85,4 @@ button:hover {
   color: red;
   margin-top: 10px;
 }
-
 </style>
