@@ -50,12 +50,16 @@ export default {
 <style scoped>
 .auth-container {
   display: flex;
-  min-height: 75vh;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 100vh;
   width: 100%;
+  padding: 0;
 }
+body{
+
+}
+
 
 .auth-box {
   display: flex;

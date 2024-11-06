@@ -1,3 +1,4 @@
+/* main.css */
 @import './base.css';
 
 * {
@@ -7,72 +8,16 @@
   font-family: Arial, sans-serif;
 }
 
+html, body {
+  height: 100%; /* Ensures body takes full viewport height */
+}
+
 body {
-  justify-content: center;
-  align-items: center;
-  background-color: #f5f5f5;
-}
-
-.auth-container {
-  display: flex;
-  min-height: 75vh;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-}
-
-.auth-box {
-  display: flex;
-  background-color: #fff;
-  border-radius: 8px;
-  width: 600px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  padding: 3rem;
-  margin: 5rem;
-}
-
-.left-section, .right-section {
-  padding: 40px;
-}
-
-.left-section {
-  width: 60%;
-  border-right: 1px dashed #ddd;
-}
-
-.right-section {
-  width: 40%;
   display: flex;
   justify-content: center;
   align-items: center;
-}
+  background: radial-gradient(circle, #ffffff, #a2d9ff, #0056b3); /* White to blue radial gradient */
 
-.logo {
-  width: 90%;
-  margin-bottom: 3rem;
-  margin-right: 1rem;
-  margin-top: 1rem;
-  margin-left: 0;
-}
-
-.features-list {
-  list-style: none;
-}
-
-.features-list li {
-  display: flex;
-  align-items: center;
-  font-size: 16px;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.icon {
-  font-size: 20px;
-  margin-right: 10px;
-  color: #333;
 }
 
 .login-button {
