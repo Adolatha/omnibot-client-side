@@ -1,6 +1,36 @@
 <template>
-  <div class="auth-container">    <div class="auth-box">        <div class="left-section">            <img src="/src/assets/images/file.png" alt="Omnibot Logo" class="logo">            <ul class="features-list">                <li>                    <span class="icon">🌿</span>                    <span>Sustainable Product</span>                </li>                <li>                    <span class="icon">🚚</span>                    <span>Fast Delivery</span>                </li>                <li>                    <span class="icon">💰</span>                    <span>Easy Refund and Return</span>                </li>                <li>                    <span class="icon">🔒</span>                    <span>Secure and Safe</span>                </li>            </ul>        </div>        <div class="right-section">            <button @click=goToLogin>LOGIN</button>        </div>    </div></div></template>
+  <div class="auth-container">
+    <div class="auth-box">
+      <!-- Left Section with Logo and Features -->
+      <div class="left-section">
+        <img src="/src/assets/images/file.png" alt="Omnibot Logo" class="logo">
+        <ul class="features-list">
+          <li>
+            <span class="icon">🌿</span>
+            <span>Sustainable Product</span>
+          </li>
+          <li>
+            <span class="icon">🚚</span>
+            <span>Fast Delivery</span>
+          </li>
+          <li>
+            <span class="icon">💰</span>
+            <span>Easy Refund and Return</span>
+          </li>
+          <li>
+            <span class="icon">🔒</span>
+            <span>Secure and Safe</span>
+          </li>
+        </ul>
+      </div>
 
+      <!-- Right Section with Login Button -->
+      <div class="right-section">
+        <button @click=goToLogin>LOGIN</button>
+      </div>
+    </div>
+  </div>
+</template>
 <script>
 export default {
   name: "TheWelcome",
