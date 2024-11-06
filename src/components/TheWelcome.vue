@@ -1,6 +1,5 @@
 <template>
-  <div class="welcome-container">  <h1>Welcome to OMNIBOT</h1>  <p>Your one-stop platform for renting robots tailored to your needs.</p>  <div class="features-list">    <div class="feature-item">      <span class="icon">🤖</span>      <span>Wide variety of robots</span>    </div>    <div class="feature-item">      <span class="icon">🔧</span>      <span>Customizable options</span>    </div>    <div class="feature-item">      <span class="icon">🚚</span>      <span>Fast delivery</span>    </div>  </div>  <button @click="goToLogin">Get Started</button></div>
-</template>
+  <div class="auth-container">    <div class="auth-box">        <div class="left-section">            <img src="/src/assets/images/file.png" alt="Omnibot Logo" class="logo">            <ul class="features-list">                <li>                    <span class="icon">🌿</span>                    <span>Sustainable Product</span>                </li>                <li>                    <span class="icon">🚚</span>                    <span>Fast Delivery</span>                </li>                <li>                    <span class="icon">💰</span>                    <span>Easy Refund and Return</span>                </li>                <li>                    <span class="icon">🔒</span>                    <span>Secure and Safe</span>                </li>            </ul>        </div>        <div class="right-section">            <button @click=goToLogin>LOGIN</button>        </div>    </div></div></template>
 
 <script>
 export default {
