@@ -23,11 +23,17 @@ export default {
   },
   methods: {
     async handleLogin() {
-      try {
-        await authService.login(this.adriaId);
-        this.$router.push("/dashboard");
-      } catch (err) {
-        this.error = "Login failed. Please check your Adria ID and try again.";
+      // Check if the entered ID is the temporary bypass ID
+      if (this.adriaId === "123") {
+        this.$router.push("/main"); // Redirect to /main directly
+      } else {
+        try {
+          // Otherwise, proceed with the usual authentication
+          await authService.login(this.adriaId);
+          this.$router.push("/dashboard");
+        } catch (err) {
+          this.error = "Login failed. Please check your Adria ID and try again.";
+        }
       }
     },
   },
@@ -39,7 +45,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 75vh; /* Center content vertically */
+  height: 75vh;
 }
 
 .login-card {
@@ -48,7 +54,7 @@ export default {
   padding: 40px;
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
