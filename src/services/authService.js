@@ -1,12 +1,22 @@
 import axios from "axios";
 
-const API_URL = "https://api.omnibot.com"; // Base URL for server-side APIs
-
+const API_URL = "https://project-2.ti.howest.be/monitor/apis/group-23";
 export default {
     async login(adriaId) {
         try {
-            const response = await axios.post(`${API_URL}/login`, { adriaId });
-            const token = response.data.token;
+            const response = await fetch(`${API_URL}/login`,{
+                method: "POST",
+                headers: {
+                    "Content-Type" : "application/json",
+                },
+                body: JSON.stringify( { adriaId }),
+            });
+
+            if (!response.ok){
+                throw new Error("Failed to log in");
+            }
+            const data = await response.json();
+            const token = data.token;
             localStorage.setItem("token", token);
             return token;
         } catch (error) {
@@ -15,8 +25,18 @@ export default {
     },
     async register(adriaId) {
         try {
-            const response = await axios.post(`${API_URL}/register`, { adriaId });
-            return response.data;
+            const response = await fetch(`${API_URL}/register`, {
+                method: "POST",
+                headers: {
+                    "Content-Type" : "application/json",
+                },
+                body: JSON.stringify({ adriaId }),
+            });
+
+            if(!response.ok) {
+                throw new Error("Registration fialed.");
+            }
+            return await response.json();
         } catch (error) {
             throw new Error("Registration failed.");
         }
