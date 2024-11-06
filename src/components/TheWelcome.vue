@@ -1,9 +1,5 @@
 <template>
-  <div class="welcome-container">
-    <h1>Welcome to OMNIBOT</h1>
-    <p>Your one-stop platform for renting robots tailored to your needs.</p>
-    <button @click="goToLogin">Get Started</button>
-  </div>
+  <div class="welcome-container">  <h1>Welcome to OMNIBOT</h1>  <p>Your one-stop platform for renting robots tailored to your needs.</p>  <div class="features-list">    <div class="feature-item">      <span class="icon">🤖</span>      <span>Wide variety of robots</span>    </div>    <div class="feature-item">      <span class="icon">🔧</span>      <span>Customizable options</span>    </div>    <div class="feature-item">      <span class="icon">🚚</span>      <span>Fast delivery</span>    </div>  </div>  <button @click="goToLogin">Get Started</button></div>
 </template>
 
 <script>
