@@ -6,9 +6,7 @@ import { RouterLink, RouterView } from 'vue-router';
   <header>
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
+      <nav>aaa
       </nav>
     </div>
   </header>
