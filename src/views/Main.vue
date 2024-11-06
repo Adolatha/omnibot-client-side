@@ -12,6 +12,8 @@
         <button class="get-started-button">GET STARTED</button>
       </nav>
     </header>
+    <div class="big">
+      <div class="first">
     <section class="hero-section">
       <h1 class="hero-title">Changing Your Idea of What Robots Can Do.</h1>
       <p class="hero-subtitle">AI & Robotic Engineering</p>
@@ -24,19 +26,14 @@
         you deserve!
       </p>
       <button class="discover-button">DISCOVER MORE</button>
+    </section>
+        <div class="second">
+        </div>
+
+    </div>
       <img class="robot-image" src="../assets/images/robotpics.png" alt="robotimage">
-    </section>
-    <section class="experience-section">
-      <div class="experience-box">
-        <h2>20 +</h2>
-        <p>Years Of Experience</p>
-        <p>Placerat quis libero et diam tellus lectus sagittis quisque hendrerit. Ipsum tincidunt.</p>
-      </div>
-      <div class="video-section">
-        <button class="video-button" aria-label="Play video">▶</button>
-        <span>Let's see how we did it</span>
-      </div>
-    </section>
+
+  </div>
   </div>
 </template>
 
@@ -95,12 +92,14 @@ export default {
   background-image: url('../assets/images/robotpics.png');
   position: relative;
   align-self: flex-end;
+
 }
 
 
 .hero-title {
-  font-size: 3rem;
+  font-size: 2.8rem;
   font-weight: bold;
+  padding-right: 2.4rem;
   background: linear-gradient(90deg, #000000, #0000ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -130,10 +129,10 @@ export default {
 }
 
 .robot-image {
+  display: flex;
   margin-top: 20px;
   max-width: 100%;
-  height: auto;
-  align-self: flex-end;
+  float: top;
 }
 
 .experience-section {
@@ -172,4 +171,8 @@ export default {
   color: black;
   cursor: pointer;
 }
+.big{
+  display: flex;
+}
+
 </style>

@@ -56,9 +56,6 @@ export default {
   width: 100%;
   padding: 0;
 }
-body{
-
-}
 
 
 .auth-box {
@@ -103,7 +100,9 @@ body{
   align-items: center;
   font-size: 16px;
   color: #333;
-  margin-bottom: 20px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
 }
 
 .icon {

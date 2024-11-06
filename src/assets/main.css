@@ -14,7 +14,8 @@ html, body {
 body {
   justify-content: center;
   align-items: center;
-  background-color: #f5f5f5;
+  background: radial-gradient(circle, #ffffff, #a2d9ff, #0056b3); /* White to blue radial gradient */
+
 }
 
 .auth-container {
@@ -49,7 +50,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: radial-gradient(circle, #ffffff, #a2d9ff, #0056b3); /* White to blue radial gradient */
 
 }
 
