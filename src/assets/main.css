@@ -7,6 +7,10 @@
   font-family: Arial, sans-serif;
 }
 
+html, body {
+  height: 100%; /* Ensures body takes full viewport height */
+}
+
 body {
   justify-content: center;
   align-items: center;
@@ -45,32 +49,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-}
+  background: radial-gradient(circle, #ffffff, #a2d9ff, #0056b3); /* White to blue radial gradient */
 
-.logo {
-  width: 90%;
-  margin-bottom: 3rem;
-  margin-right: 1rem;
-  margin-top: 1rem;
-  margin-left: 0;
-}
-
-.features-list {
-  list-style: none;
-}
-
-.features-list li {
-  display: flex;
-  align-items: center;
-  font-size: 16px;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.icon {
-  font-size: 20px;
-  margin-right: 10px;
-  color: #333;
 }
 
 .login-button {
