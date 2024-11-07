@@ -2,23 +2,44 @@
   <header class="header">
     <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
     <nav class="nav">
-      <router-link to="/main" class="nav-item">Home</router-link>
-      <router-link to="/products" class="nav-item">About us</router-link>
-      <router-link to="/products" class="nav-item">Products</router-link>
-      <router-link to="/products" class="get-started-button">Contact us</router-link>
+      <router-link
+          to="/main"
+          class="nav-item"
+          :class="{ 'active-link': $route.path === '/main' }"
+      >Home</router-link>
+      <router-link
+          to="/about"
+          class="nav-item"
+          :class="{ 'active-link': $route.path === '/about' }"
+      >About us</router-link>
+      <router-link
+          to="/products"
+          class="nav-item"
+          :class="{ 'active-link': $route.path === '/products' }"
+      >Products</router-link>
+      <router-link
+          to="/contact"
+          class="nav-item"
+          :class="{ 'active-link': $route.path === '/contact' }"
+      >Contact us</router-link>
+
+      <!-- Cart Icon with Counter -->
+      <div class="cart-icon-container">
+        <router-link to="/checkout" class="nav-item">
+          <img src="@/assets/images/shopping-cart.png" alt="Shopping Cart" class="cart-icon" />
+        </router-link>
+        <span v-if="cart.length" class="cart-counter">{{ cart.length }}</span>
+      </div>
     </nav>
   </header>
+
   <div class="products-page">
     <h2>OUR BOTS</h2>
     <input type="text" v-model="searchQuery" placeholder="Search products..." class="search-bar" />
     <div v-if="loading" class="loading">Loading...</div>
     <div v-if="error" class="error">{{ error }}</div>
     <div v-else class="product-list">
-      <div
-          v-for="product in filteredProducts"
-          :key="product.id"
-          class="product-card"
-      >
+      <div v-for="product in filteredProducts" :key="product.id" class="product-card">
         <img :src="`/src/assets/images/${product.image}`" :alt="`${product.name} Image`" class="product-image" />
         <h3 class="product-name">{{ product.name }}</h3>
         <p class="product-price">{{ product.price }} ADCO/month</p>
@@ -30,6 +51,7 @@
       </div>
     </div>
   </div>
+
   <!-- Modal Overlay -->
   <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
     <div class="modal-content">
@@ -99,11 +121,14 @@ export default {
       searchQuery: '',
       showModal: false,
       selectedProduct: null,
+      cart: [], // Array to store cart items
     };
   },
   computed: {
     filteredProducts() {
-      return this.products.filter(product => product.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
+      return this.products.filter(product =>
+          product.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
     }
   },
   methods: {
@@ -112,13 +137,14 @@ export default {
       this.showModal = true;
     },
     addToCart(product) {
+      this.cart.push(product); // Add the product to the cart array
       alert(`${product.name} added to cart!`);
     },
     closeModal() {
       this.showModal = false;
       this.selectedProduct = null;
     }
-  },
+  }
 };
 </script>
 
@@ -189,7 +215,7 @@ export default {
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-top: auto; /* Push the buttons to the bottom */
+  margin-top: auto;
   gap: 8px;
 }
 
@@ -208,6 +234,8 @@ export default {
 .cart-button:hover {
   background-color: cornflowerblue;
 }
+
+
 
 /* Modal styles */
 .modal-overlay {
@@ -245,5 +273,29 @@ export default {
   height: auto;
   border-radius: 4px;
   margin-bottom: 12px;
+}
+
+/* Cart Icon and Counter */
+.cart-icon-container {
+  position: absolute;
+  right: 30px; /* Position cart icon on the right side */
+  padding-top: 0.5rem;
+}
+
+.cart-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.cart-counter {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.8em;
+  font-weight: bold;
 }
 </style>
