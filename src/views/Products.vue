@@ -2,7 +2,7 @@
   <header class="header">
     <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
     <nav class="nav">
-      <router-link to="/products" class="nav-item">Home</router-link>
+      <router-link to="/main" class="nav-item">Home</router-link>
       <router-link to="/products" class="nav-item">About us</router-link>
       <router-link to="/products" class="nav-item">Services</router-link>
       <router-link to="/products" class="nav-item">Products</router-link>
@@ -20,7 +20,8 @@
           :key="product.id"
           class="product-card"
       >
-        <img :src="product.image" alt="Product Image" class="product-image" />
+
+        <img :src="`/2024-2025/group-23/src/assets/images/${product.image}`" :alt="`${product.name}`" class="product-image" />
         <h3 class="product-name">{{ product.name }}</h3>
         <p class="product-price">{{ product.price }} ADCO</p>
         <div class="button-group">
@@ -33,9 +34,9 @@
 </template>
 
 <script>
-import axios from 'axios';
+/*import axios from 'axios';
 
-/*export default {
+export default {
   data() {
     return {
       products: [],
@@ -61,12 +62,12 @@ export default {
   data() {
     return {
       products: [
-        { id: 1, name: "Basic Bot", price: "50", image: "path/to/basic-image.jpg" },
-        { id: 2, name: "Basic+ Bot", price: "80", image: "path/to/basic-plus-image.jpg" },
-        { id: 3, name: "Study Bot", price: "100", image: "path/to/study-image.jpg" },
-        { id: 4, name: "Premium Bot", price: "150", image: "path/to/premium-image.jpg" },
-        { id: 5, name: "Vibranium Bot", price: "200", image: "path/to/vibranium-image.jpg" },
-        { id: 6, name: "Custom Bot", price: "300", image: "path/to/custom-image.jpg" },
+        { id: 1, name: "Basic Bot", price: "50", image: 'basicpack.png' },
+        { id: 2, name: "Basic+ Bot", price: "80", image: "basicplus.png" },
+        { id: 3, name: "Study Bot", price: "100", image: "study.png" },
+        { id: 4, name: "Premium Bot", price: "150", image: "premium.png" },
+        { id: 5, name: "Vibranium Bot", price: "200", image: "ultra.png" },
+        { id: 6, name: "Custom Bot", price: "300", image: "custom.png" },
       ],
     };
   },
@@ -79,7 +80,6 @@ export default {
     },
   },
 };
-
 </script>
 
 <style scoped>
@@ -106,7 +106,7 @@ export default {
 
 .product-image {
   width: 100%;
-  height: auto;
+  height: 220px;
   border-radius: 4px;
   margin-bottom: 12px;
 }
