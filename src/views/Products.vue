@@ -162,7 +162,7 @@ export default {
 
 .product-image {
   width: 100%;
-  height: auto;
+  height: 220px;
   border-radius: 4px;
   margin-bottom: 12px;
 }
@@ -189,11 +189,15 @@ export default {
 
 .button-group {
   display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: auto; /* Push the buttons to the bottom */
   gap: 8px;
 }
 
 .info-button,
 .cart-button {
+  flex: 1;
   background-color: blue;
   color: #fff;
   border: none;
