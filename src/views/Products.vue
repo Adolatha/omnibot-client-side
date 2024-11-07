@@ -23,7 +23,7 @@
       >
         <img :src="`/2024-2025/group-23/src/assets/images/${product.image}`" :alt="`${product.name} Image`" class="product-image" />
         <h3 class="product-name">{{ product.name }}</h3>
-        <p class="product-price">{{ product.price }} ADCO</p>
+        <p class="product-price">{{ product.price }} ADCO/month</p>
         <p class="product-description">{{ product.description }}</p>
         <div class="button-group">
           <button class="info-button" @click="showMoreInfo(product)">More info</button>
@@ -52,7 +52,7 @@ export default {
         {
           id: 1,
           name: "Basic Bot",
-          price: "50",
+          price: "150",
           image: "basicpack.png",
           description: "Get Started with AI-Powered Robotics! Ideal for beginners, this package offers foundational tools to automate simple tasks and explore the basics of robotic functionality.",
           moreInfo: "Features: Conversational bots. They can hold conversations, show interest, and act as a friend or companion."
@@ -60,7 +60,7 @@ export default {
         {
           id: 2,
           name: "Basic+ Bot",
-          price: "80",
+          price: "250",
           image: "basicplus.png",
           description: "An enhanced version of the Basic Bot, offering additional features for small businesses or personal projects looking to dive deeper into AI-driven solutions.",
           moreInfo: "Everything in Basic Package, plus robots for: Cleaning and Housekeeping."
@@ -68,7 +68,7 @@ export default {
         {
           id: 3,
           name: "Study Bot",
-          price: "100",
+          price: "350",
           image: "study.png",
           description: "A bot designed for study assistance, equipped with features to support educational activities and learning tasks effectively.",
           moreInfo: "Everything in Basic+ Package, plus: Educational Support with robots that can tutor in all subjects (e.g., Biology, Chemistry, Physics, etc.)."
@@ -76,7 +76,7 @@ export default {
         {
           id: 4,
           name: "Premium Bot",
-          price: "150",
+          price: "650",
           image: "premium.png",
           description: "Boost Efficiency with Advanced Robotics! Designed for growing businesses, this package includes a suite of automation and analytics tools to take operations to the next level.",
           moreInfo: "Everything in Study Package, plus: Professional Expertise with robots capable of acting as doctors, professors, or lawyers."
@@ -84,7 +84,7 @@ export default {
         {
           id: 5,
           name: "Vibranium Bot",
-          price: "200",
+          price: "950",
           image: "ultra.png",
           description: "End-to-End Automation for Large-Scale Operations! Built with vibranium, this bot offers unmatched performance for large companies and complex workflows.",
           moreInfo: "Everything in Premium Package, plus: Advanced Services for security systems, industrial work, army support, and research assistance."
@@ -92,7 +92,7 @@ export default {
         {
           id: 6,
           name: "Custom Bot",
-          price: "300",
+          price: "200",
           image: "custom.png",
           description: "Tailored Solutions for Unique Needs! This package offers flexible options to create a fully personalized AI and robotics solution designed specifically for your industry and goals.",
           moreInfo: "Customizable options for tasks like specialized tutoring, corporate tasks, or custom operations, with pricing increasing per task."
