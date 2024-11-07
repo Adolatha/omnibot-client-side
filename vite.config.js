@@ -5,7 +5,7 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/2024-2025/group-23/',
+  base: mode === 'production' ? '/2024-2025/group-23/' : '/',
   plugins: [
     vue(),
   ],
