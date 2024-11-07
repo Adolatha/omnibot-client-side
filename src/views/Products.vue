@@ -121,7 +121,7 @@ export default {
       searchQuery: '',
       showModal: false,
       selectedProduct: null,
-      cart: [], // Array to store cart items
+      cart: [],
     };
   },
   computed: {
@@ -137,7 +137,7 @@ export default {
       this.showModal = true;
     },
     addToCart(product) {
-      this.cart.push(product); // Add the product to the cart array
+      this.cart.push(product);
       alert(`${product.name} added to cart!`);
     },
     closeModal() {
@@ -278,7 +278,7 @@ export default {
 /* Cart Icon and Counter */
 .cart-icon-container {
   position: absolute;
-  right: 30px; /* Position cart icon on the right side */
+  right: 30px;
   padding-top: 0.5rem;
 }
 
