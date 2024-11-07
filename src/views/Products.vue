@@ -25,8 +25,8 @@
 
       <!-- Cart Icon with Counter -->
       <div class="cart-icon-container">
-        <router-link to="/checkout" class="nav-item">
-          <img src="@/assets/images/shopping-cart.png" alt="Shopping Cart" class="cart-icon" />
+        <router-link :to="{ path: '/checkout', query: { cart: JSON.stringify(cart) } }">
+        <img src="@/assets/images/shopping-cart.png" alt="Shopping Cart" class="cart-icon" />
         </router-link>
         <span v-if="cart.length" class="cart-counter">{{ cart.length }}</span>
       </div>
@@ -132,13 +132,18 @@ export default {
     }
   },
   methods: {
+    goToCheckout() {
+      this.$router.push({
+        path: '/checkout',
+        query: { cart: JSON.stringify(this.cart) } // Passing cart as a JSON string
+      });
+    },
     showMoreInfo(product) {
       this.selectedProduct = product;
       this.showModal = true;
     },
     addToCart(product) {
       this.cart.push(product);
-      alert(`${product.name} added to cart!`);
     },
     closeModal() {
       this.showModal = false;

@@ -5,6 +5,7 @@ import Dashboard from "../views/Dashboard.vue";
 import Main from "../views/Main.vue";
 import Products from "../views/Products.vue";
 import Contact from "../views/Contact.vue";
+import Checkout from "../views/Checkout.vue";
 
 
 const router = createRouter({
@@ -47,6 +48,11 @@ const router = createRouter({
       path: "/contact",
       name: "Contact",
       component: Contact
+    },
+    {
+      path: "/checkout",
+      name: "Checkout",
+      component: Checkout
     },
   ]
 });
