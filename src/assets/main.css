@@ -33,15 +33,21 @@ html, body {
 .nav-item {
   color: black;
   text-decoration: none;
+  padding-top: 0.5rem;
 }
 
 .get-started-button {
   background-color: blue;
   color: #fff;
   border: none;
-  padding: 10px 20px;
   border-radius: 20px;
+  padding: 10px 20px;
   cursor: pointer;
+  margin-top: 0;
+}
+
+.get-started-button:hover {
+  background-color: darkblue;
 }
 
 body {

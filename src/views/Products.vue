@@ -2,12 +2,10 @@
   <header class="header">
     <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
     <nav class="nav">
-      <router-link to="/products" class="nav-item">Home</router-link>
+      <router-link to="/main" class="nav-item">Home</router-link>
       <router-link to="/products" class="nav-item">About us</router-link>
-      <router-link to="/products" class="nav-item">Services</router-link>
       <router-link to="/products" class="nav-item">Products</router-link>
-      <router-link to="/products" class="nav-item">Contact us</router-link>
-      <button class="get-started-button">GET STARTED</button>
+      <router-link to="/products" class="get-started-button">Contact us</router-link>
     </nav>
   </header>
   <div class="products-page">
@@ -21,7 +19,7 @@
           :key="product.id"
           class="product-card"
       >
-        <img :src="`/2024-2025/group-23/src/assets/images/${product.image}`" :alt="`${product.name} Image`" class="product-image" />
+        <img :src="`/src/assets/images/${product.image}`" :alt="`${product.name} Image`" class="product-image" />
         <h3 class="product-name">{{ product.name }}</h3>
         <p class="product-price">{{ product.price }} ADCO/month</p>
         <p class="product-description">{{ product.description }}</p>
@@ -37,9 +35,9 @@
     <div class="modal-content">
       <span class="close-button" @click="closeModal">&times;</span>
       <h2>{{ selectedProduct.name }}</h2>
-      <img :src="`/2024-2025/group-23/src/assets/images/${selectedProduct.image}`" :alt="`${selectedProduct.name} Image`" class="modal-product-image" />
+      <img :src="`src/assets/images/${selectedProduct.image}`" :alt="`${selectedProduct.name} Image`" class="modal-product-image" />
       <p>{{ selectedProduct.moreInfo }}</p>
-      <p>Price: {{ selectedProduct.price }} ADCO</p>
+      <p>Price: {{ selectedProduct.price }} ADCO/month</p>
     </div>
   </div>
 </template>

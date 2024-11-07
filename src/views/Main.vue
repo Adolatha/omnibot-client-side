@@ -3,12 +3,10 @@
     <header class="header">
       <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
       <nav class="nav">
-        <router-link to="/products" class="nav-item">Home</router-link>
+        <router-link to="/main" class="nav-item">Home</router-link>
         <router-link to="/products" class="nav-item">About us</router-link>
-        <router-link to="/products" class="nav-item">Services</router-link>
         <router-link to="/products" class="nav-item">Products</router-link>
-        <router-link to="/products" class="nav-item">Contact us</router-link>
-        <button class="get-started-button">GET STARTED</button>
+        <button class="get-started-button">Contact us</button>
       </nav>
     </header>
     <div class="big">
