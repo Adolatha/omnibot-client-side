@@ -1,12 +1,135 @@
-<script setup>
-</script>
-
 <template>
-
-
-  <RouterView />
+  <div class="products-page">
+    <h2>Best Selling Items</h2>
+    <div v-if="loading" class="loading">Loading...</div>
+    <div v-if="error" class="error">{{ error }}</div>
+    <div v-else class="product-list">
+      <div
+          v-for="product in products"
+          :key="product.id"
+          class="product-card"
+      >
+        <img :src="product.image" alt="Product Image" class="product-image" />
+        <h3 class="product-name">{{ product.name }}</h3>
+        <p class="product-price">{{ product.price }} ADCO</p>
+        <div class="button-group">
+          <button class="info-button" @click="showMoreInfo(product)">More info</button>
+          <button class="cart-button" @click="addToCart(product)">Add to cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
-<style scoped>
+<script>
+import axios from 'axios';
 
+/*export default {
+  data() {
+    return {
+      products: [],
+      loading: true,
+      error: null,
+    };
+  },
+  mounted() {
+    this.fetchProducts();
+  },
+  methods: {
+    async fetchProducts() {
+      try {
+        const response = await axios.get('http://your-server-url/products');
+        this.products = response.data;
+      } catch (error) {
+        this.error = 'Failed to load products. Please try again later.';
+      } finally {
+        this.loading = false;
+      }
+    },*/
+export default {
+  data() {
+    return {
+      products: [
+        { id: 1, name: "Basic Bot", price: "50", image: "path/to/basic-image.jpg" },
+        { id: 2, name: "Basic+ Bot", price: "80", image: "path/to/basic-plus-image.jpg" },
+        { id: 3, name: "Study Bot", price: "100", image: "path/to/study-image.jpg" },
+        { id: 4, name: "Premium Bot", price: "150", image: "path/to/premium-image.jpg" },
+        { id: 5, name: "Vibranium Bot", price: "200", image: "path/to/vibranium-image.jpg" },
+        { id: 6, name: "Custom Bot", price: "300", image: "path/to/custom-image.jpg" },
+      ],
+    };
+  },
+  methods: {
+    showMoreInfo(product) {
+      alert(`More info about ${product.name}`);
+    },
+    addToCart(product) {
+      alert(`${product.name} added to cart!`);
+    },
+  },
+};
+
+</script>
+
+<style scoped>
+.products-page {
+  text-align: center;
+  padding: 20px;
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fff;
+}
+
+.product-image {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.product-name {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.product-price {
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.button-group {
+  display: flex;
+  gap: 8px;
+}
+
+.info-button,
+.cart-button {
+  background-color: cornflowerblue;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.info-button:hover,
+.cart-button:hover {
+  background-color: #8b0000;
+}
 </style>
