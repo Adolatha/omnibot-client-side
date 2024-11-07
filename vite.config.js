@@ -4,7 +4,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({mode}) => ({
   base: mode === 'production' ? '/2024-2025/group-23/' : '/',
   plugins: [
     vue(),
@@ -19,4 +19,4 @@ export default defineConfig({
         'top-level-await': true //browsers can handle top-level-await features
     }
   }
-})
+}))
