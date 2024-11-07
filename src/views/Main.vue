@@ -3,12 +3,11 @@
     <header class="header">
       <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
       <nav class="nav">
-        <a href="#" class="nav-item">Home</a>
-        <a href="#" class="nav-item">About Us</a>
-        <a href="#" class="nav-item">Services</a>
-        <a href="#" class="nav-item">Products</a>
-        <a href="#" class="nav-item">Pricing</a>
-        <a href="#" class="nav-item">Contact Us</a>
+        <router-link to="/products" class="nav-item">Home</router-link>
+        <router-link to="/products" class="nav-item">About us</router-link>
+        <router-link to="/products" class="nav-item">Services</router-link>
+        <router-link to="/products" class="nav-item">Products</router-link>
+        <router-link to="/products" class="nav-item">Contact us</router-link>
         <button class="get-started-button">GET STARTED</button>
       </nav>
     </header>
@@ -27,8 +26,6 @@
       </p>
       <button class="discover-button">DISCOVER MORE</button>
     </section>
-        <div class="second">
-        </div>
 
     </div>
       <img class="robot-image" src="../assets/images/robotpics.png" alt="robotimage">
@@ -55,6 +52,8 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 20px 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
 }
 
 .logo {
@@ -64,6 +63,7 @@ export default {
 .nav {
   display: flex;
   gap: 20px;
+  padding-top: 1rem;
 }
 
 .nav-item {

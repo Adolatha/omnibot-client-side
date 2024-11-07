@@ -54,7 +54,7 @@ export default {
   padding: 40px;
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
@@ -82,6 +82,8 @@ button {
   border-radius: 5px;
   cursor: pointer;
 }
+
+
 
 button:hover {
   background-color: #0056b3;
