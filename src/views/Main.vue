@@ -47,38 +47,7 @@ export default {
   font-family: Arial, sans-serif;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 40px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
-}
-
-.logo {
-  width: 120px;
-}
-
-.nav {
-  display: flex;
-  gap: 20px;
-  padding-top: 1rem;
-}
-
-.nav-item {
-  color: black;
-  text-decoration: none;
-}
-
-.get-started-button {
-  background-color: blue;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 20px;
-  cursor: pointer;
-}
 
 .hero-section {
   padding: 60px 40px;

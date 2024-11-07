@@ -1,6 +1,17 @@
 <template>
+  <header class="header">
+    <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
+    <nav class="nav">
+      <router-link to="/products" class="nav-item">Home</router-link>
+      <router-link to="/products" class="nav-item">About us</router-link>
+      <router-link to="/products" class="nav-item">Services</router-link>
+      <router-link to="/products" class="nav-item">Products</router-link>
+      <router-link to="/products" class="nav-item">Contact us</router-link>
+      <button class="get-started-button">GET STARTED</button>
+    </nav>
+  </header>
   <div class="products-page">
-    <h2>Best Selling Items</h2>
+    <h2>OUR BOTS</h2>
     <div v-if="loading" class="loading">Loading...</div>
     <div v-if="error" class="error">{{ error }}</div>
     <div v-else class="product-list">
@@ -120,7 +131,7 @@ export default {
 
 .info-button,
 .cart-button {
-  background-color: cornflowerblue;
+  background-color: blue;
   color: #fff;
   border: none;
   padding: 8px 12px;
@@ -130,6 +141,6 @@ export default {
 
 .info-button:hover,
 .cart-button:hover {
-  background-color: #8b0000;
+  background-color: cornflowerblue;
 }
 </style>
