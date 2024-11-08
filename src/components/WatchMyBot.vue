@@ -50,7 +50,7 @@ export default {
       robots: [
         {
           id: 1,
-          name: "Robot A",
+          name: "Study Bot",
           videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
           latitude: 37.7749,
           longitude: -122.4194,
@@ -58,7 +58,7 @@ export default {
         },
         {
           id: 2,
-          name: "Robot B",
+          name: "Companion Bot",
           videoUrl: "",
           latitude: 34.0522,
           longitude: -118.2437,
@@ -66,7 +66,7 @@ export default {
         },
         {
           id: 3,
-          name: "Robot C",
+          name: "Butler Bot",
           videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
           latitude: 40.7128,
           longitude: -74.006,
