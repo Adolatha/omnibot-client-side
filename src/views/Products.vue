@@ -40,7 +40,7 @@
     <div v-if="error" class="error">{{ error }}</div>
     <div v-else class="product-list">
       <div v-for="product in filteredProducts" :key="product.id" class="product-card">
-        <img :src="`/src/assets/images/${product.image}`" :alt="`${product.name} Image`" class="product-image" />
+        <img :src="`/images/${product.image}`" :alt="`${product.name} Image`" class="product-image" />
         <h3 class="product-name">{{ product.name }}</h3>
         <p class="product-price">{{ product.price }} ADCO/month</p>
         <p class="product-description">{{ product.description }}</p>
@@ -169,9 +169,11 @@ export default {
 }
 
 .product-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center-align the cards */
+  gap: 20px; /* Space between cards */
+  padding: 20px;
 }
 
 .product-card {
@@ -183,6 +185,11 @@ export default {
   padding: 16px;
   background-color: #fff;
   transition: transform 0.2s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 280px; /* Fixed width for each card */
+  height: 500px; /* Fixed height for each card */
+  flex-shrink: 0; /* Prevent shrinking */
+  margin-bottom: 20px;
 }
 
 .product-card:hover {
@@ -192,6 +199,7 @@ export default {
 .product-image {
   width: 100%;
   height: 220px;
+  object-fit: cover;
   border-radius: 4px;
   margin-bottom: 12px;
 }

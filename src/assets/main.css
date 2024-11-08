@@ -12,10 +12,47 @@ html, body {
 }
 .header {
   display: flex;
-  justify-content: center;
   align-items: center;
-  background-color: #f8f8f8;
-  padding: 10px 10px 2rem;
+  justify-content: space-between;
+  padding: 20px 40px;
+  background-color: white;
+  color: black;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+  width: 150px;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+.nav {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex: 1;
+}
+
+.nav-item {
+  color: black;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 20px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-item:hover,
+.active-link {
+  background-color: #007bff;
+  color: #fff;
+  transform: scale(1.05);
 }
 .button {
   background-color: blue;
@@ -26,26 +63,8 @@ html, body {
   cursor: pointer;
 }
 
-.nav {
-  display: flex;
-  gap: 20px;
-  padding-top: 1rem;
-}
-
-.logo {
-  position: absolute;
-  left: 20px; /* Keep logo on the left side */
-  height: 40px; /* Adjust size as needed */
-}
-
-.nav-item {
-  color: black;
-  text-decoration: none;
-  padding-top: 0.5rem;
-}
 
 .active-link {
-  border-bottom: 2px solid blue; /* Underline for the active link */
   font-weight: bold; /* Makes the active link stand out */
 }
 
