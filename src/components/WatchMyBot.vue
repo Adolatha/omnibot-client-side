@@ -15,7 +15,7 @@
     <!-- Video container -->
     <div class="video-container">
       <video v-if="isVideoAvailable" class="video" controls autoplay>
-        <source :src="videoUrl" type="youtube">
+        <source :src="videoUrl" type="video/mp4">
         Your browser does not support the video tag.
       </video>
       <div v-else>
