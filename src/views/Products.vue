@@ -71,7 +71,7 @@ export default {
       products: [
         {
           id: 1,
-          name: "Basic Bot",
+          name: "Companion Bot",
           price: "150",
           image: "basicpack.png",
           description: "Get Started with AI-Powered Robotics! Ideal for beginners, this package offers foundational tools to automate simple tasks and explore the basics of robotic functionality.",
@@ -79,7 +79,7 @@ export default {
         },
         {
           id: 2,
-          name: "Basic+ Bot",
+          name: "Butler Bot",
           price: "250",
           image: "basicplus.png",
           description: "An enhanced version of the Basic Bot, offering additional features for small businesses or personal projects looking to dive deeper into AI-driven solutions.",
@@ -95,7 +95,7 @@ export default {
         },
         {
           id: 4,
-          name: "Premium Bot",
+          name: "Expertise Bot",
           price: "650",
           image: "premium.png",
           description: "Boost Efficiency with Advanced Robotics! Designed for growing businesses, this package includes a suite of automation and analytics tools to take operations to the next level.",
@@ -111,7 +111,7 @@ export default {
         },
         {
           id: 6,
-          name: "Custom Bot",
+          name: "Custom+ Bot",
           price: "200",
           image: "custom.png",
           description: "Tailored Solutions for Unique Needs! This package offers flexible options to create a fully personalized AI and robotics solution designed specifically for your industry and goals.",
