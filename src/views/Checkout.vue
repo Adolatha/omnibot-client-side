@@ -26,7 +26,7 @@
       <div v-else>
         <div class="cart-items">
           <div v-for="item in cart" :key="item.id" class="cart-item">
-            <img :src="`/src/assets/images/${item.image}`" :alt="item.name" class="cart-item-image" />
+            <img :src="`/2024-2025/group-23/images/${item.image}`" :alt="item.name" class="cart-item-image" />
             <div class="cart-item-details">
               <h3 class="cart-item-name">{{ item.name }}</h3>
               <p class="cart-item-price">{{ item.price }} ADCO/month</p>

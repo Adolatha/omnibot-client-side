@@ -40,7 +40,7 @@
     <div v-if="error" class="error">{{ error }}</div>
     <div v-else class="product-list">
       <div v-for="product in filteredProducts" :key="product.id" class="product-card">
-        <img :src="`2024-2025/group-23/images/${product.image}`" :alt="`${product.name} Image`" class="product-image" />
+        <img :src="`/2024-2025/group-23/images/${product.image}`" :alt="`${product.name} Image`" class="product-image" />
         <h3 class="product-name">{{ product.name }}</h3>
         <p class="product-price">{{ product.price }} ADCO/month</p>
         <p class="product-description">{{ product.description }}</p>
