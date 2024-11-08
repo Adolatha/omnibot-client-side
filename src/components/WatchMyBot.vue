@@ -19,7 +19,7 @@
         Your browser does not support the video tag.
       </video>
       <div v-else>
-        <p>Video feed is not available at the moment.</p>
+        <p class="error-message">Video feed is not available at the moment.</p>
       </div>
     </div>
 
@@ -59,7 +59,7 @@ export default {
         {
           id: 2,
           name: "Robot B",
-          videoUrl: "https://www.w3schools.com/html/movie.mp4",
+          videoUrl: "",
           latitude: 34.0522,
           longitude: -118.2437,
           taskProgress: 85
@@ -122,89 +122,111 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 40px;
+  background-color: #f4f4f4;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  box-sizing: border-box;
+  min-height: 100vh;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #2c3e50;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 .robot-selector {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: Arial, sans-serif; /* Optional: choose a consistent font */
 }
 
 .robot-selector label {
-  color: #333; /* Adjust the label color */
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+  color: #444;
 }
 
 .robot-selector select {
-  padding: 10px;
-  font-size: 1rem;
-  background-color: #2e2e2e; /* Match with sidebar color if needed */
-  color: #fff;
-  border: 1px solid #444; /* Border color for a subtle outline */
-  border-radius: 5px; /* Rounded corners */
-  width: 200px; /* Adjust width as desired */
-  appearance: none; /* Removes default dropdown icon in some browsers */
+  padding: 12px;
+  font-size: 1.1rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  width: 220px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .robot-selector select:focus {
   outline: none;
-  border-color: #888; /* Highlight border on focus */
-  box-shadow: 0 0 5px rgba(136, 136, 136, 0.5);
+  background-color: #2980b9;
 }
 
 .video-container {
-  max-width: 800px;
+  max-width: 850px;
   width: 100%;
-  background-color: #000;
+  background-color: #333;
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 5px solid #2980b9;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+}
+
+.video-container p {
+  color: red;
+  font-size: 1.4rem;
+  font-weight: bold;
 }
 
 .video {
   width: 100%;
   max-width: 800px;
   height: auto;
+  border-radius: 8px;
 }
 
 .map-progress-container {
-  margin-top: 2rem;
+  margin-top: 3rem;
   width: 100%;
-  max-width: 800px; /* Ensure the map matches the max width of the video */
+  max-width: 850px;
 }
 
 .map {
-  width: 100%; /* Make the map take up the full width of its container */
-  height: 300px; /* Adjust height as needed */
-  margin-bottom: 20px;
+  width: 100%;
+  height: 350px;
+  margin-bottom: 30px;
+  border: 5px solid #3498db;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
 }
-
 
 .progress-section {
   width: 100%;
-  max-width: 800px;
   text-align: center;
+  margin-top: 20px;
 }
 
 .progress-bar {
   width: 100%;
   background-color: #ddd;
-  border-radius: 5px;
-  overflow: hidden;
+  border-radius: 12px;
   height: 20px;
+  margin-top: 10px;
 }
 
 .progress-fill {
   height: 100%;
   background-color: #4caf50;
   transition: width 0.3s ease;
-}
-
-p {
-  color: #333;
 }
 </style>
