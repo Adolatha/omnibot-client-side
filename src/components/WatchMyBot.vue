@@ -14,10 +14,14 @@
 
     <!-- Video container -->
     <div class="video-container">
-      <video v-if="isVideoAvailable" class="video" controls autoplay>
-        <source :src="videoUrl" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
+      <iframe
+          v-if="isVideoAvailable"
+          :src="videoEmbedUrl"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          class="video"
+      ></iframe>
       <div v-else>
         <p class="error-message">Video feed is not available at the moment.</p>
       </div>
@@ -51,7 +55,7 @@ export default {
         {
           id: 1,
           name: "Robot A",
-          videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+          videoUrl: "https://www.youtube.com/embed/QGpnlmO5s-M", // YouTube embed URL
           latitude: 37.7749,
           longitude: -122.4194,
           taskProgress: 60
@@ -67,14 +71,14 @@ export default {
         {
           id: 3,
           name: "Robot C",
-          videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+          videoUrl: "https://www.youtube.com/live/cH7VBI4QQzA?si=RKZcir5jBuGywze4", // YouTube embed URL
           latitude: 40.7128,
           longitude: -74.006,
           taskProgress: 30
         }
       ],
       selectedRobotId: 1,
-      videoUrl: '',
+      videoEmbedUrl: '',
       taskProgress: 0,
       isVideoAvailable: false,
       map: null,
@@ -102,13 +106,18 @@ export default {
       const selectedRobot = this.robots.find(robot => robot.id === this.selectedRobotId);
 
       if (selectedRobot) {
-        // Update video URL and task progress
-        this.videoUrl = selectedRobot.videoUrl;
+        // Update video embed URL with autoplay and task progress
+        if (selectedRobot.videoUrl) {
+          this.videoEmbedUrl = `${selectedRobot.videoUrl}?autoplay=1`;
+          this.isVideoAvailable = true;
+        } else {
+          this.isVideoAvailable = false;
+        }
+
         this.taskProgress = selectedRobot.taskProgress;
-        this.isVideoAvailable = !!this.videoUrl;
 
         // Update the map view and marker position based on the selected robot's location
-        const { latitude, longitude } = selectedRobot;
+        const {latitude, longitude} = selectedRobot;
         this.map.setView([latitude, longitude], 13);
         this.marker.setLatLng([latitude, longitude]).bindPopup(selectedRobot.name).openPopup();
       }
@@ -191,7 +200,7 @@ h2 {
 .video {
   width: 100%;
   max-width: 800px;
-  height: auto;
+  height: 450px;
   border-radius: 8px;
 }
 
