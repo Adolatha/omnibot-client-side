@@ -54,31 +54,31 @@ export default {
       robots: [
         {
           id: 1,
-          name: "Robot A",
+          name: "Study Bot",
           videoUrl: "https://www.youtube.com/embed/QGpnlmO5s-M", // YouTube embed URL
-          latitude: 37.7749,
-          longitude: -122.4194,
+          latitude: 51.197589057052305,
+          longitude:  3.2195275332790043,
           taskProgress: 60
         },
         {
           id: 2,
-          name: "Robot B",
+          name: "Companion Bot",
           videoUrl: "",
-          latitude: 34.0522,
-          longitude: -118.2437,
+          latitude: 51.04356538712069,
+          longitude:  3.6892872157366035,
           taskProgress: 85
         },
         {
           id: 3,
-          name: "Robot C",
-          videoUrl: "https://www.youtube.com/live/cH7VBI4QQzA?si=RKZcir5jBuGywze4", // YouTube embed URL
+          name: "Butler Bot",
+          videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
           latitude: 40.7128,
           longitude: -74.006,
           taskProgress: 30
         }
       ],
       selectedRobotId: 1,
-      videoEmbedUrl: '',
+      videoUrl: '',
       taskProgress: 0,
       isVideoAvailable: false,
       map: null,
