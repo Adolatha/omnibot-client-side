@@ -26,7 +26,7 @@
       <!-- Cart Icon with Counter -->
       <div class="cart-icon-container">
         <router-link :to="{ path: '/checkout', query: { cart: JSON.stringify(cart) } }">
-        <img src="@/assets/images/shopping-cart.png" alt="Shopping Cart" class="cart-icon" />
+          <img src="@/assets/images/shopping-cart.png" alt="Shopping Cart" class="cart-icon" />
         </router-link>
         <span v-if="cart.length" class="cart-counter">{{ cart.length }}</span>
       </div>
@@ -40,7 +40,7 @@
     <div v-if="error" class="error">{{ error }}</div>
     <div v-else class="product-list">
       <div v-for="product in filteredProducts" :key="product.id" class="product-card">
-        <img :src="`/images/${product.image}`" :alt="`${product.name} Image`" class="product-image" />
+        <img :src="`2024-2025/group-23/images/${product.image}`" :alt="`${product.name} Image`" class="product-image" />
         <h3 class="product-name">{{ product.name }}</h3>
         <p class="product-price">{{ product.price }} ADCO/month</p>
         <p class="product-description">{{ product.description }}</p>
@@ -57,7 +57,7 @@
     <div class="modal-content">
       <span class="close-button" @click="closeModal">&times;</span>
       <h2>{{ selectedProduct.name }}</h2>
-      <img :src="`src/assets/images/${selectedProduct.image}`" :alt="`${selectedProduct.name} Image`" class="modal-product-image" />
+      <img :src="`/2024-2025/group-23/images/${selectedProduct.image}`" :alt="`${selectedProduct.name} Image`" class="modal-product-image" />
       <p>{{ selectedProduct.moreInfo }}</p>
       <p>Price: {{ selectedProduct.price }} ADCO/month</p>
     </div>
