@@ -4,6 +4,11 @@
       <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
       <nav class="nav">
         <router-link
+            to="/dashboard"
+            class="nav-item"
+            :class="{ 'active-link': $route.path === '/dashboard' }"
+        >Dashboard</router-link>
+        <router-link
             to="/main"
             class="nav-item"
             :class="{ 'active-link': $route.path === '/main' }"
