@@ -199,6 +199,7 @@ export default {
 .product-image {
   width: 100%;
   height: 220px;
+  object-fit: cover;
   border-radius: 4px;
   margin-bottom: 12px;
 }
