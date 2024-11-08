@@ -3,12 +3,31 @@
     <header class="header">
       <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
       <nav class="nav">
-        <router-link to="/products" class="nav-item">Home</router-link>
-        <router-link to="/products" class="nav-item">About us</router-link>
-        <router-link to="/products" class="nav-item">Services</router-link>
-        <router-link to="/products" class="nav-item">Products</router-link>
-        <router-link to="/products" class="nav-item">Contact us</router-link>
-        <button class="get-started-button">GET STARTED</button>
+        <router-link
+            to="/dashboard"
+            class="nav-item"
+            :class="{ 'active-link': $route.path === '/dashboard' }"
+        >Dashboard</router-link>
+        <router-link
+            to="/main"
+            class="nav-item"
+            :class="{ 'active-link': $route.path === '/main' }"
+        >Home</router-link>
+        <router-link
+            to="/about"
+            class="nav-item"
+            :class="{ 'active-link': $route.path === '/about' }"
+        >About us</router-link>
+        <router-link
+            to="/products"
+            class="nav-item"
+            :class="{ 'active-link': $route.path === '/products' }"
+        >Products</router-link>
+        <router-link
+            to="/contact"
+            class="nav-item"
+            :class="{ 'active-link': $route.path === '/contact' }"
+        >Contact us</router-link>
       </nav>
     </header>
     <div class="big">
@@ -45,8 +64,8 @@ export default {
   background-color: white;
   color: black;
   font-family: Arial, sans-serif;
+  height: 20%;
 }
-
 
 
 .hero-section {
@@ -55,13 +74,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-}
-.robot-image {
-  width: 30%;
-  background-image: url('../assets/images/robotpics.png');
-  position: relative;
-  align-self: flex-end;
-
 }
 
 
@@ -98,10 +110,23 @@ export default {
 }
 
 .robot-image {
-  display: flex;
-  margin-top: 20px;
-  max-width: 100%;
-  float: top;
+  margin-top: 3rem;
+  width: 30%;
+  background-image: url('../assets/images/robotpics.png');
+  position: relative;
+  align-self: flex-end;
+
+  /* Animation to make the robot image slightly move */
+  animation: pulse 4s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
 }
 
 .experience-section {

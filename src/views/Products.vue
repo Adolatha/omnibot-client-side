@@ -2,26 +2,45 @@
   <header class="header">
     <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
     <nav class="nav">
-      <router-link to="/products" class="nav-item">Home</router-link>
-      <router-link to="/products" class="nav-item">About us</router-link>
-      <router-link to="/products" class="nav-item">Services</router-link>
-      <router-link to="/products" class="nav-item">Products</router-link>
-      <router-link to="/products" class="nav-item">Contact us</router-link>
-      <button class="get-started-button">GET STARTED</button>
+      <router-link
+          to="/main"
+          class="nav-item"
+          :class="{ 'active-link': $route.path === '/main' }"
+      >Home</router-link>
+      <router-link
+          to="/about"
+          class="nav-item"
+          :class="{ 'active-link': $route.path === '/about' }"
+      >About us</router-link>
+      <router-link
+          to="/products"
+          class="nav-item"
+          :class="{ 'active-link': $route.path === '/products' }"
+      >Products</router-link>
+      <router-link
+          to="/contact"
+          class="nav-item"
+          :class="{ 'active-link': $route.path === '/contact' }"
+      >Contact us</router-link>
+
+      <!-- Cart Icon with Counter -->
+      <div class="cart-icon-container">
+        <router-link :to="{ path: '/checkout', query: { cart: JSON.stringify(cart) } }">
+        <img src="@/assets/images/shopping-cart.png" alt="Shopping Cart" class="cart-icon" />
+        </router-link>
+        <span v-if="cart.length" class="cart-counter">{{ cart.length }}</span>
+      </div>
     </nav>
   </header>
+
   <div class="products-page">
     <h2>OUR BOTS</h2>
     <input type="text" v-model="searchQuery" placeholder="Search products..." class="search-bar" />
     <div v-if="loading" class="loading">Loading...</div>
     <div v-if="error" class="error">{{ error }}</div>
     <div v-else class="product-list">
-      <div
-          v-for="product in filteredProducts"
-          :key="product.id"
-          class="product-card"
-      >
-        <img :src="`/2024-2025/group-23/src/assets/images/${product.image}`" :alt="`${product.name} Image`" class="product-image" />
+      <div v-for="product in filteredProducts" :key="product.id" class="product-card">
+        <img :src="`/src/assets/images/${product.image}`" :alt="`${product.name} Image`" class="product-image" />
         <h3 class="product-name">{{ product.name }}</h3>
         <p class="product-price">{{ product.price }} ADCO/month</p>
         <p class="product-description">{{ product.description }}</p>
@@ -32,14 +51,15 @@
       </div>
     </div>
   </div>
+
   <!-- Modal Overlay -->
   <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
     <div class="modal-content">
       <span class="close-button" @click="closeModal">&times;</span>
       <h2>{{ selectedProduct.name }}</h2>
-      <img :src="`/2024-2025/group-23/src/assets/images/${selectedProduct.image}`" :alt="`${selectedProduct.name} Image`" class="modal-product-image" />
+      <img :src="`src/assets/images/${selectedProduct.image}`" :alt="`${selectedProduct.name} Image`" class="modal-product-image" />
       <p>{{ selectedProduct.moreInfo }}</p>
-      <p>Price: {{ selectedProduct.price }} ADCO</p>
+      <p>Price: {{ selectedProduct.price }} ADCO/month</p>
     </div>
   </div>
 </template>
@@ -51,7 +71,7 @@ export default {
       products: [
         {
           id: 1,
-          name: "Basic Bot",
+          name: "Companion Bot",
           price: "150",
           image: "basicpack.png",
           description: "Get Started with AI-Powered Robotics! Ideal for beginners, this package offers foundational tools to automate simple tasks and explore the basics of robotic functionality.",
@@ -59,7 +79,7 @@ export default {
         },
         {
           id: 2,
-          name: "Basic+ Bot",
+          name: "Butler Bot",
           price: "250",
           image: "basicplus.png",
           description: "An enhanced version of the Basic Bot, offering additional features for small businesses or personal projects looking to dive deeper into AI-driven solutions.",
@@ -75,7 +95,7 @@ export default {
         },
         {
           id: 4,
-          name: "Premium Bot",
+          name: "Expertise Bot",
           price: "650",
           image: "premium.png",
           description: "Boost Efficiency with Advanced Robotics! Designed for growing businesses, this package includes a suite of automation and analytics tools to take operations to the next level.",
@@ -91,7 +111,7 @@ export default {
         },
         {
           id: 6,
-          name: "Custom Bot",
+          name: "Custom+ Bot",
           price: "200",
           image: "custom.png",
           description: "Tailored Solutions for Unique Needs! This package offers flexible options to create a fully personalized AI and robotics solution designed specifically for your industry and goals.",
@@ -101,26 +121,35 @@ export default {
       searchQuery: '',
       showModal: false,
       selectedProduct: null,
+      cart: [],
     };
   },
   computed: {
     filteredProducts() {
-      return this.products.filter(product => product.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
+      return this.products.filter(product =>
+          product.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
     }
   },
   methods: {
+    goToCheckout() {
+      this.$router.push({
+        path: '/checkout',
+        query: { cart: JSON.stringify(this.cart) } // Passing cart as a JSON string
+      });
+    },
     showMoreInfo(product) {
       this.selectedProduct = product;
       this.showModal = true;
     },
     addToCart(product) {
-      alert(`${product.name} added to cart!`);
+      this.cart.push(product);
     },
     closeModal() {
       this.showModal = false;
       this.selectedProduct = null;
     }
-  },
+  }
 };
 </script>
 
@@ -191,7 +220,7 @@ export default {
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-top: auto; /* Push the buttons to the bottom */
+  margin-top: auto;
   gap: 8px;
 }
 
@@ -210,6 +239,8 @@ export default {
 .cart-button:hover {
   background-color: cornflowerblue;
 }
+
+
 
 /* Modal styles */
 .modal-overlay {
@@ -247,5 +278,29 @@ export default {
   height: auto;
   border-radius: 4px;
   margin-bottom: 12px;
+}
+
+/* Cart Icon and Counter */
+.cart-icon-container {
+  position: absolute;
+  right: 30px;
+  padding-top: 0.5rem;
+}
+
+.cart-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.cart-counter {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.8em;
+  font-weight: bold;
 }
 </style>

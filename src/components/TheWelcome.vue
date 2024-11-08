@@ -3,7 +3,7 @@
     <div class="auth-box">
       <!-- Left Section with Logo and Features -->
       <div class="left-section">
-        <img src="/src/assets/images/OMNIBOT.png" alt="Omnibot Logo" class="logo">
+        <img src="/src/assets/images/OMNIBOT.png" alt="Omnibot Logo" class="start-logo">
         <ul class="features-list">
           <li>
             <img src="../assets/images/sustainable.png" alt="sustainable"class="icon">
@@ -85,7 +85,7 @@ export default {
   align-items: center;
 }
 
-.logo {
+.start-logo {
   width: 90%;
   margin: 1rem 1rem 3rem 0;
 }
