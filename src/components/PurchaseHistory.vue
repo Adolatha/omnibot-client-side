@@ -38,7 +38,7 @@
     <div v-if="isOrderDetailsVisible" class="order-details-modal">
       <div class="modal-content">
         <span class="close" @click="closeOrderDetails">&times;</span>
-        <h3>Order Details for Bot: {{ currentOrder.botName }}</h3>
+        <h3>Order Details for {{ currentOrder.botName }}:</h3>
         <p><strong>Order ID:</strong> {{ currentOrder.id }}</p>
         <p><strong>Order Date:</strong> {{ formatDate(currentOrder.orderDate) }}</p>
         <p><strong>Status:</strong> {{ currentOrder.status }}</p>

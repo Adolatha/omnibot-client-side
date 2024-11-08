@@ -15,7 +15,7 @@
     <!-- Video container -->
     <div class="video-container">
       <video v-if="isVideoAvailable" class="video" controls autoplay>
-        <source :src="videoUrl" type="video/mp4">
+        <source :src="videoUrl" type="youtube">
         Your browser does not support the video tag.
       </video>
       <div v-else>
@@ -52,16 +52,16 @@ export default {
           id: 1,
           name: "Study Bot",
           videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
-          latitude: 37.7749,
-          longitude: -122.4194,
+          latitude: 51.197589057052305,
+          longitude:  3.2195275332790043,
           taskProgress: 60
         },
         {
           id: 2,
           name: "Companion Bot",
           videoUrl: "",
-          latitude: 34.0522,
-          longitude: -118.2437,
+          latitude: 51.04356538712069,
+          longitude:  3.6892872157366035,
           taskProgress: 85
         },
         {
