@@ -71,7 +71,7 @@ export default {
       }, 2000); // 3-second loading period
     },
     goToMainScreen() {
-      this.$router.push("/main"); // Navigate to the main screen
+      this.$router.push("/dashboard"); // Navigate to the main screen
     },
   },
 };

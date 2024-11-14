@@ -35,66 +35,40 @@
       <!-- Sidebar Navigation -->
       <aside class="sidebar">
         <nav class="side-nav">
-          <div @click="loadComponent('WatchMyBot')" class="nav-item">
+          <router-link to="/dashboard/watchmybot" class="nav-item">
             Watch My Bot
-          </div>
-          <div @click="loadComponent('PurchaseHistory')" class="nav-item">
+          </router-link>
+          <router-link to="/dashboard/purchasehistory" class="nav-item">
             Purchase History
-          </div>
-          <div @click="loadComponent('Notifications')" class="nav-item">
+          </router-link>
+          <router-link to="/dashboard/notifications" class="nav-item">
             Notifications
-          </div>
-          <div @click="loadComponent('Settings')" class="nav-item">
+          </router-link>
+          <router-link to="/dashboard/settings" class="nav-item">
             Settings
-          </div>
-          <div @click="loadComponent('EmergencyShutdown')" class="nav-item emergency-shutdown">
+          </router-link>
+          <router-link to="/dashboard/emergencyshutdown" class="nav-item emergency-shutdown">
             Emergency Shutdown
-          </div>
+          </router-link>
         </nav>
       </aside>
 
       <!-- Main Content Area -->
       <div class="content">
-        <!-- Dynamically load the component here -->
-        <component :is="activeComponent"></component>
+        <!-- Render the selected child component here based on route -->
+        <router-view></router-view>
       </div>
     </div>
   </div>
 </template>
 
-
 <script>
-// Import components
-import WatchMyBot from "../components/WatchMyBot.vue";
-import PurchaseHistory from "../components/PurchaseHistory.vue";
-import Notifications from "../components/Notifications.vue";
-import Settings from "../components/Settings.vue";
-import EmergencyShutdown from "../components/EmergencyShutdown.vue"; // Import the new component
-
+// No need to import individual components as they will be loaded through routing
 export default {
   name: "Dashboard",
-  data() {
-    return {
-      activeComponent: WatchMyBot, // Set default component to WatchMyBot
-    };
-  },
-  methods: {
-    loadComponent(componentName) {
-      // Dynamically set the active component based on the clicked item
-      this.activeComponent = {
-        WatchMyBot,
-        PurchaseHistory,
-        Notifications,
-        Settings,
-        EmergencyShutdown, // Add EmergencyShutdown component
-      }[componentName] || WatchMyBot; // Default to WatchMyBot if component is not found
-    }
-  }
 };
-
 </script>
 
-<style scoped>
 <style scoped>
 .container {
   display: flex;

@@ -6,6 +6,11 @@ import Main from "../views/Main.vue";
 import Products from "../views/Products.vue";
 import Contact from "../views/Contact.vue";
 import Checkout from "../views/Checkout.vue";
+import WatchMyBot from '../components/WatchMyBot.vue';
+import PurchaseHistory from '../components/PurchaseHistory.vue';
+import Notifications from '../components/Notifications.vue';
+import Settings from '../components/Settings.vue';
+import EmergencyShutdown from '../components/EmergencyShutdown.vue';
 
 
 const router = createRouter({
@@ -30,9 +35,31 @@ const router = createRouter({
     component: Login
   },
     {
-      path: "/dashboard",
+      path: '/dashboard',
       name: "Dashboard",
-      component: Dashboard
+      component: Dashboard,
+      children: [
+        {
+          path: 'watchmybot',
+          component: WatchMyBot,
+        },
+        {
+          path: 'purchasehistory',
+          component: PurchaseHistory,
+        },
+        {
+          path: 'notifications',
+          component: Notifications,
+        },
+        {
+          path: 'settings',
+          component: Settings,
+        },
+        {
+          path: 'emergencyshutdown',
+          component: EmergencyShutdown,
+        },
+      ],
     },
     {
       path: "/main",
