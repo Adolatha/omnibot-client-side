@@ -47,6 +47,9 @@
           <div @click="loadComponent('Settings')" class="nav-item">
             Settings
           </div>
+          <div @click="loadComponent('EmergencyShutdown')" class="nav-item emergency-shutdown">
+            Emergency Shutdown
+          </div>
         </nav>
       </aside>
 
@@ -59,12 +62,14 @@
   </div>
 </template>
 
+
 <script>
 // Import components
 import WatchMyBot from "../components/WatchMyBot.vue";
 import PurchaseHistory from "../components/PurchaseHistory.vue";
 import Notifications from "../components/Notifications.vue";
 import Settings from "../components/Settings.vue";
+import EmergencyShutdown from "../components/EmergencyShutdown.vue"; // Import the new component
 
 export default {
   name: "Dashboard",
@@ -81,12 +86,15 @@ export default {
         PurchaseHistory,
         Notifications,
         Settings,
+        EmergencyShutdown, // Add EmergencyShutdown component
       }[componentName] || WatchMyBot; // Default to WatchMyBot if component is not found
     }
   }
 };
+
 </script>
 
+<style scoped>
 <style scoped>
 .container {
   display: flex;
@@ -136,5 +144,17 @@ export default {
   flex: 1;
   padding: 20px;
   /* Content styling */
+}
+
+/* Style for Emergency Shutdown button */
+.emergency-shutdown {
+  background-color: #ff4d4d; /* Red color */
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+}
+
+.emergency-shutdown:hover {
+  background-color: darkred; /* Darker red on hover */
 }
 </style>

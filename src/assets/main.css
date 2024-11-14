@@ -9,7 +9,13 @@
 
 html, body {
   height: 100%; /* Ensures body takes full viewport height */
+  color: black;
 }
+
+p{
+  color: black;
+}
+
 .header {
   display: flex;
   align-items: center;
@@ -76,7 +82,6 @@ body {
   justify-content: center;
   align-items: center;
   background: radial-gradient(circle, #ffffff, #a2d9ff, #0056b3); /* White to blue radial gradient */
-
 }
 
 .auth-container {

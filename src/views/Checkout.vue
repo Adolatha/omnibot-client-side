@@ -116,6 +116,7 @@ export default {
   padding: 10px;
   border-radius: 8px;
   background-color: #f9f9f9;
+  color: black;
 }
 
 .cart-item-image {
