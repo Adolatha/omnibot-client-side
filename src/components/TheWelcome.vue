@@ -41,7 +41,7 @@ export default {
   methods: {
     goToLogin() {
       // Navigate to the login page
-      this.$router.push("/Login");
+      this.$router.push("/main");
     }
   }
 };

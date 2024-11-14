@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
-import Login from '../views/Login.vue';
 import Dashboard from "../views/Dashboard.vue";
 import Main from "../views/Main.vue";
 import Products from "../views/Products.vue";
@@ -29,11 +28,6 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
     },
-    {
-    path: "/login",
-    name: "Login",
-    component: Login
-  },
     {
       path: '/dashboard',
       name: "Dashboard",
