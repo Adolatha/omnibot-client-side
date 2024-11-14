@@ -35,21 +35,31 @@
       <!-- Sidebar Navigation -->
       <aside class="sidebar">
         <nav class="side-nav">
-          <router-link to="/dashboard/watchmybot" class="nav-item">
-            Watch My Bot
-          </router-link>
-          <router-link to="/dashboard/purchasehistory" class="nav-item">
-            Purchase History
-          </router-link>
-          <router-link to="/dashboard/notifications" class="nav-item">
-            Notifications
-          </router-link>
-          <router-link to="/dashboard/settings" class="nav-item">
-            Settings
-          </router-link>
-          <router-link to="/dashboard/emergencyshutdown" class="nav-item emergency-shutdown">
-            Emergency Shutdown
-          </router-link>
+          <router-link
+              to="/dashboard/watchmybot"
+              class="nav-item"
+              :class="{ 'active-link': $route.path === '/dashboard/watchmybot' }"
+          >Watch My Bot</router-link>
+          <router-link
+              to="/dashboard/purchasehistory"
+              class="nav-item"
+              :class="{ 'active-link': $route.path === '/dashboard/purchasehistory' }"
+          >Purchase History</router-link>
+          <router-link
+              to="/dashboard/notifications"
+              class="nav-item"
+              :class="{ 'active-link': $route.path === '/dashboard/notifications' }"
+          >Notifications</router-link>
+          <router-link
+              to="/dashboard/settings"
+              class="nav-item"
+              :class="{ 'active-link': $route.path === '/dashboard/settings' }"
+          >Settings</router-link>
+          <router-link
+              to="/dashboard/emergencyshutdown"
+              class="nav-item emergency-shutdown"
+              :class="{ 'active-link': $route.path === '/dashboard/emergencyshutdown' }"
+          >Emergency Shutdown</router-link>
         </nav>
       </aside>
 
@@ -63,7 +73,6 @@
 </template>
 
 <script>
-// No need to import individual components as they will be loaded through routing
 export default {
   name: "Dashboard",
 };
@@ -81,9 +90,27 @@ export default {
   /* Add styling for the header */
 }
 
+.nav {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-item {
+  padding: 10px;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.active-link {
+  color: #007bff;
+  font-weight: bold;
+}
+
 .main-content {
   display: flex;
-  flex: 1; /* Takes the remaining height after the header */
+  flex: 1;
 }
 
 .sidebar {
@@ -93,7 +120,6 @@ export default {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 60px); /* Adjust this value to match the height of your header */
 }
 
 .side-nav {
@@ -114,21 +140,26 @@ export default {
   background-color: #444;
 }
 
+.side-nav .active-link {
+  background-color: #444;
+  font-weight: bold;
+  color: white;
+}
+
 .content {
   flex: 1;
   padding: 20px;
-  /* Content styling */
 }
 
-/* Style for Emergency Shutdown button */
 .emergency-shutdown {
-  background-color: #ff4d4d; /* Red color */
+  background-color: #ff4d4d;
   color: #fff;
   font-weight: bold;
   text-align: center;
+  margin-top: 1rem;
 }
 
 .emergency-shutdown:hover {
-  background-color: darkred; /* Darker red on hover */
+  background-color: darkred;
 }
 </style>
