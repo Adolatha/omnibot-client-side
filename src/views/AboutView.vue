@@ -1,5 +1,4 @@
 <template>
-    <!-- Header Section -->
     <header class="header">
       <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
       <nav class="nav">
@@ -31,7 +30,6 @@
       </nav>
     </header>
   <div class="about-page">
-    <!-- Content Section -->
     <section class="content-section">
       <h1>About Omnibot</h1>
       <p class="intro-text">

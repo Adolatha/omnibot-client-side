@@ -31,6 +31,7 @@
               <h3 class="cart-item-name">{{ item.name }}</h3>
               <p class="cart-item-price">{{ item.price }} ADCO/month</p>
             </div>
+            <p>Remove from cart</p>
           </div>
         </div>
         <div class="total-price">
@@ -68,10 +69,10 @@ export default {
       setTimeout(() => {
         this.loading = false;
         this.paymentConfirmed = true;
-      }, 2000); // 3-second loading period
+      }, 2000);
     },
     goToMainScreen() {
-      this.$router.push("/dashboard"); // Navigate to the main screen
+      this.$router.push("/dashboard/watchmybot"); // Navigate to the main screen
     },
   },
 };
