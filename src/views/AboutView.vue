@@ -1,9 +1,13 @@
 <template>
-  <div class="about-page">
     <!-- Header Section -->
     <header class="header">
-      <img src="@/assets/images/OMNIBOT.png" alt="Omnibot Logo" class="logo" />
+      <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
       <nav class="nav">
+        <router-link
+            to="/dashboard"
+            class="nav-item"
+            :class="{ 'active-link': $route.path === '/dashboard' }"
+        >Dashboard</router-link>
         <router-link
             to="/main"
             class="nav-item"
@@ -26,7 +30,7 @@
         >Contact us</router-link>
       </nav>
     </header>
-
+  <div class="about-page">
     <!-- Content Section -->
     <section class="content-section">
       <h1>About Omnibot</h1>
@@ -71,6 +75,11 @@ export default {
   padding: 0;
 }
 
+.header{
+  padding-bottom: 2rem;
+  padding-top: 2rem;
+}
+
 .about-page {
   font-family: 'Roboto', sans-serif;
   color: #333;
@@ -79,18 +88,6 @@ export default {
   margin: auto;
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 40px;
-  background-color: white;
-  color: black;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-}
 
 .logo {
   width: 150px;
@@ -101,28 +98,6 @@ export default {
   transform: scale(1.05);
 }
 
-.nav {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex: 1;
-}
-
-.nav-item {
-  color: black;
-  text-decoration: none;
-  font-weight: 500;
-  padding: 8px 16px;
-  border-radius: 20px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.nav-item:hover,
-.active-link {
-  background-color: #007bff;
-  color: #fff;
-  transform: scale(1.05);
-}
 
 .content-section {
   background-color: white;

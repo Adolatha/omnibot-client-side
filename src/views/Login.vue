@@ -61,6 +61,7 @@ export default {
 h1 {
   font-size: 2rem;
   margin-bottom: 20px;
+  color: black;
 }
 
 input {

@@ -132,9 +132,10 @@ export default {
   flex-direction: column;
   align-items: center;
   padding: 40px;
-  background-color: #f4f4f4;
+  background-color: white;
   font-family: 'Arial', sans-serif;
   color: #333;
+  border-radius: 10px;
   box-sizing: border-box;
   min-height: 100vh;
 }

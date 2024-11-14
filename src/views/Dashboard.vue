@@ -35,55 +35,37 @@
       <!-- Sidebar Navigation -->
       <aside class="sidebar">
         <nav class="side-nav">
-          <div @click="loadComponent('WatchMyBot')" class="nav-item">
+          <router-link to="/dashboard/watchmybot" class="nav-item">
             Watch My Bot
-          </div>
-          <div @click="loadComponent('PurchaseHistory')" class="nav-item">
+          </router-link>
+          <router-link to="/dashboard/purchasehistory" class="nav-item">
             Purchase History
-          </div>
-          <div @click="loadComponent('Notifications')" class="nav-item">
+          </router-link>
+          <router-link to="/dashboard/notifications" class="nav-item">
             Notifications
-          </div>
-          <div @click="loadComponent('Settings')" class="nav-item">
+          </router-link>
+          <router-link to="/dashboard/settings" class="nav-item">
             Settings
-          </div>
+          </router-link>
+          <router-link to="/dashboard/emergencyshutdown" class="nav-item emergency-shutdown">
+            Emergency Shutdown
+          </router-link>
         </nav>
       </aside>
 
       <!-- Main Content Area -->
       <div class="content">
-        <!-- Dynamically load the component here -->
-        <component :is="activeComponent"></component>
+        <!-- Render the selected child component here based on route -->
+        <router-view></router-view>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// Import components
-import WatchMyBot from "../components/WatchMyBot.vue";
-import PurchaseHistory from "../components/PurchaseHistory.vue";
-import Notifications from "../components/Notifications.vue";
-import Settings from "../components/Settings.vue";
-
+// No need to import individual components as they will be loaded through routing
 export default {
   name: "Dashboard",
-  data() {
-    return {
-      activeComponent: WatchMyBot, // Set default component to WatchMyBot
-    };
-  },
-  methods: {
-    loadComponent(componentName) {
-      // Dynamically set the active component based on the clicked item
-      this.activeComponent = {
-        WatchMyBot,
-        PurchaseHistory,
-        Notifications,
-        Settings,
-      }[componentName] || WatchMyBot; // Default to WatchMyBot if component is not found
-    }
-  }
 };
 </script>
 
@@ -136,5 +118,17 @@ export default {
   flex: 1;
   padding: 20px;
   /* Content styling */
+}
+
+/* Style for Emergency Shutdown button */
+.emergency-shutdown {
+  background-color: #ff4d4d; /* Red color */
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+}
+
+.emergency-shutdown:hover {
+  background-color: darkred; /* Darker red on hover */
 }
 </style>

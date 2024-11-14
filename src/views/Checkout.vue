@@ -71,7 +71,7 @@ export default {
       }, 2000); // 3-second loading period
     },
     goToMainScreen() {
-      this.$router.push("/main"); // Navigate to the main screen
+      this.$router.push("/dashboard"); // Navigate to the main screen
     },
   },
 };
@@ -116,6 +116,7 @@ export default {
   padding: 10px;
   border-radius: 8px;
   background-color: #f9f9f9;
+  color: black;
 }
 
 .cart-item-image {
