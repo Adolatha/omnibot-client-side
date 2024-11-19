@@ -1,45 +1,47 @@
 <template>
   <div class="checkout-page">
-    <h2>Your Cart</h2>
+    <div class="checkout-container">
+      <h2>Your Cart</h2>
 
-    <!-- Loading screen -->
-    <div v-if="loading" class="loading-screen">
-      <div class="loading-box">
-        <p>Processing your payment...</p>
+      <!-- Loading screen -->
+      <div v-if="loading" class="loading-screen">
+        <div class="loading-box">
+          <p>Processing your payment...</p>
+        </div>
       </div>
-    </div>
 
-    <!-- Payment confirmation screen -->
-    <div v-else-if="paymentConfirmed" class="confirmation-screen">
-      <div class="confirmation-box">
-        <p>Payment Successful!</p>
-        <button class="continue-button" @click="goToMainScreen">Continue</button>
+      <!-- Payment confirmation screen -->
+      <div v-else-if="paymentConfirmed" class="confirmation-screen">
+        <div class="confirmation-box">
+          <p>Payment Successful!</p>
+          <button class="continue-button" @click="goToMainScreen">Continue</button>
+        </div>
       </div>
-    </div>
 
-    <!-- Cart screen -->
-    <div v-else>
-      <div v-if="cart.length === 0" class="empty-cart-message">
-        <p>Your cart is empty.</p>
-        <router-link to="/products" class="go-back-button">Back to Products</router-link>
-      </div>
+      <!-- Cart screen -->
       <div v-else>
-        <div class="cart-items">
-          <div v-for="item in cart" :key="item.id" class="cart-item">
-            <img :src="`/2024-2025/group-23/images/${item.image}`" :alt="item.name" class="cart-item-image" />
-            <div class="cart-item-details">
-              <h3 class="cart-item-name">{{ item.name }}</h3>
-              <p class="cart-item-price">{{ item.price }} ADCO/month</p>
+        <div v-if="cart.length === 0" class="empty-cart-message">
+          <p>Your cart is empty.</p>
+          <router-link to="/products" class="go-back-button">Back to Products</router-link>
+        </div>
+        <div v-else>
+          <div class="cart-items">
+            <div v-for="item in cart" :key="item.id" class="cart-item">
+              <img :src="`/2024-2025/group-23/images/${item.image}`" :alt="item.name" class="cart-item-image" />
+              <div class="cart-item-details">
+                <h3 class="cart-item-name">{{ item.name }}</h3>
+                <p class="cart-item-price">{{ item.price }} ADCO/month</p>
+              </div>
+              <button class="remove-button" @click="removeFromCart(item.id)">Remove</button>
             </div>
-            <p>Remove from cart</p>
           </div>
-        </div>
-        <div class="total-price">
-          <p>Total: {{ totalPrice }} ADCO/month</p>
-        </div>
-        <div class="cart-actions">
-          <button class="go-back-button" @click="goBack">Back to Products</button>
-          <button class="pay-button" @click="proceedToPayment">PAY</button>
+          <div class="total-price">
+            <p>Total: {{ totalPrice }} ADCO/month</p>
+          </div>
+          <div class="cart-actions">
+            <button class="go-back-button" @click="goBack">Back to Products</button>
+            <button class="pay-button" @click="proceedToPayment">PAY</button>
+          </div>
         </div>
       </div>
     </div>
@@ -74,6 +76,9 @@ export default {
     goToMainScreen() {
       this.$router.push("/dashboard/watchmybot"); // Navigate to the main screen
     },
+    removeFromCart(itemId) {
+      this.cart = this.cart.filter((item) => item.id !== itemId);
+    },
   },
 };
 </script>
@@ -82,6 +87,19 @@ export default {
 .checkout-page {
   text-align: center;
   padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.checkout-container {
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+  padding: 30px;
+  width: 90%;
+  max-width: 800px;
 }
 
 .loading-screen,
@@ -112,22 +130,23 @@ export default {
 .cart-item {
   display: flex;
   align-items: center;
-  width: 50%;
+  justify-content: space-between;
+  width: 100%;
   border: 1px solid #ddd;
   padding: 10px;
   border-radius: 8px;
   background-color: #f9f9f9;
-  color: black;
 }
 
 .cart-item-image {
   width: 80px;
   height: 80px;
   border-radius: 4px;
-  margin-right: 20px;
 }
 
 .cart-item-details {
+  flex: 1;
+  margin-left: 20px;
   text-align: left;
 }
 
@@ -138,6 +157,19 @@ export default {
 
 .cart-item-price {
   color: #666;
+}
+
+.remove-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.remove-button:hover {
+  background-color: #c82333;
 }
 
 .total-price {

@@ -37,27 +37,27 @@
         <nav class="side-nav">
           <router-link
               to="/dashboard/watchmybot"
-              class="nav-item"
+              class="side-nav-item"
               :class="{ 'active-link': $route.path === '/dashboard/watchmybot' }"
           >Watch My Bot</router-link>
           <router-link
               to="/dashboard/purchasehistory"
-              class="nav-item"
+              class="side-nav-item"
               :class="{ 'active-link': $route.path === '/dashboard/purchasehistory' }"
           >Purchase History</router-link>
           <router-link
               to="/dashboard/notifications"
-              class="nav-item"
+              class="side-nav-item"
               :class="{ 'active-link': $route.path === '/dashboard/notifications' }"
           >Notifications</router-link>
           <router-link
               to="/dashboard/settings"
-              class="nav-item"
+              class="side-nav-item"
               :class="{ 'active-link': $route.path === '/dashboard/settings' }"
           >Settings</router-link>
           <router-link
               to="/dashboard/emergencyshutdown"
-              class="nav-item emergency-shutdown"
+              class="side-nav-item emergency-shutdown"
               :class="{ 'active-link': $route.path === '/dashboard/emergencyshutdown' }"
           >Emergency Shutdown</router-link>
         </nav>
@@ -95,14 +95,6 @@ export default {
   gap: 15px;
 }
 
-.nav-item {
-  padding: 10px;
-  color: #333;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s;
-}
-
 .active-link {
   color: #007bff;
   font-weight: bold;
@@ -128,7 +120,7 @@ export default {
   margin-top: 20px;
 }
 
-.side-nav .nav-item {
+.side-nav .side-nav-item {
   display: block;
   padding: 10px 15px;
   color: #fff;
@@ -136,7 +128,7 @@ export default {
   border-radius: 4px;
 }
 
-.side-nav .nav-item:hover {
+.side-nav .side-nav-item:hover {
   background-color: #444;
 }
 
