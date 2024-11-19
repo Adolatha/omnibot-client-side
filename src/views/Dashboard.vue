@@ -96,9 +96,10 @@ export default {
 }
 
 .active-link {
-  color: #007bff;
-  font-weight: bold;
+  color: white;
+  background-color: #007bff;
 }
+
 
 .main-content {
   display: flex;

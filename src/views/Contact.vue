@@ -3,6 +3,11 @@
     <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
     <nav class="nav">
       <router-link
+          to="/dashboard"
+          class="nav-item"
+          :class="{ 'active-link': $route.path === '/dashboard' }"
+      >Dashboard</router-link>
+      <router-link
           to="/main"
           class="nav-item"
           :class="{ 'active-link': $route.path === '/main' }"
@@ -115,7 +120,7 @@ export default {
   width: 100%;
   max-width: 600px;
   margin: 20px auto;
-  background-color: #f4f4f4;
+  background-color: white;
   border-radius: 8px;
   padding: 20px;
 }

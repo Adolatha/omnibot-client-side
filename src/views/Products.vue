@@ -3,6 +3,11 @@
     <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
     <nav class="nav">
       <router-link
+          to="/dashboard"
+          class="nav-item"
+          :class="{ 'active-link': $route.path === '/dashboard' }"
+      >Dashboard</router-link>
+      <router-link
           to="/main"
           class="nav-item"
           :class="{ 'active-link': $route.path === '/main' }"
@@ -33,20 +38,33 @@
     </nav>
   </header>
 
-  <div class="products-page">
-    <h2>OUR BOTS</h2>
-    <input type="text" v-model="searchQuery" placeholder="Search products..." class="search-bar" />
-    <div v-if="loading" class="loading">Loading...</div>
-    <div v-if="error" class="error">{{ error }}</div>
-    <div v-else class="product-list">
-      <div v-for="product in filteredProducts" :key="product.id" class="product-card">
-        <img :src="`/2024-2025/group-23/images/${product.image}`" :alt="`${product.name} Image`" class="product-image" />
-        <h3 class="product-name">{{ product.name }}</h3>
-        <p class="product-price">{{ product.price }} ADCO/month</p>
-        <p class="product-description">{{ product.description }}</p>
-        <div class="button-group">
-          <button class="info-button" @click="showMoreInfo(product)">More info</button>
-          <button class="cart-button" @click="addToCart(product)">Add to cart</button>
+  <!-- Toast Notification -->
+  <div v-if="showToast" class="toast-notification">
+    <p>{{ lastAddedProduct.name }} has been added to the cart!</p>
+  </div>
+
+  <!-- White Rounded Box Container -->
+  <div class="content-container">
+    <div class="products-page">
+      <h2>OUR BOTS</h2>
+      <input type="text" v-model="searchQuery" placeholder="Search products..." class="search-bar" />
+      <div v-if="loading" class="loading">Loading...</div>
+      <div v-if="error" class="error">{{ error }}</div>
+      <div v-else class="product-list">
+        <div
+            v-for="product in filteredProducts"
+            :key="product.id"
+            :id="`product-${product.id}`"
+            class="product-card"
+        >
+          <img :src="`/2024-2025/group-23/images/${product.image}`" :alt="`${product.name} Image`" class="product-image" />
+          <h3 class="product-name">{{ product.name }}</h3>
+          <p class="product-price">{{ product.price }} ADCO/month</p>
+          <p class="product-description">{{ product.description }}</p>
+          <div class="button-group">
+            <button class="info-button" @click="showMoreInfo(product)">More info</button>
+            <button class="cart-button" @click="addToCart(product)">Add to cart</button>
+          </div>
         </div>
       </div>
     </div>
@@ -64,6 +82,7 @@
   </div>
 </template>
 
+
 <script>
 export default {
   data() {
@@ -74,68 +93,84 @@ export default {
           name: "Companion Bot",
           price: "150",
           image: "basicpack.png",
-          description: "Get Started with AI-Powered Robotics! Ideal for beginners, this package offers foundational tools to automate simple tasks and explore the basics of robotic functionality.",
-          moreInfo: "Features: Conversational bots. They can hold conversations, show interest, and act as a friend or companion."
+          description:
+              "Get Started with AI-Powered Robotics! Ideal for beginners, this package offers foundational tools to automate simple tasks and explore the basics of robotic functionality.",
+          moreInfo:
+              "Features: Conversational bots. They can hold conversations, show interest, and act as a friend or companion.",
         },
         {
           id: 2,
           name: "Butler Bot",
           price: "250",
           image: "basicplus.png",
-          description: "An enhanced version of the Basic Bot, offering additional features for small businesses or personal projects looking to dive deeper into AI-driven solutions.",
-          moreInfo: "Everything in Basic Package, plus robots for: Cleaning and Housekeeping."
+          description:
+              "An enhanced version of the Basic Bot, offering additional features for small businesses or personal projects looking to dive deeper into AI-driven solutions.",
+          moreInfo:
+              "Everything in Basic Package, plus robots for: Cleaning and Housekeeping.",
         },
         {
           id: 3,
           name: "Study Bot",
           price: "350",
           image: "study.png",
-          description: "A bot designed for study assistance, equipped with features to support educational activities and learning tasks effectively.",
-          moreInfo: "Everything in Basic+ Package, plus: Educational Support with robots that can tutor in all subjects (e.g., Biology, Chemistry, Physics, etc.)."
+          description:
+              "A bot designed for study assistance, equipped with features to support educational activities and learning tasks effectively.",
+          moreInfo:
+              "Everything in Basic+ Package, plus: Educational Support with robots that can tutor in all subjects (e.g., Biology, Chemistry, Physics, etc.).",
         },
         {
           id: 4,
           name: "Expertise Bot",
           price: "650",
           image: "premium.png",
-          description: "Boost Efficiency with Advanced Robotics! Designed for growing businesses, this package includes a suite of automation and analytics tools to take operations to the next level.",
-          moreInfo: "Everything in Study Package, plus: Professional Expertise with robots capable of acting as doctors, professors, or lawyers."
+          description:
+              "Boost Efficiency with Advanced Robotics! Designed for growing businesses, this package includes a suite of automation and analytics tools to take operations to the next level.",
+          moreInfo:
+              "Everything in Study Package, plus: Professional Expertise with robots capable of acting as doctors, professors, or lawyers.",
         },
         {
           id: 5,
           name: "Vibranium Bot",
           price: "950",
           image: "ultra.png",
-          description: "End-to-End Automation for Large-Scale Operations! Built with vibranium, this bot offers unmatched performance for large companies and complex workflows.",
-          moreInfo: "Everything in Premium Package, plus: Advanced Services for security systems, industrial work, army support, and research assistance."
+          description:
+              "End-to-End Automation for Large-Scale Operations! Built with vibranium, this bot offers unmatched performance for large companies and complex workflows.",
+          moreInfo:
+              "Everything in Premium Package, plus: Advanced Services for security systems, industrial work, army support, and research assistance.",
         },
         {
           id: 6,
           name: "Custom+ Bot",
           price: "200",
           image: "custom.png",
-          description: "Tailored Solutions for Unique Needs! This package offers flexible options to create a fully personalized AI and robotics solution designed specifically for your industry and goals.",
-          moreInfo: "Customizable options for tasks like specialized tutoring, corporate tasks, or custom operations, with pricing increasing per task."
+          description:
+              "Tailored Solutions for Unique Needs! This package offers flexible options to create a fully personalized AI and robotics solution designed specifically for your industry and goals.",
+          moreInfo:
+              "Customizable options for tasks like specialized tutoring, corporate tasks, or custom operations, with pricing increasing per task.",
         },
       ],
-      searchQuery: '',
+      searchQuery: "",
       showModal: false,
       selectedProduct: null,
       cart: [],
+      showToast: false, // State for toast notification
+      lastAddedProduct: null, // Track the last added product
+      loading: false,
+      error: null,
     };
   },
   computed: {
     filteredProducts() {
-      return this.products.filter(product =>
+      return this.products.filter((product) =>
           product.name.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
-    }
+    },
   },
   methods: {
     goToCheckout() {
       this.$router.push({
-        path: '/checkout',
-        query: { cart: JSON.stringify(this.cart) } // Passing cart as a JSON string
+        path: "/checkout",
+        query: { cart: JSON.stringify(this.cart) }, // Passing cart as a JSON string
       });
     },
     showMoreInfo(product) {
@@ -144,16 +179,36 @@ export default {
     },
     addToCart(product) {
       this.cart.push(product);
+      this.lastAddedProduct = product;
+
+      // Show toast notification
+      this.showToast = true;
+
+      // Automatically hide the toast after 3 seconds
+      setTimeout(() => {
+        this.showToast = false;
+      }, 3000);
     },
     closeModal() {
       this.showModal = false;
       this.selectedProduct = null;
-    }
-  }
+    },
+  },
 };
 </script>
 
+
 <style scoped>
+/* Main content container for the white rounded box */
+.content-container {
+  margin: 20px auto;
+  max-width: 1200px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
 .products-page {
   text-align: center;
   padding: 20px;
@@ -248,8 +303,6 @@ export default {
   background-color: cornflowerblue;
 }
 
-
-
 /* Modal styles */
 .modal-overlay {
   position: fixed;
@@ -310,5 +363,41 @@ export default {
   padding: 2px 6px;
   font-size: 0.8em;
   font-weight: bold;
+}
+
+/* Toast Notification */
+.toast-notification {
+  position: fixed;
+  top: 86px;
+  right: 20px;
+  background-color: #4caf50;
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  animation: fade-in 0.5s ease-in-out, fade-out 0.5s ease-in-out 3s;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
 }
 </style>
