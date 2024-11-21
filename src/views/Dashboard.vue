@@ -36,6 +36,13 @@
       <aside class="sidebar">
         <nav class="side-nav">
           <router-link
+              to="/dashboard/mybots"
+              class="side-nav-item"
+              :class="{ 'active-link': $route.path === '/dashboard/mybots' }"
+          >
+            My Bots
+          </router-link>
+          <router-link
               to="/dashboard/watchmybot"
               class="side-nav-item"
               :class="{ 'active-link': $route.path === '/dashboard/watchmybot' }"
@@ -55,11 +62,7 @@
               class="side-nav-item"
               :class="{ 'active-link': $route.path === '/dashboard/settings' }"
           >Settings</router-link>
-          <router-link
-              to="/dashboard/emergencyshutdown"
-              class="side-nav-item emergency-shutdown"
-              :class="{ 'active-link': $route.path === '/dashboard/emergencyshutdown' }"
-          >Emergency Shutdown</router-link>
+
         </nav>
       </aside>
 
@@ -87,7 +90,6 @@ export default {
 
 .header {
   width: 100%;
-  /* Add styling for the header */
 }
 
 .nav {
@@ -142,17 +144,5 @@ export default {
 .content {
   flex: 1;
   padding: 20px;
-}
-
-.emergency-shutdown {
-  background-color: #ff4d4d;
-  color: #fff;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 1rem;
-}
-
-.emergency-shutdown:hover {
-  background-color: darkred;
 }
 </style>
