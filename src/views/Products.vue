@@ -6,32 +6,43 @@
           to="/dashboard"
           class="nav-item"
           :class="{ 'active-link': $route.path === '/dashboard' }"
-      >Dashboard</router-link>
+      >Dashboard</router-link
+      >
       <router-link
           to="/main"
           class="nav-item"
           :class="{ 'active-link': $route.path === '/main' }"
-      >Home</router-link>
+      >Home</router-link
+      >
       <router-link
           to="/about"
           class="nav-item"
           :class="{ 'active-link': $route.path === '/about' }"
-      >About us</router-link>
+      >About us</router-link
+      >
       <router-link
           to="/products"
           class="nav-item"
           :class="{ 'active-link': $route.path === '/products' }"
-      >Products</router-link>
+      >Products</router-link
+      >
       <router-link
           to="/contact"
           class="nav-item"
           :class="{ 'active-link': $route.path === '/contact' }"
-      >Contact us</router-link>
+      >Contact us</router-link
+      >
 
       <!-- Cart Icon with Counter -->
       <div class="cart-icon-container">
-        <router-link :to="{ path: '/checkout', query: { cart: JSON.stringify(cart) } }">
-          <img src="@/assets/images/shopping-cart.png" alt="Shopping Cart" class="cart-icon" />
+        <router-link
+            :to="{ path: '/checkout', query: { cart: JSON.stringify(cart) } }"
+        >
+          <img
+              src="@/assets/images/shopping-cart.png"
+              alt="Shopping Cart"
+              class="cart-icon"
+          />
         </router-link>
         <span v-if="cart.length" class="cart-counter">{{ cart.length }}</span>
       </div>
@@ -43,27 +54,39 @@
     <p>{{ lastAddedProduct.name }} has been added to the cart!</p>
   </div>
 
-  <!-- White Rounded Box Container -->
+  <!-- Content Section -->
   <div class="content-container">
     <div class="products-page">
-      <h2>OUR BOTS</h2>
-      <input type="text" v-model="searchQuery" placeholder="Search products..." class="search-bar" />
+      <h2 class="page-title">Discover Our Bots</h2>
+      <p class="subtitle">The future of assistance, learning, and innovation.</p>
+      <input
+          type="text"
+          v-model="searchQuery"
+          placeholder="Search for a bot..."
+          class="search-bar"
+      />
       <div v-if="loading" class="loading">Loading...</div>
       <div v-if="error" class="error">{{ error }}</div>
       <div v-else class="product-list">
         <div
             v-for="product in filteredProducts"
             :key="product.id"
-            :id="`product-${product.id}`"
             class="product-card"
         >
-          <img :src="`/2024-2025/group-23/images/${product.image}`" :alt="`${product.name} Image`" class="product-image" />
+          <img
+              :src="`/images/${product.image}`"
+              :alt="`${product.name} Image`"
+              class="product-image"
+          />
           <h3 class="product-name">{{ product.name }}</h3>
           <p class="product-price">{{ product.price }} ADCO/month</p>
-          <p class="product-description">{{ product.description }}</p>
           <div class="button-group">
-            <button class="info-button" @click="showMoreInfo(product)">More info</button>
-            <button class="cart-button" @click="addToCart(product)">Add to cart</button>
+            <button class="info-button" @click="showMoreInfo(product)">
+              More info
+            </button>
+            <button class="cart-button" @click="addToCart(product)">
+              Add to cart
+            </button>
           </div>
         </div>
       </div>
@@ -75,13 +98,16 @@
     <div class="modal-content">
       <span class="close-button" @click="closeModal">&times;</span>
       <h2>{{ selectedProduct.name }}</h2>
-      <img :src="`/2024-2025/group-23/images/${selectedProduct.image}`" :alt="`${selectedProduct.name} Image`" class="modal-product-image" />
+      <img
+          :src="`/2024-2025/group-23/images/${selectedProduct.image}`"
+          :alt="`${selectedProduct.name} Image`"
+          class="modal-product-image"
+      />
       <p>{{ selectedProduct.moreInfo }}</p>
       <p>Price: {{ selectedProduct.price }} ADCO/month</p>
     </div>
   </div>
 </template>
-
 
 <script>
 export default {
@@ -93,8 +119,6 @@ export default {
           name: "Companion Bot",
           price: "150",
           image: "basicpack.png",
-          description:
-              "Get Started with AI-Powered Robotics! Ideal for beginners, this package offers foundational tools to automate simple tasks and explore the basics of robotic functionality.",
           moreInfo:
               "Features: Conversational bots. They can hold conversations, show interest, and act as a friend or companion.",
         },
@@ -103,8 +127,6 @@ export default {
           name: "Butler Bot",
           price: "250",
           image: "basicplus.png",
-          description:
-              "An enhanced version of the Basic Bot, offering additional features for small businesses or personal projects looking to dive deeper into AI-driven solutions.",
           moreInfo:
               "Everything in Basic Package, plus robots for: Cleaning and Housekeeping.",
         },
@@ -113,8 +135,6 @@ export default {
           name: "Study Bot",
           price: "350",
           image: "study.png",
-          description:
-              "A bot designed for study assistance, equipped with features to support educational activities and learning tasks effectively.",
           moreInfo:
               "Everything in Basic+ Package, plus: Educational Support with robots that can tutor in all subjects (e.g., Biology, Chemistry, Physics, etc.).",
         },
@@ -123,8 +143,6 @@ export default {
           name: "Expertise Bot",
           price: "650",
           image: "premium.png",
-          description:
-              "Boost Efficiency with Advanced Robotics! Designed for growing businesses, this package includes a suite of automation and analytics tools to take operations to the next level.",
           moreInfo:
               "Everything in Study Package, plus: Professional Expertise with robots capable of acting as doctors, professors, or lawyers.",
         },
@@ -133,8 +151,6 @@ export default {
           name: "Vibranium Bot",
           price: "950",
           image: "ultra.png",
-          description:
-              "End-to-End Automation for Large-Scale Operations! Built with vibranium, this bot offers unmatched performance for large companies and complex workflows.",
           moreInfo:
               "Everything in Premium Package, plus: Advanced Services for security systems, industrial work, army support, and research assistance.",
         },
@@ -143,8 +159,6 @@ export default {
           name: "Custom+ Bot",
           price: "200",
           image: "custom.png",
-          description:
-              "Tailored Solutions for Unique Needs! This package offers flexible options to create a fully personalized AI and robotics solution designed specifically for your industry and goals.",
           moreInfo:
               "Customizable options for tasks like specialized tutoring, corporate tasks, or custom operations, with pricing increasing per task.",
         },
@@ -153,8 +167,8 @@ export default {
       showModal: false,
       selectedProduct: null,
       cart: [],
-      showToast: false, // State for toast notification
-      lastAddedProduct: null, // Track the last added product
+      showToast: false,
+      lastAddedProduct: null,
       loading: false,
       error: null,
     };
@@ -170,7 +184,7 @@ export default {
     goToCheckout() {
       this.$router.push({
         path: "/checkout",
-        query: { cart: JSON.stringify(this.cart) }, // Passing cart as a JSON string
+        query: { cart: JSON.stringify(this.cart) },
       });
     },
     showMoreInfo(product) {
@@ -181,10 +195,7 @@ export default {
       this.cart.push(product);
       this.lastAddedProduct = product;
 
-      // Show toast notification
       this.showToast = true;
-
-      // Automatically hide the toast after 3 seconds
       setTimeout(() => {
         this.showToast = false;
       }, 3000);
@@ -202,33 +213,63 @@ export default {
 /* Main content container for the white rounded box */
 .content-container {
   margin: 20px auto;
-  max-width: 1200px;
-  background: #ffffff;
+  max-width: 1400px;
+  background: white;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
 }
 
 .products-page {
+  padding: 2rem;
   text-align: center;
-  padding: 20px;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: transparent;
+  background-image: linear-gradient(to right, #6a11cb, #2575fc);
+  -webkit-background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 2rem;
 }
 
 .search-bar {
-  margin-bottom: 20px;
-  padding: 10px;
+  padding: 12px 20px;
   width: 80%;
-  max-width: 400px;
+  max-width: 450px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 25px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  outline: none;
+  margin: 0 auto 1rem;
+}
+
+.search-bar:focus {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+  border-color: #6a11cb;
+}
+
+.search-bar::placeholder {
+  color: #aaa;
+  font-style: italic;
 }
 
 .product-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center; /* Center-align the cards */
-  gap: 20px; /* Space between cards */
-  padding: 20px;
+  justify-content: center;
+  gap: 20px;
 }
 
 .product-card {
@@ -236,26 +277,25 @@ export default {
   flex-direction: column;
   align-items: center;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 16px;
-  background-color: #fff;
-  transition: transform 0.2s;
+  border-radius: 16px;
+  padding: 1.5rem;
+  background-color: #d4e4ff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 280px; /* Fixed width for each card */
-  height: 500px; /* Fixed height for each card */
-  flex-shrink: 0; /* Prevent shrinking */
+  width: 330px;
   margin-bottom: 20px;
 }
 
 .product-card:hover {
   transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 .product-image {
   width: 100%;
-  height: 220px;
+  height: 300px;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: 16px;
   margin-bottom: 12px;
 }
 
@@ -270,20 +310,14 @@ export default {
 .product-price {
   color: #666;
   margin-bottom: 8px;
-}
-
-.product-description {
-  color: #555;
-  margin-bottom: 12px;
-  font-size: 0.9em;
-  text-align: center;
+  font-weight: bold;
 }
 
 .button-group {
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-top: auto;
+  margin-top: 1rem;
   gap: 8px;
 }
 
@@ -293,9 +327,10 @@ export default {
   background-color: blue;
   color: #fff;
   border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
+  padding: 12px 12px;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .info-button:hover,
