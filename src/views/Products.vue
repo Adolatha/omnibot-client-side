@@ -6,32 +6,27 @@
           to="/dashboard"
           class="nav-item"
           :class="{ 'active-link': $route.path === '/dashboard' }"
-      >Dashboard</router-link
-      >
+      >Dashboard</router-link>
       <router-link
           to="/main"
           class="nav-item"
           :class="{ 'active-link': $route.path === '/main' }"
-      >Home</router-link
-      >
+      >Home</router-link>
       <router-link
           to="/about"
           class="nav-item"
           :class="{ 'active-link': $route.path === '/about' }"
-      >About us</router-link
-      >
+      >About us</router-link>
       <router-link
           to="/products"
           class="nav-item"
           :class="{ 'active-link': $route.path === '/products' }"
-      >Products</router-link
-      >
+      >Products</router-link>
       <router-link
           to="/contact"
           class="nav-item"
           :class="{ 'active-link': $route.path === '/contact' }"
-      >Contact us</router-link
-      >
+      >Contact us</router-link>
 
       <!-- Cart Icon with Counter -->
       <div class="cart-icon-container">
@@ -74,7 +69,7 @@
             class="product-card"
         >
           <img
-              :src="`/images/${product.image}`"
+              :src="`/images/${product.name}.png`"
               :alt="`${product.name} Image`"
               class="product-image"
           />
@@ -99,7 +94,7 @@
       <span class="close-button" @click="closeModal">&times;</span>
       <h2>{{ selectedProduct.name }}</h2>
       <img
-          :src="`/2024-2025/group-23/images/${selectedProduct.image}`"
+          :src="`/images/${selectedProduct.name}.png`"
           :alt="`${selectedProduct.name} Image`"
           class="modal-product-image"
       />
@@ -110,67 +105,20 @@
 </template>
 
 <script>
+import { get } from "../assets/utils/api/api-methods.js"; // Adjust the path to your API methods file
+
 export default {
   data() {
     return {
-      products: [
-        {
-          id: 1,
-          name: "Companion Bot",
-          price: "150",
-          image: "basicpack.png",
-          moreInfo:
-              "Features: Conversational bots. They can hold conversations, show interest, and act as a friend or companion.",
-        },
-        {
-          id: 2,
-          name: "Butler Bot",
-          price: "250",
-          image: "basicplus.png",
-          moreInfo:
-              "Everything in Basic Package, plus robots for: Cleaning and Housekeeping.",
-        },
-        {
-          id: 3,
-          name: "Study Bot",
-          price: "350",
-          image: "study.png",
-          moreInfo:
-              "Everything in Basic+ Package, plus: Educational Support with robots that can tutor in all subjects (e.g., Biology, Chemistry, Physics, etc.).",
-        },
-        {
-          id: 4,
-          name: "Expertise Bot",
-          price: "650",
-          image: "premium.png",
-          moreInfo:
-              "Everything in Study Package, plus: Professional Expertise with robots capable of acting as doctors, professors, or lawyers.",
-        },
-        {
-          id: 5,
-          name: "Vibranium Bot",
-          price: "950",
-          image: "ultra.png",
-          moreInfo:
-              "Everything in Premium Package, plus: Advanced Services for security systems, industrial work, army support, and research assistance.",
-        },
-        {
-          id: 6,
-          name: "Custom+ Bot",
-          price: "200",
-          image: "custom.png",
-          moreInfo:
-              "Customizable options for tasks like specialized tutoring, corporate tasks, or custom operations, with pricing increasing per task.",
-        },
-      ],
+      products: [], // Initially empty, populated via API
       searchQuery: "",
       showModal: false,
       selectedProduct: null,
       cart: [],
       showToast: false,
       lastAddedProduct: null,
-      loading: false,
-      error: null,
+      loading: false, // Loading state for API call
+      error: null, // Error state for API call
     };
   },
   computed: {
@@ -181,11 +129,18 @@ export default {
     },
   },
   methods: {
-    goToCheckout() {
-      this.$router.push({
-        path: "/checkout",
-        query: { cart: JSON.stringify(this.cart) },
-      });
+    async fetchProducts() {
+      this.loading = true; // Show loading indicator
+      this.error = null; // Clear previous errors
+      try {
+        const response = await get("/robots"); // Fetch bots from your API
+        this.products = response.robots; // Bind API response to products
+      } catch (error) {
+        console.error("Failed to fetch products:", error);
+        this.error = "Failed to load products. Please try again later.";
+      } finally {
+        this.loading = false; // Hide loading indicator
+      }
     },
     showMoreInfo(product) {
       this.selectedProduct = product;
@@ -204,6 +159,9 @@ export default {
       this.showModal = false;
       this.selectedProduct = null;
     },
+  },
+  mounted() {
+    this.fetchProducts(); // Fetch products when the component is mounted
   },
 };
 </script>

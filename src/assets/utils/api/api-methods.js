@@ -95,6 +95,13 @@ async function call(endpoint, queryParameters, requestOptions) {
     const queryParamString = createQueryParamString(queryParameters);
     const fullUri = apiBaseUrl + endpoint + queryParamString;
 
+    console.log("Making API request:", {
+        fullUri,
+        method: requestOptions.method,
+        headers: requestOptions.headers,
+        body: requestOptions.body || null,
+    });
+
     try {
         const response = await fetch(fullUri, requestOptions);
         if (!response.ok) {
@@ -110,5 +117,6 @@ async function call(endpoint, queryParameters, requestOptions) {
         throw err;
     }
 }
+
 
 export { get, post, put, del };
