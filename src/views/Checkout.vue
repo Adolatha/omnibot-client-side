@@ -3,14 +3,12 @@
     <div class="checkout-container">
       <h2>Your Cart</h2>
 
-      <!-- Loading screen -->
       <div v-if="loading" class="loading-screen">
         <div class="loading-box">
           <p>Processing your payment...</p>
         </div>
       </div>
 
-      <!-- Payment confirmation screen -->
       <div v-else-if="paymentConfirmed" class="confirmation-screen">
         <div class="confirmation-box">
           <p>Payment Successful!</p>
@@ -18,7 +16,6 @@
         </div>
       </div>
 
-      <!-- Cart screen -->
       <div v-else>
         <div v-if="cart.length === 0" class="empty-cart-message">
           <p>Your cart is empty.</p>
@@ -27,7 +24,7 @@
         <div v-else>
           <div class="cart-items">
             <div v-for="item in cart" :key="item.id" class="cart-item">
-              <img :src="`/2024-2025/group-23/images/${item.image}`" :alt="item.name" class="cart-item-image" />
+              <img :src="`/images/${item.name}.png`" :alt="item.name" class="cart-item-image" />
               <div class="cart-item-details">
                 <h3 class="cart-item-name">{{ item.name }}</h3>
                 <p class="cart-item-price">{{ item.price }} ADCO/month</p>
@@ -52,7 +49,7 @@
 export default {
   data() {
     return {
-      cart: JSON.parse(this.$route.query.cart || "[]"), // Parse the cart data from the query
+      cart: JSON.parse(localStorage.getItem("cart")) || [],
       loading: false,
       paymentConfirmed: false,
     };
@@ -74,15 +71,15 @@ export default {
       }, 2000);
     },
     goToMainScreen() {
-      this.$router.push("/dashboard/watchmybot"); // Navigate to the main screen
+      this.$router.push("/dashboard/watchmybot");
     },
     removeFromCart(itemId) {
       this.cart = this.cart.filter((item) => item.id !== itemId);
+      localStorage.setItem("cart", JSON.stringify(this.cart));
     },
   },
 };
 </script>
-
 <style scoped>
 .checkout-page {
   text-align: center;

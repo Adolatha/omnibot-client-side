@@ -63,41 +63,24 @@
       <div v-if="loading" class="loading">Loading...</div>
       <div v-if="error" class="error">{{ error }}</div>
       <div v-else class="product-list">
-        <div
-            v-for="product in filteredProducts"
-            :key="product.id"
-            class="product-card"
-        >
-          <img
-              :src="`/images/${product.name}.png`"
-              :alt="`${product.name} Image`"
-              class="product-image"
-          />
+        <div v-for="product in filteredProducts" :key="product.id" class="product-card">
+          <img :src="`/images/${product.name}.png`" :alt="`${product.name} Image`" class="product-image" />
           <h3 class="product-name">{{ product.name }}</h3>
           <p class="product-price">{{ product.price }} ADCO/month</p>
           <div class="button-group">
-            <button class="info-button" @click="showMoreInfo(product)">
-              More info
-            </button>
-            <button class="cart-button" @click="addToCart(product)">
-              Add to cart
-            </button>
+            <button class="info-button" @click="showMoreInfo(product)">More info</button>
+            <button class="cart-button" @click="addToCart(product)">Add to cart</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal Overlay -->
   <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
     <div class="modal-content">
       <span class="close-button" @click="closeModal">&times;</span>
       <h2>{{ selectedProduct.name }}</h2>
-      <img
-          :src="`/images/${selectedProduct.name}.png`"
-          :alt="`${selectedProduct.name} Image`"
-          class="modal-product-image"
-      />
+      <img :src="`/images/${selectedProduct.name}.png`" :alt="`${selectedProduct.name} Image`" class="modal-product-image" />
       <p>{{ selectedProduct.moreInfo }}</p>
       <p>Price: {{ selectedProduct.price }} ADCO/month</p>
     </div>
@@ -105,20 +88,20 @@
 </template>
 
 <script>
-import { get } from "../assets/utils/api/api-methods.js"; // Adjust the path to your API methods file
+import { get } from "../assets/utils/api/api-methods.js";
 
 export default {
   data() {
     return {
-      products: [], // Initially empty, populated via API
+      products: [],
       searchQuery: "",
       showModal: false,
       selectedProduct: null,
-      cart: [],
+      cart: JSON.parse(localStorage.getItem("cart")) || [],
       showToast: false,
       lastAddedProduct: null,
-      loading: false, // Loading state for API call
-      error: null, // Error state for API call
+      loading: false,
+      error: null,
     };
   },
   computed: {
@@ -130,30 +113,30 @@ export default {
   },
   methods: {
     async fetchProducts() {
-      this.loading = true; // Show loading indicator
-      this.error = null; // Clear previous errors
+      this.loading = true;
+      this.error = null;
       try {
-        const response = await get("/robots"); // Fetch bots from your API
-        this.products = response.robots; // Bind API response to products
+        const response = await get("/robots");
+        this.products = response.robots;
       } catch (error) {
-        console.error("Failed to fetch products:", error);
         this.error = "Failed to load products. Please try again later.";
       } finally {
-        this.loading = false; // Hide loading indicator
+        this.loading = false;
       }
-    },
-    showMoreInfo(product) {
-      this.selectedProduct = product;
-      this.showModal = true;
     },
     addToCart(product) {
       this.cart.push(product);
       this.lastAddedProduct = product;
+      localStorage.setItem("cart", JSON.stringify(this.cart));
 
       this.showToast = true;
       setTimeout(() => {
         this.showToast = false;
       }, 3000);
+    },
+    showMoreInfo(product) {
+      this.selectedProduct = product;
+      this.showModal = true;
     },
     closeModal() {
       this.showModal = false;
@@ -161,7 +144,7 @@ export default {
     },
   },
   mounted() {
-    this.fetchProducts(); // Fetch products when the component is mounted
+    this.fetchProducts();
   },
 };
 </script>
