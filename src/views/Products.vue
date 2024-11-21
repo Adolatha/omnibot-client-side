@@ -166,23 +166,6 @@ export default {
   text-align: center;
 }
 
-.page-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  text-align: center;
-  color: transparent;
-  background-image: linear-gradient(to right, #6a11cb, #2575fc);
-  -webkit-background-clip: text;
-  margin-bottom: 0.5rem;
-}
-
-.subtitle {
-  text-align: center;
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 2rem;
-}
-
 .search-bar {
   padding: 12px 20px;
   width: 80%;
@@ -282,7 +265,7 @@ export default {
 /* Modal styles */
 .modal-overlay {
   position: fixed;
-  top: 0;
+  top: 30px;
   left: 0;
   width: 100%;
   height: 100%;

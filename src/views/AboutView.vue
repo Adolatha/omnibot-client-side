@@ -35,7 +35,7 @@
     <!-- Page Content -->
     <div class="about-page">
       <section class="content-section">
-        <h1>About Omnibot</h1>
+        <h2 class="page-title">About Omnibot</h2>
         <p class="intro-text">
           At Omnibot, we’re revolutionizing customer engagement with advanced, intelligent bots designed to deliver seamless, real-time support tailored to your business needs.
         </p>

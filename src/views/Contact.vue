@@ -30,8 +30,8 @@
     </nav>
   </header>
   <div class="contact-page">
-    <h2>Contact Us</h2>
-    <p>If you have any questions, ask us here and our AI will help you!</p>
+    <h2 class="page-title">Contact Us</h2>
+    <p class="subtitle">If you have any questions, ask us here and our AI will help you!</p>
 
     <!-- Chatbox -->
     <div class="chat-container">
@@ -108,13 +108,14 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: whitesmoke;
+  background-color: white;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   width: 800px;
   margin: 2rem auto 0;
 }
+
 
 .chat-container {
   width: 100%;

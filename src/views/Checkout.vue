@@ -23,7 +23,11 @@
         </div>
         <div v-else>
           <div class="cart-items">
-            <div v-for="item in cart" :key="item.id" class="cart-item">
+            <div
+                v-for="item in cart"
+                :key="item.id"
+                :class="['cart-item', { 'removing-item': item.removing }]"
+            >
               <img :src="`/images/${item.name}.png`" :alt="item.name" class="cart-item-image" />
               <div class="cart-item-details">
                 <h3 class="cart-item-name">{{ item.name }}</h3>
@@ -49,7 +53,6 @@
 export default {
   data() {
     return {
-      // Fetch the cart from localStorage
       cart: JSON.parse(localStorage.getItem("cart")) || [],
       loading: false,
       paymentConfirmed: false,
@@ -75,21 +78,21 @@ export default {
       this.$router.push("/dashboard/watchmybot");
     },
     removeFromCart(item) {
-      const itemIndex = this.cart.findIndex((cartItem) => cartItem.name === item.name);
+      // Add a 'removing' property to trigger the animation
+      item.removing = true;
 
-      if (itemIndex !== -1) {
-        // Remove the item from the cart
-        this.cart.splice(itemIndex, 1);
-
-        // Update the localStorage with the new cart after removing the item
-        localStorage.setItem("cart", JSON.stringify(this.cart));
-      }
+      // Wait for the animation to finish before removing the item
+      setTimeout(() => {
+        const itemIndex = this.cart.findIndex((cartItem) => cartItem.name === item.name);
+        if (itemIndex !== -1) {
+          this.cart.splice(itemIndex, 1);
+          localStorage.setItem("cart", JSON.stringify(this.cart));
+        }
+      }, 300); // Match the duration of the CSS animation
     },
   },
 };
 </script>
-
-
 
 <style scoped>
 .checkout-page {
@@ -110,23 +113,6 @@ export default {
   max-width: 800px;
 }
 
-.loading-screen,
-.confirmation-screen {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 60vh;
-}
-
-.loading-box,
-.confirmation-box {
-  background-color: #fff;
-  padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
 .cart-items {
   display: flex;
   flex-direction: column;
@@ -144,6 +130,13 @@ export default {
   padding: 10px;
   border-radius: 8px;
   background-color: #f9f9f9;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Animation for removing items */
+.removing-item {
+  opacity: 0;
+  transform: translateX(-20px);
 }
 
 .cart-item-image {
@@ -174,6 +167,7 @@ export default {
   padding: 10px 20px;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .remove-button:hover {
@@ -212,25 +206,11 @@ export default {
   background-color: #28a745;
 }
 
-.continue-button {
-  background-color: #007bff;
-  margin-top: 2rem;
-}
-
 .go-back-button:hover {
   background-color: #0056b3;
 }
 
 .pay-button:hover {
   background-color: #218838;
-}
-
-.continue-button:hover {
-  background-color: #0056b3;
-}
-
-.empty-cart-message {
-  font-size: 1.2em;
-  color: #555;
 }
 </style>
