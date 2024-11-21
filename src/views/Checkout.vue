@@ -29,7 +29,7 @@
                 <h3 class="cart-item-name">{{ item.name }}</h3>
                 <p class="cart-item-price">{{ item.price }} ADCO/month</p>
               </div>
-              <button class="remove-button" @click="removeFromCart(item.id)">Remove</button>
+              <button class="remove-button" @click="removeFromCart(item)">Remove</button>
             </div>
           </div>
           <div class="total-price">
@@ -49,6 +49,7 @@
 export default {
   data() {
     return {
+      // Fetch the cart from localStorage
       cart: JSON.parse(localStorage.getItem("cart")) || [],
       loading: false,
       paymentConfirmed: false,
@@ -73,13 +74,23 @@ export default {
     goToMainScreen() {
       this.$router.push("/dashboard/watchmybot");
     },
-    removeFromCart(itemId) {
-      this.cart = this.cart.filter((item) => item.id !== itemId);
-      localStorage.setItem("cart", JSON.stringify(this.cart));
+    removeFromCart(item) {
+      const itemIndex = this.cart.findIndex((cartItem) => cartItem.name === item.name);
+
+      if (itemIndex !== -1) {
+        // Remove the item from the cart
+        this.cart.splice(itemIndex, 1);
+
+        // Update the localStorage with the new cart after removing the item
+        localStorage.setItem("cart", JSON.stringify(this.cart));
+      }
     },
   },
 };
 </script>
+
+
+
 <style scoped>
 .checkout-page {
   text-align: center;
