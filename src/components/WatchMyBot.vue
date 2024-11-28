@@ -34,7 +34,8 @@
 
       <!-- Progress Section -->
       <div class="progress-section">
-        <p>Task Progress: {{ taskProgress }}%</p>
+        <p><strong>Task Name:</strong> {{ taskName }}</p>
+        <p><strong>Task Progress:</strong> {{ taskProgress }}%</p>
         <div class="progress-bar">
           <div class="progress-fill" :style="{ width: taskProgress + '%' }"></div>
         </div>
@@ -46,64 +47,59 @@
 <script>
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { get } from "../assets/utils/api/api-methods.js";
 
 export default {
   name: "WatchMyBot",
   data() {
     return {
-      robots: [
-        {
-          id: 1,
-          name: "Study Bot",
-          videoUrl: "https://www.youtube.com/embed/QGpnlmO5s-M", // YouTube embed URL
-          latitude: 51.197589057052305,
-          longitude:  3.2195275332790043,
-          taskProgress: 60
-        },
-        {
-          id: 2,
-          name: "Companion Bot",
-          videoUrl: "",
-          latitude: 51.04356538712069,
-          longitude:  3.6892872157366035,
-          taskProgress: 85
-        },
-        {
-          id: 3,
-          name: "Butler Bot",
-          videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
-          latitude: 40.7128,
-          longitude: -74.006,
-          taskProgress: 30
-        }
-      ],
-      selectedRobotId: 1,
-      videoUrl: '',
+      robots: [],
+      selectedRobotId: null,
+      videoEmbedUrl: "",
+      taskName: "", // Added taskName
       taskProgress: 0,
       isVideoAvailable: false,
       map: null,
-      marker: null
+      marker: null,
+      loading: false,
+      error: null,
     };
   },
   mounted() {
+    this.fetchRobots();
     this.initializeMap();
-    this.updateBotDetails();
   },
   methods: {
+    async fetchRobots() {
+      this.loading = true;
+      this.error = null;
+      try {
+        const response = await get("/robots");
+        this.robots = response.robots; // Assuming the API returns { robots: [...] }
+        this.selectedRobotId = this.robots.length ? this.robots[0].id : null;
+        this.updateBotDetails();
+      } catch (error) {
+        this.error = "Failed to load robots. Please try again later.";
+      } finally {
+        this.loading = false;
+      }
+    },
     initializeMap() {
       // Initialize the map and set the initial view to a default location
       this.map = L.map("map").setView([37.7749, -122.4194], 13);
 
       // Add OpenStreetMap tiles
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: '© OpenStreetMap contributors'
+        attribution: '© OpenStreetMap contributors',
       }).addTo(this.map);
 
       // Add an initial marker
       this.marker = L.marker([37.7749, -122.4194]).addTo(this.map);
     },
     updateBotDetails() {
-      const selectedRobot = this.robots.find(robot => robot.id === this.selectedRobotId);
+      const selectedRobot = this.robots.find(
+          (robot) => robot.id === this.selectedRobotId
+      );
 
       if (selectedRobot) {
         // Update video embed URL with autoplay and task progress
@@ -114,15 +110,19 @@ export default {
           this.isVideoAvailable = false;
         }
 
-        this.taskProgress = selectedRobot.taskProgress;
+        // Update task details
+        this.taskName = selectedRobot.task.taskName || "Unknown Task"; // Add task name
+        this.taskProgress = selectedRobot.task.percentage || 0; // Add task progress
 
         // Update the map view and marker position based on the selected robot's location
-        const {latitude, longitude} = selectedRobot;
+        const { latitude, longitude } = selectedRobot.location; // Adjusted to use robot.location
         this.map.setView([latitude, longitude], 13);
-        this.marker.setLatLng([latitude, longitude]).bindPopup(selectedRobot.name).openPopup();
+        this.marker.setLatLng([latitude, longitude])
+            .bindPopup(selectedRobot.name)
+            .openPopup();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

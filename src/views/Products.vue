@@ -150,8 +150,10 @@ export default {
         this.loading = false;
       }
     },
+
     async addToCart(product) {
       const basketId = "4fc4df27-74c5-4264-bd72-5ab42f73a028"; // Example UUID; replace with a real one.
+      console.log(product);
       try {
         console.log("Attempting to add product with payload:", {
           robotId: product.id,
@@ -174,19 +176,22 @@ export default {
         console.error("Failed to add robot to cart:", error);
       }
     },
+
     showMoreInfo(product) {
       this.selectedProduct = product;
       this.showModal = true;
     },
+
     closeModal() {
       this.showModal = false;
       this.selectedProduct = null;
     },
+
     customizeProduct(product) {
       this.$router.push({ name: 'Customize', params: { id: product.id } });
-
     },
   },
+
   mounted() {
     this.fetchProducts();
   },
