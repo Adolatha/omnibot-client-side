@@ -149,9 +149,8 @@ h2 {
 }
 
 
-
 .status-shutdown {
-  color: #6c757d;
+  color: red;
 }
 
 .no-bots {

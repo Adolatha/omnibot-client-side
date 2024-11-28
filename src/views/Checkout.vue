@@ -87,6 +87,7 @@ export default {
         if (itemIndex !== -1) {
           this.cart.splice(itemIndex, 1);
           localStorage.setItem("cart", JSON.stringify(this.cart));
+          console.log(item);
         }
       }, 300); // Match the duration of the CSS animation
     },

@@ -63,13 +63,31 @@
       <div v-if="loading" class="loading">Loading...</div>
       <div v-if="error" class="error">{{ error }}</div>
       <div v-else class="product-list">
-        <div v-for="product in filteredProducts" :key="product.id" class="product-card">
-          <img :src="`/images/${product.name}.png`" :alt="`${product.name} Image`" class="product-image" />
+        <div
+            v-for="(product, index) in filteredProducts"
+            :key="product.id"
+            class="product-card"
+        >
+          <img
+              :src="`/images/${product.name}.png`"
+              :alt="`${product.name} Image`"
+              class="product-image"
+          />
           <h3 class="product-name">{{ product.name }}</h3>
           <p class="product-price">{{ product.price }} ADCO/month</p>
           <div class="button-group">
-            <button class="info-button" @click="showMoreInfo(product)">More info</button>
-            <button class="cart-button" @click="addToCart(product)">Add to cart</button>
+            <!-- Check if this is the last product -->
+            <template v-if="index === filteredProducts.length - 1">
+              <!-- Customize Button -->
+              <button class="info-button" @click="customizeProduct(product)">
+                Customize
+              </button>
+            </template>
+            <template v-else>
+              <!-- More Info and Add to Cart Buttons -->
+              <button class="info-button" @click="showMoreInfo(product)">More info</button>
+              <button class="cart-button" @click="addToCart(product)">Add to cart</button>
+            </template>
           </div>
         </div>
       </div>
@@ -79,13 +97,21 @@
   <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
     <div class="modal-content">
       <span class="close-button" @click="closeModal">&times;</span>
-      <h2>{{ selectedProduct.name }}</h2>
-      <img :src="`/images/${selectedProduct.name}.png`" :alt="`${selectedProduct.name} Image`" class="modal-product-image" />
-      <p>{{ selectedProduct.moreInfo }}</p>
-      <p>Price: {{ selectedProduct.price }} ADCO/month</p>
+      <h2 class="modal-text-header">{{ selectedProduct.name }}</h2>
+      <p class="modal-text"><em>Price:</em> {{ selectedProduct.price }} ADCO/month</p>
+      <p class="modal-text"><em>Renting Period Until:</em> {{ selectedProduct.rentingPeriod }}</p>
+
+      <!-- Features List -->
+      <h3 class="features-title">Features:</h3>
+      <ul class="features-list" v-if="selectedProduct.features && selectedProduct.features.length">
+        <li v-for="(feature, index) in selectedProduct.features" :key="index">{{ feature }}
+        </li>
+      </ul>
+      <p v-else>No features available.</p>
     </div>
   </div>
 </template>
+
 
 <script>
 import { get } from "../assets/utils/api/api-methods.js";
@@ -142,12 +168,17 @@ export default {
       this.showModal = false;
       this.selectedProduct = null;
     },
+    customizeProduct(product) {
+      this.$router.push({ name: 'Customize', params: { id: product.id } });
+
+    },
   },
   mounted() {
     this.fetchProducts();
   },
 };
 </script>
+
 
 
 <style scoped>
@@ -275,14 +306,57 @@ export default {
   align-items: center;
 }
 
+em{
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.modal-text-header{
+  font-size: 2rem;
+}
+
 .modal-content {
   background-color: #fff;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 12px;
   width: 80%;
   max-width: 500px;
   text-align: center;
   position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  font-family: 'Arial', sans-serif;
+}
+
+.features-title {
+  font-size: 1.5rem;
+  margin: 1.5rem 0 1rem;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: bold;
+}
+
+.features-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.features-list li {
+  font-size: 1.1rem;
+  color: #555;
+  margin: 0.5rem 0;
+  text-align: left;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.features-list li i {
+  color: #4caf50;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .close-button {
@@ -292,12 +366,20 @@ export default {
   font-size: 1.5em;
   cursor: pointer;
 }
+.modal-text{
+  font-size: 1.3rem;
+}
 
-.modal-product-image {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-  margin-bottom: 12px;
+.modal-content ul {
+  list-style-type: disc;
+  margin: 16px 0;
+  padding-left: 20px;
+}
+
+.modal-content li {
+  margin: 8px 0;
+  font-size: 16px;
+  color: #333;
 }
 
 /* Cart Icon and Counter */
