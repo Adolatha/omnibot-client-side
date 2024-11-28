@@ -114,7 +114,7 @@
 
 
 <script>
-import { get } from "../assets/utils/api/api-methods.js";
+import { get, post } from "../assets/utils/api/api-methods.js";
 
 export default {
   data() {
@@ -150,15 +150,29 @@ export default {
         this.loading = false;
       }
     },
-    addToCart(product) {
-      this.cart.push(product);
-      this.lastAddedProduct = product;
-      localStorage.setItem("cart", JSON.stringify(this.cart));
+    async addToCart(product) {
+      const basketId = "4fc4df27-74c5-4264-bd72-5ab42f73a028"; // Example UUID; replace with a real one.
+      try {
+        console.log("Attempting to add product with payload:", {
+          robotId: product.id,
+          basketId: basketId,
+        });
 
-      this.showToast = true;
-      setTimeout(() => {
-        this.showToast = false;
-      }, 3000);
+        const response = await post("basket/add-robot", {
+          robotId: product.id, // Assuming product.id is a UUID or formatted like one.
+          basketId: basketId,
+        });
+
+        console.log("API Response:", response);
+        this.cart = response.data.robots || [];
+        this.lastAddedProduct = product;
+        this.showToast = true;
+        setTimeout(() => {
+          this.showToast = false;
+        }, 3000);
+      } catch (error) {
+        console.error("Failed to add robot to cart:", error);
+      }
     },
     showMoreInfo(product) {
       this.selectedProduct = product;

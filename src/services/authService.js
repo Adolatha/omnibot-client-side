@@ -3,7 +3,7 @@ const API_URL = "https://project-2.ti.howest.be/monitor/apis/group-23";
 export default {
     async getAllRobots() {
         try {
-            const response = await fetch(`${API_URL}/api/robots`, {
+            const response = await fetch(`${API_URL}/robots`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
