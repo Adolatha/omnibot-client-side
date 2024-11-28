@@ -50,10 +50,12 @@
 </template>
 
 <script>
+import { post } from "../assets/utils/api/api-methods.js";
+
 export default {
   data() {
     return {
-      cart: JSON.parse(localStorage.getItem("cart")) || [],
+      cart: [], // Stores renting_basket_robots
       loading: false,
       paymentConfirmed: false,
     };
@@ -64,6 +66,34 @@ export default {
     },
   },
   methods: {
+    async fetchCart() {
+      const basketId = "0ec7c116-013e-44e7-b1b2-92678588e905"; // Replace with the actual basket ID
+      const userId = "d918f1a7-27d8-4b97-866e-a944d9f680e1"; // Replace with the actual user ID
+      try {
+        const response = await post("basket/retrieve", {
+          userId: userId,
+          basketId: basketId,
+        });
+        console.log(response.robots);
+        // Populate the cart array with the robots from the response
+        if (response.robots && response.robots.length > 0) {
+          this.cart = response.robots.map((robot) => ({
+            id: robot.id,
+            name: robot.name,
+            price: robot.price,
+            removing: false, // Add a default `removing` property for animation purposes
+          }));
+        } else {
+          console.error("No robots found in the basket.");
+          this.cart = [];
+        }
+      } catch (error) {
+        console.error("Failed to retrieve robots from the basket:", error);
+        this.cart = []; // Reset cart in case of an error
+      }
+    },
+
+
     goBack() {
       this.$router.push("/products");
     },
@@ -77,23 +107,25 @@ export default {
     goToMainScreen() {
       this.$router.push("/dashboard/watchmybot");
     },
-    removeFromCart(item) {
-      // Add a 'removing' property to trigger the animation
-      item.removing = true;
+    async removeFromCart(item) {
+      item.removing = true; // Add a 'removing' property to trigger the animation
 
-      // Wait for the animation to finish before removing the item
       setTimeout(() => {
-        const itemIndex = this.cart.findIndex((cartItem) => cartItem.name === item.name);
+        // Remove item from local cart
+        const itemIndex = this.cart.findIndex((cartItem) => cartItem.id === item.id);
         if (itemIndex !== -1) {
           this.cart.splice(itemIndex, 1);
-          localStorage.setItem("cart", JSON.stringify(this.cart));
-          console.log(item);
         }
       }, 300); // Match the duration of the CSS animation
     },
   },
+  async mounted() {
+    await this.fetchCart(); // Fetch cart data on component mount
+  },
 };
 </script>
+
+
 
 <style scoped>
 .checkout-page {
