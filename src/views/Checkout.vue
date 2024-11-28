@@ -93,7 +93,6 @@ export default {
       }
     },
 
-
     goBack() {
       this.$router.push("/products");
     },
@@ -108,16 +107,29 @@ export default {
       this.$router.push("/dashboard/watchmybot");
     },
     async removeFromCart(item) {
-      item.removing = true; // Add a 'removing' property to trigger the animation
+      const basketId = "0ec7c116-013e-44e7-b1b2-92678588e905"; // Replace with the actual basket ID
+      item.removing = true; // Trigger animation for removal
 
-      setTimeout(() => {
-        // Remove item from local cart
-        const itemIndex = this.cart.findIndex((cartItem) => cartItem.id === item.id);
-        if (itemIndex !== -1) {
-          this.cart.splice(itemIndex, 1);
-        }
-      }, 300); // Match the duration of the CSS animation
-    },
+      try {
+        // Make API call to remove the robot from the basket
+        await post("basket/remove-robot", {
+          robotId: item.id, // Use the robot's ID
+          basketId: basketId, // Use the predefined basket ID
+        });
+
+        // Remove the robot from the cart array after a successful response
+        setTimeout(() => {
+          const itemIndex = this.cart.findIndex((cartItem) => cartItem.id === item.id);
+          if (itemIndex !== -1) {
+            this.cart.splice(itemIndex, 1);
+          }
+        }, 300); // Match the animation duration
+      } catch (error) {
+        console.error("Failed to remove robot from the basket:", error);
+        item.removing = false; // Reset animation state in case of error
+      }
+    }
+
   },
   async mounted() {
     await this.fetchCart(); // Fetch cart data on component mount
