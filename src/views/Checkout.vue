@@ -24,8 +24,8 @@
         <div v-else>
           <div class="cart-items">
             <div
-                v-for="item in cart"
-                :key="item.id"
+                v-for="(item, index) in cart"
+                :key="`${item.id}-${index}`"
                 :class="['cart-item', { 'removing-item': item.removing }]"
             >
               <img :src="`/images/${item.name}.png`" :alt="item.name" class="cart-item-image" />
@@ -33,8 +33,9 @@
                 <h3 class="cart-item-name">{{ item.name }}</h3>
                 <p class="cart-item-price">{{ item.price }} ADCO/month</p>
               </div>
-              <button class="remove-button" @click="removeFromCart(item)">Remove</button>
+              <button class="remove-button" @click="removeFromCart(item, index)">Remove</button>
             </div>
+
           </div>
           <div class="total-price">
             <p>Total: {{ totalPrice }} ADCO/month</p>
@@ -106,7 +107,7 @@ export default {
     goToMainScreen() {
       this.$router.push("/dashboard/watchmybot");
     },
-    async removeFromCart(item) {
+    async removeFromCart(item, index) {
       const basketId = "0ec7c116-013e-44e7-b1b2-92678588e905"; // Replace with the actual basket ID
       item.removing = true; // Trigger animation for removal
 
@@ -119,17 +120,13 @@ export default {
 
         // Remove the robot from the cart array after a successful response
         setTimeout(() => {
-          const itemIndex = this.cart.findIndex((cartItem) => cartItem.id === item.id);
-          if (itemIndex !== -1) {
-            this.cart.splice(itemIndex, 1);
-          }
+          this.cart.splice(index, 1); // Use the passed index to remove the correct item
         }, 300); // Match the animation duration
       } catch (error) {
         console.error("Failed to remove robot from the basket:", error);
         item.removing = false; // Reset animation state in case of error
       }
     }
-
   },
   async mounted() {
     await this.fetchCart(); // Fetch cart data on component mount
