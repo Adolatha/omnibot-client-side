@@ -152,7 +152,7 @@ export default {
     },
 
     async addToCart(product) {
-      const basketId = "4fc4df27-74c5-4264-bd72-5ab42f73a028"; // Example UUID; replace with a real one.
+      const basketId = "0ec7c116-013e-44e7-b1b2-92678588e905"; // Example UUID; replace with a real one.
       console.log(product);
       try {
         console.log("Attempting to add product with payload:", {
@@ -166,7 +166,8 @@ export default {
         });
 
         console.log("API Response:", response);
-        this.cart = response.data.robots || [];
+        console.log("PRODUCT:", product);
+        this.cart = product || [];
         this.lastAddedProduct = product;
         this.showToast = true;
         setTimeout(() => {
