@@ -6,7 +6,7 @@
         <img src="/src/assets/images/OMNIBOT.png" alt="Omnibot Logo" class="start-logo">
         <ul class="features-list">
           <li>
-            <img src="../assets/images/sustainable.png" alt="sustainable"class="icon">
+            <img src="../assets/images/sustainable.png" alt="sustainable" class="icon">
             <span>Sustainable Product</span>
           </li>
           <hr class="feature-divider"/>

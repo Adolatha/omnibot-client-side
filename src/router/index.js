@@ -29,16 +29,16 @@ const router = createRouter({
     },
     {
       path: '/dashboard',
-      name: "Dashboard",
+      name: 'Dashboard',
       component: Dashboard,
       children: [
         {
-          path: '',
+          path: '', // Default child
           name: 'DashboardMain',
           component: MyBots,
         },
         {
-          path: 'MyBots',
+          path: 'mybots',
           component: MyBots,
         },
         {
@@ -58,6 +58,10 @@ const router = createRouter({
           component: Settings,
         },
       ],
+    },
+    {
+      path: '/:catchAll(.*)',
+      redirect: '/dashboard',
     },
     {
       path: "/main",

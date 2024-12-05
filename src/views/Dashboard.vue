@@ -15,29 +15,35 @@
               to="/dashboard/watchmybot"
               class="side-nav-item"
               :class="{ 'active-link': $route.path === '/dashboard/watchmybot' }"
-          >Watch My Bot</router-link>
+          >
+            Watch My Bot
+          </router-link>
           <router-link
               to="/dashboard/purchasehistory"
               class="side-nav-item"
               :class="{ 'active-link': $route.path === '/dashboard/purchasehistory' }"
-          >Purchase History</router-link>
+          >
+            Purchase History
+          </router-link>
           <router-link
               to="/dashboard/notifications"
               class="side-nav-item"
               :class="{ 'active-link': $route.path === '/dashboard/notifications' }"
-          >Notifications</router-link>
+          >
+            Notifications
+          </router-link>
           <router-link
               to="/dashboard/settings"
               class="side-nav-item"
               :class="{ 'active-link': $route.path === '/dashboard/settings' }"
-          >Settings</router-link>
-
+          >
+            Settings
+          </router-link>
         </nav>
       </aside>
 
       <!-- Main Content Area -->
       <div class="content">
-        <!-- Render the selected child component here based on route -->
         <router-view></router-view>
       </div>
     </div>

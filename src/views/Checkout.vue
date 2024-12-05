@@ -161,7 +161,7 @@ export default {
 .checkout-container {
   background-color: #fff;
   border-radius: 20px;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   padding: 30px;
   width: 90%;
   max-width: 800px;
