@@ -68,8 +68,8 @@ export default {
   },
   methods: {
     async fetchCart() {
-      const basketId = "0ec7c116-013e-44e7-b1b2-92678588e905"; // Replace with the actual basket ID
-      const userId = "d918f1a7-27d8-4b97-866e-a944d9f680e1"; // Replace with the actual user ID
+      const basketId = "a10bcdad-c37a-45e2-95c9-00a1d14fb4f5"; // Replace with the actual basket ID
+      const userId = "226d11c5-e8f8-4d8c-ad76-6f0dcada8848"; // Replace with the actual user ID
       try {
         const response = await post("basket/retrieve", {
           userId: userId,
@@ -98,17 +98,29 @@ export default {
       this.$router.push("/products");
     },
     proceedToPayment() {
+      const basketId = "a10bcdad-c37a-45e2-95c9-00a1d14fb4f5"; // Replace with the actual basket ID
       this.loading = true;
-      setTimeout(() => {
-        this.loading = false;
-        this.paymentConfirmed = true;
-      }, 2000);
+
+      post("basket/finalize", { basketId: basketId })
+          .then(() => {
+            // Simulate processing time and then confirm payment
+            setTimeout(() => {
+              this.loading = false;
+              this.paymentConfirmed = true;
+            }, 2000);
+          })
+          .catch((error) => {
+            console.error("Failed to finalize the basket:", error);
+            this.loading = false; // Stop loading in case of an error
+            alert("Payment failed. Please try again.");
+          });
     },
+
     goToMainScreen() {
       this.$router.push("/dashboard/watchmybot");
     },
     async removeFromCart(item, index) {
-      const basketId = "0ec7c116-013e-44e7-b1b2-92678588e905"; // Replace with the actual basket ID
+      const basketId = "a10bcdad-c37a-45e2-95c9-00a1d14fb4f5"; // Replace with the actual basket ID
       item.removing = true; // Trigger animation for removal
 
       try {

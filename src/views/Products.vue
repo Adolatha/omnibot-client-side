@@ -152,7 +152,7 @@ export default {
     },
 
     async addToCart(product) {
-      const basketId = "0ec7c116-013e-44e7-b1b2-92678588e905"; // Example UUID; replace with a real one.
+      const basketId = "a10bcdad-c37a-45e2-95c9-00a1d14fb4f5"; // Example UUID; replace with a real one.
       console.log(product);
       try {
         console.log("Attempting to add product with payload:", {

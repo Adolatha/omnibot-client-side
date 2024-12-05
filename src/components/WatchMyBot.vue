@@ -229,8 +229,8 @@ h2 {
 .progress-bar {
   width: 100%;
   background-color: #ddd;
-  border-radius: 12px;
-  height: 20px;
+  border-radius: 40px;
+  height: 30px;
   margin-top: 10px;
 }
 
