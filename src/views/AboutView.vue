@@ -1,38 +1,5 @@
 <template>
   <div>
-    <!-- Header Section -->
-    <header class="header">
-      <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
-      <nav class="nav">
-        <router-link
-            to="/dashboard"
-            class="nav-item"
-            :class="{ 'active-link': $route.path === '/dashboard' }"
-        >Dashboard</router-link>
-        <router-link
-            to="/main"
-            class="nav-item"
-            :class="{ 'active-link': $route.path === '/main' }"
-        >Home</router-link>
-        <router-link
-            to="/about"
-            class="nav-item"
-            :class="{ 'active-link': $route.path === '/about' }"
-        >About us</router-link>
-        <router-link
-            to="/products"
-            class="nav-item"
-            :class="{ 'active-link': $route.path === '/products' }"
-        >Products</router-link>
-        <router-link
-            to="/contact"
-            class="nav-item"
-            :class="{ 'active-link': $route.path === '/contact' }"
-        >Contact us</router-link>
-      </nav>
-    </header>
-
-    <!-- Page Content -->
     <div class="about-page">
       <section class="content-section">
         <h2 class="page-title">About Omnibot</h2>

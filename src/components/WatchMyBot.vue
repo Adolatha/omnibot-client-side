@@ -86,7 +86,7 @@ export default {
     },
     initializeMap() {
       // Initialize the map and set the initial view to a default location
-      this.map = L.map("map").setView([37.7749, -122.4194], 13);
+      this.map = L.map("map").setView([0, 0], 10);
 
       // Add OpenStreetMap tiles
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -94,7 +94,7 @@ export default {
       }).addTo(this.map);
 
       // Add an initial marker
-      this.marker = L.marker([37.7749, -122.4194]).addTo(this.map);
+      this.marker = L.marker([0, 0]).addTo(this.map);
     },
     updateBotDetails() {
       const selectedRobot = this.robots.find(
