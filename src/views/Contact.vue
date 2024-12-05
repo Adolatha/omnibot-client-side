@@ -1,32 +1,7 @@
 <template>
-  <header class="header">
-    <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
-    <nav class="nav">
-      <router-link
-          to="/main"
-          class="nav-item"
-          :class="{ 'active-link': $route.path === '/main' }"
-      >Home</router-link>
-      <router-link
-          to="/about"
-          class="nav-item"
-          :class="{ 'active-link': $route.path === '/about' }"
-      >About us</router-link>
-      <router-link
-          to="/products"
-          class="nav-item"
-          :class="{ 'active-link': $route.path === '/products' }"
-      >Products</router-link>
-      <router-link
-          to="/contact"
-          class="nav-item"
-          :class="{ 'active-link': $route.path === '/contact' }"
-      >Contact us</router-link>
-    </nav>
-  </header>
   <div class="contact-page">
-    <h2>Contact Us</h2>
-    <p>If you have any questions, ask us here and our AI will help you!</p>
+    <h2 class="page-title">Contact Us</h2>
+    <p class="subtitle">If you have any questions, ask us here and our AI will help you!</p>
 
     <!-- Chatbox -->
     <div class="chat-container">
@@ -55,6 +30,8 @@
 
 
 <script>
+const AI_TYPING_DELAY = 3000; // Configurable delay for AI typing simulation
+
 export default {
   data() {
     return {
@@ -71,7 +48,7 @@ export default {
       this.isProcessing = true;
       this.isTyping = true; // Show typing indicator
 
-      // Simulate a 3-second delay
+      // Simulate a delay
       setTimeout(() => {
         this.isTyping = false; // Hide typing indicator
 
@@ -89,11 +66,12 @@ export default {
         this.$nextTick(() => {
           this.$refs.messageContainer.scrollTop = this.$refs.messageContainer.scrollHeight;
         });
-      }, 3000);
+      }, AI_TYPING_DELAY); // Use the configurable constant here
     },
   },
 };
 </script>
+
 
 
 <style scoped>
@@ -103,7 +81,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: whitesmoke;
+  background-color: white;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -111,11 +89,12 @@ export default {
   margin: 2rem auto 0;
 }
 
+
 .chat-container {
   width: 100%;
   max-width: 600px;
   margin: 20px auto;
-  background-color: #f4f4f4;
+  background-color: white;
   border-radius: 8px;
   padding: 20px;
 }

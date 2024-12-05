@@ -99,8 +99,7 @@ export default {
     },
     // Method to display order details
     viewOrderDetails(orderId) {
-      const selectedOrder = this.orders.find(order => order.id === orderId);
-      this.currentOrder = selectedOrder;
+      this.currentOrder = this.orders.find(order => order.id === orderId);
       this.isOrderDetailsVisible = true;
     },
     // Method to close order details modal

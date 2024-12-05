@@ -34,14 +34,79 @@ export default {
         this.unsubscribeFromNotifications();
       }
     },
-    subscribeToNotifications() {
-      console.log("Subscribed to notifications");
-      // Add the actual subscription code here
+    async registerServiceWorker() {
+      if ('serviceWorker' in navigator && 'PushManager' in window) {
+        try {
+          const swReg = await navigator.serviceWorker.register('/service-worker.js');
+          console.log('Service Worker is registered', swReg);
+
+          let subscription = await swReg.pushManager.getSubscription();
+
+          if (subscription === null) {
+            subscription = await swReg.pushManager.subscribe({
+              userVisibleOnly: true,
+              applicationServerKey: this.urlBase64ToUint8Array(
+                  'BJe2fcX0k7Mbw-GbqX6zzFvgVekBDR8qyFRbu1TjUp5ggSLJMjCUTmoRTV_IRMa9YNkag8d0lakv2IdQ2cA9ikU'
+              )
+            });
+            console.log('User is subscribed:', subscription);
+            await this.sendSubscriptionToServer(subscription);
+          } else {
+            console.log('User is already subscribed:', subscription);
+          }
+        } catch (error) {
+          console.error('Service Worker Error', error);
+        }
+      }
     },
-    unsubscribeFromNotifications() {
-      console.log("Unsubscribed from notifications");
-      // Add the actual unsubscription code here
+    urlBase64ToUint8Array(base64String) {
+      const padding = '='.repeat((4 - base64String.length % 4) % 4);
+      const base64 = (base64String + padding)
+          .replace(/-/g, '+')
+          .replace(/_/g, '/');
+      const rawData = window.atob(base64);
+      const outputArray = new Uint8Array(rawData.length);
+      for (let i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+      }
+      return outputArray;
+    },
+    async sendSubscriptionToServer(subscription) {
+      await fetch('/subscribe', {
+        method: 'POST',
+        body: JSON.stringify(subscription),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+    },
+    subscribeToNotifications() {
+      console.log("Subscribing to notifications...");
+      this.registerServiceWorker();
+    },
+    async unsubscribeFromNotifications() {
+      console.log("Unsubscribing from notifications...");
+      const swReg = await navigator.serviceWorker.ready;
+      const subscription = await swReg.pushManager.getSubscription();
+
+      if (subscription) {
+        await subscription.unsubscribe();
+        console.log("User unsubscribed from notifications.");
+        await this.sendUnsubscriptionToServer(subscription);
+      }
+    },
+    async sendUnsubscriptionToServer(subscription) {
+      await fetch('/unsubscribe', {
+        method: 'POST',
+        body: JSON.stringify(subscription),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
     }
+  },
+  mounted() {
+    this.registerServiceWorker(); // Register service worker on mount
   }
 };
 </script>
@@ -128,7 +193,7 @@ h2 {
 }
 
 input:checked + .slider {
-  background-color: #4CAF50;
+  background-color: #4CAF50; /* Green when subscribed */
 }
 
 input:checked + .slider:before {

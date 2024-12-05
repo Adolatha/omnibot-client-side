@@ -9,8 +9,7 @@ import WatchMyBot from '../components/WatchMyBot.vue';
 import PurchaseHistory from '../components/PurchaseHistory.vue';
 import Notifications from '../components/Notifications.vue';
 import Settings from '../components/Settings.vue';
-import EmergencyShutdown from '../components/EmergencyShutdown.vue';
-
+import MyBots from '../components/MyBots.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,9 +29,18 @@ const router = createRouter({
     },
     {
       path: '/dashboard',
-      name: "Dashboard",
+      name: 'Dashboard',
       component: Dashboard,
       children: [
+        {
+          path: '', // Default child
+          name: 'DashboardMain',
+          component: MyBots,
+        },
+        {
+          path: 'mybots',
+          component: MyBots,
+        },
         {
           path: 'watchmybot',
           component: WatchMyBot,
@@ -49,11 +57,11 @@ const router = createRouter({
           path: 'settings',
           component: Settings,
         },
-        {
-          path: 'emergencyshutdown',
-          component: EmergencyShutdown,
-        },
       ],
+    },
+    {
+      path: '/:catchAll(.*)',
+      redirect: '/dashboard',
     },
     {
       path: "/main",

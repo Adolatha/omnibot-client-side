@@ -1,45 +1,49 @@
 <template>
   <div class="checkout-page">
-    <h2>Your Cart</h2>
+    <div class="checkout-container">
+      <h2>Your Cart</h2>
 
-    <!-- Loading screen -->
-    <div v-if="loading" class="loading-screen">
-      <div class="loading-box">
-        <p>Processing your payment...</p>
+      <div v-if="loading" class="loading-screen">
+        <div class="loading-box">
+          <p>Processing your payment...</p>
+        </div>
       </div>
-    </div>
 
-    <!-- Payment confirmation screen -->
-    <div v-else-if="paymentConfirmed" class="confirmation-screen">
-      <div class="confirmation-box">
-        <p>Payment Successful!</p>
-        <button class="continue-button" @click="goToMainScreen">Continue</button>
+      <div v-else-if="paymentConfirmed" class="confirmation-screen">
+        <div class="confirmation-box">
+          <p>Payment Successful!</p>
+          <button class="continue-button" @click="goToMainScreen">Continue</button>
+        </div>
       </div>
-    </div>
 
-    <!-- Cart screen -->
-    <div v-else>
-      <div v-if="cart.length === 0" class="empty-cart-message">
-        <p>Your cart is empty.</p>
-        <router-link to="/products" class="go-back-button">Back to Products</router-link>
-      </div>
       <div v-else>
-        <div class="cart-items">
-          <div v-for="item in cart" :key="item.id" class="cart-item">
-            <img :src="`/2024-2025/group-23/images/${item.image}`" :alt="item.name" class="cart-item-image" />
-            <div class="cart-item-details">
-              <h3 class="cart-item-name">{{ item.name }}</h3>
-              <p class="cart-item-price">{{ item.price }} ADCO/month</p>
+        <div v-if="cart.length === 0" class="empty-cart-message">
+          <p>Your cart is empty.</p>
+          <router-link to="/products" class="go-back-button">Back to Products</router-link>
+        </div>
+        <div v-else>
+          <div class="cart-items">
+            <div
+                v-for="(item, index) in cart"
+                :key="`${item.id}-${index}`"
+                :class="['cart-item', { 'removing-item': item.removing }]"
+            >
+              <img :src="`/images/${item.name}.png`" :alt="item.name" class="cart-item-image" />
+              <div class="cart-item-details">
+                <h3 class="cart-item-name">{{ item.name }}</h3>
+                <p class="cart-item-price">{{ item.price }} ADCO/month</p>
+              </div>
+              <button class="remove-button" @click="removeFromCart(item, index)">Remove</button>
             </div>
-            <p>Remove from cart</p>
+
           </div>
-        </div>
-        <div class="total-price">
-          <p>Total: {{ totalPrice }} ADCO/month</p>
-        </div>
-        <div class="cart-actions">
-          <button class="go-back-button" @click="goBack">Back to Products</button>
-          <button class="pay-button" @click="proceedToPayment">PAY</button>
+          <div class="total-price">
+            <p>Total: {{ totalPrice }} ADCO/month</p>
+          </div>
+          <div class="cart-actions">
+            <button class="go-back-button" @click="goBack">Back to Products</button>
+            <button class="pay-button" @click="proceedToPayment">PAY</button>
+          </div>
         </div>
       </div>
     </div>
@@ -47,10 +51,12 @@
 </template>
 
 <script>
+import { post } from "../assets/utils/api/api-methods.js";
+
 export default {
   data() {
     return {
-      cart: JSON.parse(this.$route.query.cart || "[]"), // Parse the cart data from the query
+      cart: [], // Stores renting_basket_robots
       loading: false,
       paymentConfirmed: false,
     };
@@ -61,44 +67,104 @@ export default {
     },
   },
   methods: {
+    async fetchCart() {
+      const basketId = "a10bcdad-c37a-45e2-95c9-00a1d14fb4f5"; // Replace with the actual basket ID
+      const userId = "226d11c5-e8f8-4d8c-ad76-6f0dcada8848"; // Replace with the actual user ID
+      try {
+        const response = await post("basket/retrieve", {
+          userId: userId,
+          basketId: basketId,
+        });
+        console.log(response.robots);
+        // Populate the cart array with the robots from the response
+        if (response.robots && response.robots.length > 0) {
+          this.cart = response.robots.map((robot) => ({
+            id: robot.id,
+            name: robot.name,
+            price: robot.price,
+            removing: false, // Add a default `removing` property for animation purposes
+          }));
+        } else {
+          console.error("No robots found in the basket.");
+          this.cart = [];
+        }
+      } catch (error) {
+        console.error("Failed to retrieve robots from the basket:", error);
+        this.cart = []; // Reset cart in case of an error
+      }
+    },
+
     goBack() {
       this.$router.push("/products");
     },
     proceedToPayment() {
+      const basketId = "a10bcdad-c37a-45e2-95c9-00a1d14fb4f5"; // Replace with the actual basket ID
       this.loading = true;
-      setTimeout(() => {
-        this.loading = false;
-        this.paymentConfirmed = true;
-      }, 2000);
+
+      post("basket/finalize", { basketId: basketId })
+          .then(() => {
+            // Simulate processing time and then confirm payment
+            setTimeout(() => {
+              this.loading = false;
+              this.paymentConfirmed = true;
+            }, 2000);
+          })
+          .catch((error) => {
+            console.error("Failed to finalize the basket:", error);
+            this.loading = false; // Stop loading in case of an error
+            alert("Payment failed. Please try again.");
+          });
     },
+
     goToMainScreen() {
-      this.$router.push("/dashboard/watchmybot"); // Navigate to the main screen
+      this.$router.push("/dashboard/watchmybot");
     },
+    async removeFromCart(item, index) {
+      const basketId = "a10bcdad-c37a-45e2-95c9-00a1d14fb4f5"; // Replace with the actual basket ID
+      item.removing = true; // Trigger animation for removal
+
+      try {
+        // Make API call to remove the robot from the basket
+        await post("basket/remove-robot", {
+          robotId: item.id, // Use the robot's ID
+          basketId: basketId, // Use the predefined basket ID
+        });
+
+        // Remove the robot from the cart array after a successful response
+        setTimeout(() => {
+          this.cart.splice(index, 1); // Use the passed index to remove the correct item
+        }, 300); // Match the animation duration
+      } catch (error) {
+        console.error("Failed to remove robot from the basket:", error);
+        item.removing = false; // Reset animation state in case of error
+      }
+    }
+  },
+  async mounted() {
+    await this.fetchCart(); // Fetch cart data on component mount
   },
 };
 </script>
+
+
 
 <style scoped>
 .checkout-page {
   text-align: center;
   padding: 20px;
-}
-
-.loading-screen,
-.confirmation-screen {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60vh;
+  min-height: 100vh;
 }
 
-.loading-box,
-.confirmation-box {
+.checkout-container {
   background-color: #fff;
-  padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  padding: 30px;
+  width: 90%;
+  max-width: 800px;
 }
 
 .cart-items {
@@ -112,22 +178,30 @@ export default {
 .cart-item {
   display: flex;
   align-items: center;
-  width: 50%;
+  justify-content: space-between;
+  width: 100%;
   border: 1px solid #ddd;
   padding: 10px;
   border-radius: 8px;
   background-color: #f9f9f9;
-  color: black;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Animation for removing items */
+.removing-item {
+  opacity: 0;
+  transform: translateX(-20px);
 }
 
 .cart-item-image {
   width: 80px;
   height: 80px;
   border-radius: 4px;
-  margin-right: 20px;
 }
 
 .cart-item-details {
+  flex: 1;
+  margin-left: 20px;
   text-align: left;
 }
 
@@ -138,6 +212,20 @@ export default {
 
 .cart-item-price {
   color: #666;
+}
+
+.remove-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.remove-button:hover {
+  background-color: #c82333;
 }
 
 .total-price {
@@ -172,25 +260,11 @@ export default {
   background-color: #28a745;
 }
 
-.continue-button {
-  background-color: #007bff;
-  margin-top: 2rem;
-}
-
 .go-back-button:hover {
   background-color: #0056b3;
 }
 
 .pay-button:hover {
   background-color: #218838;
-}
-
-.continue-button:hover {
-  background-color: #0056b3;
-}
-
-.empty-cart-message {
-  font-size: 1.2em;
-  color: #555;
 }
 </style>

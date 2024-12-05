@@ -81,9 +81,10 @@ p{
 body {
   justify-content: center;
   align-items: center;
-  background: radial-gradient(circle, #ffffff, #a2d9ff, #0056b3); /* White to blue radial gradient */
+  background-blend-mode: overlay;
+  background: radial-gradient(circle, #ffffff, #d4e7fc, #6ea8d4), url('https://www.transparenttextures.com/patterns/white-diamond.png') fixed;
+  background-size: cover;
 }
-
 .auth-container {
   display: flex;
   min-height: 75vh;
@@ -132,4 +133,21 @@ body {
 
 .login-button:hover {
   background-color: #333;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: transparent;
+  background-image: linear-gradient(to right, #6a11cb, #2575fc);
+  -webkit-background-clip: text;
+  margin-bottom: 0.5rem;
 }

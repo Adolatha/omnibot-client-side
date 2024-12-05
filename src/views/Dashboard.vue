@@ -1,71 +1,49 @@
 <template>
   <div class="container">
-    <header class="header">
-      <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
-      <nav class="nav">
-        <router-link
-            to="/dashboard"
-            class="nav-item"
-            :class="{ 'active-link': $route.path === '/dashboard' }"
-        >Dashboard</router-link>
-        <router-link
-            to="/main"
-            class="nav-item"
-            :class="{ 'active-link': $route.path === '/main' }"
-        >Home</router-link>
-        <router-link
-            to="/about"
-            class="nav-item"
-            :class="{ 'active-link': $route.path === '/about' }"
-        >About us</router-link>
-        <router-link
-            to="/products"
-            class="nav-item"
-            :class="{ 'active-link': $route.path === '/products' }"
-        >Products</router-link>
-        <router-link
-            to="/contact"
-            class="nav-item"
-            :class="{ 'active-link': $route.path === '/contact' }"
-        >Contact us</router-link>
-      </nav>
-    </header>
-
     <div class="main-content">
       <!-- Sidebar Navigation -->
       <aside class="sidebar">
         <nav class="side-nav">
           <router-link
+              to="/dashboard/mybots"
+              class="side-nav-item"
+              :class="{ 'active-link': $route.path === '/dashboard/mybots' }"
+          >
+            My Bots
+          </router-link>
+          <router-link
               to="/dashboard/watchmybot"
-              class="nav-item"
+              class="side-nav-item"
               :class="{ 'active-link': $route.path === '/dashboard/watchmybot' }"
-          >Watch My Bot</router-link>
+          >
+            Watch My Bot
+          </router-link>
           <router-link
               to="/dashboard/purchasehistory"
-              class="nav-item"
+              class="side-nav-item"
               :class="{ 'active-link': $route.path === '/dashboard/purchasehistory' }"
-          >Purchase History</router-link>
+          >
+            Purchase History
+          </router-link>
           <router-link
               to="/dashboard/notifications"
-              class="nav-item"
+              class="side-nav-item"
               :class="{ 'active-link': $route.path === '/dashboard/notifications' }"
-          >Notifications</router-link>
+          >
+            Notifications
+          </router-link>
           <router-link
               to="/dashboard/settings"
-              class="nav-item"
+              class="side-nav-item"
               :class="{ 'active-link': $route.path === '/dashboard/settings' }"
-          >Settings</router-link>
-          <router-link
-              to="/dashboard/emergencyshutdown"
-              class="nav-item emergency-shutdown"
-              :class="{ 'active-link': $route.path === '/dashboard/emergencyshutdown' }"
-          >Emergency Shutdown</router-link>
+          >
+            Settings
+          </router-link>
         </nav>
       </aside>
 
       <!-- Main Content Area -->
       <div class="content">
-        <!-- Render the selected child component here based on route -->
         <router-view></router-view>
       </div>
     </div>
@@ -87,7 +65,6 @@ export default {
 
 .header {
   width: 100%;
-  /* Add styling for the header */
 }
 
 .nav {
@@ -95,18 +72,11 @@ export default {
   gap: 15px;
 }
 
-.nav-item {
-  padding: 10px;
-  color: #333;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s;
+.active-link {
+  color: white;
+  background-color: #007bff;
 }
 
-.active-link {
-  color: #007bff;
-  font-weight: bold;
-}
 
 .main-content {
   display: flex;
@@ -128,7 +98,7 @@ export default {
   margin-top: 20px;
 }
 
-.side-nav .nav-item {
+.side-nav .side-nav-item {
   display: block;
   padding: 10px 15px;
   color: #fff;
@@ -136,7 +106,7 @@ export default {
   border-radius: 4px;
 }
 
-.side-nav .nav-item:hover {
+.side-nav .side-nav-item:hover {
   background-color: #444;
 }
 
@@ -149,17 +119,5 @@ export default {
 .content {
   flex: 1;
   padding: 20px;
-}
-
-.emergency-shutdown {
-  background-color: #ff4d4d;
-  color: #fff;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 1rem;
-}
-
-.emergency-shutdown:hover {
-  background-color: darkred;
 }
 </style>

@@ -1,5 +1,5 @@
 async function getConfig() {
-    return await fetch(`config.json`)
+    return fetch(`config.json`)
         .then(res => res.json())
         .catch(err => console.error("Could not fetch config.json:", err));
 }
