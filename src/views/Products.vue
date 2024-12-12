@@ -79,7 +79,10 @@
             <!-- Check if this is the last product -->
             <template v-if="index === filteredProducts.length - 1">
               <!-- Customize Button -->
-              <button class="info-button" @click="customizeProduct(product)">
+              <button
+                  class="info-button"
+                  @click="openCustomizeModal"
+              >
                 Customize
               </button>
             </template>
@@ -110,6 +113,34 @@
       <p v-else>No features available.</p>
     </div>
   </div>
+  <!-- Customize Modal -->
+  <div v-if="showCustomizeModal" class="modal-overlay" @click.self="closeCustomizeModal">
+    <div class="modal-content">
+      <h2>Customize Your Bot</h2>
+      <p>Select the packages you want to include:</p>
+      <div class="packages-list">
+        <div
+            v-for="(packageItem, index) in availablePackages"
+            :key="index"
+            class="package-item-vertical"
+        >
+          <input
+              type="checkbox"
+              :id="`package-${index}`"
+              :value="packageItem.name"
+              @change="togglePackageSelection(packageItem.name, $event)"
+          />
+          <label :for="`package-${index}`">
+            {{ packageItem.name }} - {{ packageItem.price }} ADCO
+          </label>
+        </div>
+      </div>
+      <div class="button-group">
+        <button class="cart-button" @click="saveCustomization">Save Customization</button>
+        <button class="info-button" @click="closeCustomizeModal">Cancel</button>
+      </div>
+    </div>
+  </div>
 </template>
 
 
@@ -122,12 +153,26 @@ export default {
       products: [],
       searchQuery: "",
       showModal: false,
+      showCustomizeModal: false,
       selectedProduct: null,
       cart: JSON.parse(localStorage.getItem("cart")) || [],
       showToast: false,
       lastAddedProduct: null,
       loading: false,
       error: null,
+      availablePackages: [
+        { name: "CONVERSATIONAL", price: 75 },
+        { name: "CLEANING", price: 250 },
+        { name: "TUTORING", price: 100 },
+        { name: "HEALTH", price: 150 },
+        { name: "SECURITY", price: 300 },
+        { name: "INDUSTRIAL", price: 250 },
+        { name: "ENTERTAINMENT", price: 100 },
+        { name: "PROFESSIONAL_EXPERTISE", price: 450 },
+        { name: "ARMY_SUPPORT", price: 700 },
+      ],
+      selectedPackages: [],
+      selectedRobotId: null, // Stores the custom robot ID
     };
   },
   computed: {
@@ -150,24 +195,13 @@ export default {
         this.loading = false;
       }
     },
-
     async addToCart(product) {
-      const basketId = "a10bcdad-c37a-45e2-95c9-00a1d14fb4f5"; // Example UUID; replace with a real one.
-      console.log(product);
       try {
-        console.log("Attempting to add product with payload:", {
-          robotId: product.id,
-          basketId: basketId,
-        });
-
         const response = await post("basket/add-robot", {
-          robotId: product.id, // Assuming product.id is a UUID or formatted like one.
-          basketId: basketId,
+          robotId: product.id,
+          basketId: "your-basket-id",
         });
-
-        console.log("API Response:", response);
-        console.log("PRODUCT:", product);
-        this.cart = product || [];
+        this.cart.push(product);
         this.lastAddedProduct = product;
         this.showToast = true;
         setTimeout(() => {
@@ -177,25 +211,40 @@ export default {
         console.error("Failed to add robot to cart:", error);
       }
     },
-
     showMoreInfo(product) {
       this.selectedProduct = product;
       this.showModal = true;
     },
-
     closeModal() {
       this.showModal = false;
       this.selectedProduct = null;
     },
+    openCustomizeModal(robotId) {
+      this.selectedRobotId = robotId; // Store the robot ID
+      this.showCustomizeModal = true;
+    },
+    closeCustomizeModal() {
+      this.showCustomizeModal = false;
+      this.selectedPackages = [];
+    },
+    togglePackageSelection(packageName, event) {
+      if (event.target.checked) {
+        this.selectedPackages.push(packageName);
+      } else {
+        this.selectedPackages = this.selectedPackages.filter(
+            (name) => name !== packageName
+        );
+      }
+    },
 
-    customizeProduct(product) {
-      this.$router.push({ name: 'Customize', params: { id: product.id } });
+    saveCustomization() {
+      console.log("Selected packages:", this.selectedPackages);
+      alert("Customization saved successfully!");
     },
   },
-
-  mounted() {
+    mounted() {
     this.fetchProducts();
-  },
+    },
 };
 </script>
 
@@ -438,6 +487,24 @@ em{
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   animation: fade-in 0.5s ease-in-out, fade-out 0.5s ease-in-out 3s;
+}
+
+.packages-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 7rem;
+  gap: 10px;
+}
+
+.package-item-vertical {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+input[type="checkbox"] {
+  margin: 0;
 }
 
 @keyframes fade-in {

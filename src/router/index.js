@@ -10,6 +10,7 @@ import PurchaseHistory from '../components/PurchaseHistory.vue';
 import Notifications from '../components/Notifications.vue';
 import Settings from '../components/Settings.vue';
 import MyBots from '../components/MyBots.vue';
+import CustomBot from "../views/CustomBot.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -60,10 +61,6 @@ const router = createRouter({
       ],
     },
     {
-      path: '/:catchAll(.*)',
-      redirect: '/dashboard',
-    },
-    {
       path: "/main",
       name: "Main",
       component: Main
@@ -71,7 +68,12 @@ const router = createRouter({
     {
       path: "/products",
       name: "Products",
-      component: Products
+      component: Products,
+    },
+    {
+      path: "/customize",
+      name: "CustomizeBot",
+      component: CustomBot,
     },
     {
       path: "/contact",
