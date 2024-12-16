@@ -2,6 +2,7 @@
   <div class="my-bots-container">
     <h2>My Bots</h2>
 
+    <!-- Display bots if available -->
     <div v-if="bots && bots.length" class="bot-list-container">
       <ul class="bot-list">
         <li v-for="bot in bots" :key="bot.id" class="bot-item">
@@ -14,7 +15,11 @@
             </div>
             <div class="bot-actions">
               <slot name="bot-action" :bot="bot">
-                <button @click="shutdownBot(bot)" :disabled="bot.status !== 'Running'" class="shutdown-btn">
+                <button
+                    @click="shutdownBot(bot)"
+                    :disabled="bot.status !== 'Running'"
+                    class="shutdown-btn"
+                >
                   Shutdown Bot
                 </button>
               </slot>
@@ -24,6 +29,7 @@
       </ul>
     </div>
 
+    <!-- Display a message when no bots are available -->
     <div v-else class="no-bots">
       <p>No bots available.</p>
     </div>
@@ -31,30 +37,77 @@
 </template>
 
 <script>
+import { post } from "../assets/utils/api/api-methods.js";
+import basketService from "../services/basketService.js";
+
 export default {
-  name: 'MyBots',
+  name: "MyBots",
   data() {
     return {
-      bots: [
-        { id: 1, name: 'Bot 1', status: 'Running' },
-        { id: 2, name: 'Bot 2', status: 'Expired' },
-        { id: 3, name: 'Bot 3', status: 'Expired' },
-      ],
+      bots: [], // Will store robots from the basket
+      basketId: null, // Dynamic basket ID
+      userId: "e9342b73-e5b1-4792-a541-065ddc5fdc0a", // Replace with your user ID
     };
   },
   methods: {
+    // Fetch the latest basket ID
+    async fetchLatestBasketId() {
+      try {
+        const basketIds = await basketService.getBasketIds();
+        this.basketId = basketIds[basketIds.length - 1]; // Get the latest basketId
+        console.log("Latest basketId:", this.basketId);
+      } catch (error) {
+        console.error("Failed to fetch basket IDs:", error);
+      }
+    },
+
+    // Fetch robots in the latest basket
+    async fetchBots() {
+      if (!this.basketId) {
+        console.error("Basket ID is not set.");
+        return;
+      }
+
+      try {
+        const response = await post("basket/retrieve", {
+          userId: this.userId,
+          basketId: this.basketId,
+        });
+        if (response.robots && response.robots.length > 0) {
+          this.bots = response.robots.map((robot) => ({
+            id: robot.id,
+            name: robot.name,
+            status: "Running", // Default status as 'Running' or modify as needed
+          }));
+        } else {
+          console.warn("No bots found in the basket.");
+          this.bots = [];
+        }
+      } catch (error) {
+        console.error("Failed to fetch robots:", error);
+        this.bots = [];
+      }
+    },
+
+    // Shutdown a bot
     shutdownBot(bot) {
       console.log(`Shutting down ${bot.name}`);
-      bot.status = 'Shutdown';
+      bot.status = "Shutdown";
     },
+
+    // Determine CSS class for bot status
     getStatusClass(status) {
       return {
-        'status-running': status === 'Running',
-        'status-idle': status === 'Idle',
-        'status-error': status === 'Error',
-        'status-shutdown': status === 'Shutdown',
+        "status-running": status === "Running",
+        "status-shutdown": status === "Shutdown",
       };
     },
+  },
+  async mounted() {
+    await this.fetchLatestBasketId(); // Retrieve the latest basket ID
+    if (this.basketId) {
+      await this.fetchBots(); // Fetch bots for the latest basket
+    }
   },
 };
 </script>
@@ -147,7 +200,6 @@ h2 {
 .status-running {
   color: #28a745;
 }
-
 
 .status-shutdown {
   color: red;

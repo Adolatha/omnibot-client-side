@@ -43,7 +43,6 @@
         <p><strong>Order Date:</strong> {{ formatDate(currentOrder.orderDate) }}</p>
         <p><strong>Status:</strong> {{ currentOrder.status }}</p>
         <p><strong>Total Price:</strong> {{ currentOrder.totalPrice }} ADCO</p>
-        <p><strong>Delivery Address:</strong> {{ currentOrder.deliveryAddress }}</p>
         <p><strong>Tracking Number:</strong> {{ currentOrder.trackingNumber }}</p>
       </div>
     </div>
@@ -62,7 +61,6 @@ export default {
           orderDate: "2024-09-25",
           status: "Delivered",
           totalPrice: 250,
-          deliveryAddress: "123 Main St, Cityville",
           trackingNumber: "XYZ12345"
         },
         {
@@ -71,7 +69,6 @@ export default {
           orderDate: "2024-09-30",
           status: "Delivered",
           totalPrice: 350,
-          deliveryAddress: "456 Elm St, Townsville",
           trackingNumber: "ABC67890"
         },
         {
@@ -80,7 +77,6 @@ export default {
           orderDate: "2024-10-05",
           status: "Pending",
           totalPrice: 150,
-          deliveryAddress: "789 Oak St, Villagetown",
           trackingNumber: "LMN11223"
         }
       ],
