@@ -47,43 +47,70 @@
 <script>
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { get } from "../assets/utils/api/api-methods.js";
+import { post } from "../assets/utils/api/api-methods.js";
+import basketService from "../services/basketService.js"; // Import the basket service
 
 export default {
   name: "WatchMyBot",
   data() {
     return {
-      robots: [],
+      robots: [], // Will store robots from the latest basket
       selectedRobotId: null,
       videoEmbedUrl: "",
-      taskName: "", // Added taskName
+      taskName: "",
       taskProgress: 0,
       isVideoAvailable: false,
       map: null,
       marker: null,
       loading: false,
       error: null,
+      basketId: null, // Dynamic basketId
+      userId: "ff78ea26-33ad-4b35-9c86-87d08b2597dd", // Replace with your user ID
     };
   },
   mounted() {
-    this.fetchRobots();
+    this.fetchLatestBasketId(); // Fetch the latest basket ID
     this.initializeMap();
   },
   methods: {
+    async fetchLatestBasketId() {
+      try {
+        const basketIds = await basketService.getBasketIds(); // Fetch the basket IDs
+        this.basketId = basketIds[basketIds.length - 1]; // Get the latest basketId
+        this.fetchRobots(); // Once we have the basket ID, fetch the robots
+      } catch (error) {
+        this.error = "Failed to fetch basket IDs. Please try again later.";
+      }
+    },
+
     async fetchRobots() {
+      if (!this.basketId) {
+        console.error("Basket ID is not available.");
+        return;
+      }
+
       this.loading = true;
       this.error = null;
       try {
-        const response = await get("/robots");
-        this.robots = response.robots; // Assuming the API returns { robots: [...] }
-        this.selectedRobotId = this.robots.length ? this.robots[0].id : null;
-        this.updateBotDetails();
+        const response = await post("basket/retrieve", {
+          userId: this.userId,
+          basketId: this.basketId,
+        });
+        if (response.robots && response.robots.length > 0) {
+          this.robots = response.robots; // Set the robots array with the fetched robots
+          this.selectedRobotId = this.robots.length ? this.robots[0].id : null;
+          this.updateBotDetails(); // Update details for the first robot
+        } else {
+          console.warn("No robots found in the basket.");
+          this.robots = [];
+        }
       } catch (error) {
         this.error = "Failed to load robots. Please try again later.";
       } finally {
         this.loading = false;
       }
     },
+
     initializeMap() {
       // Initialize the map and set the initial view to a default location
       this.map = L.map("map").setView([0, 0], 10);
@@ -96,6 +123,7 @@ export default {
       // Add an initial marker
       this.marker = L.marker([0, 0]).addTo(this.map);
     },
+
     updateBotDetails() {
       const selectedRobot = this.robots.find(
           (robot) => robot.id === this.selectedRobotId
@@ -111,11 +139,11 @@ export default {
         }
 
         // Update task details
-        this.taskName = selectedRobot.task.taskName || "Unknown Task"; // Add task name
-        this.taskProgress = selectedRobot.task.percentage || 0; // Add task progress
+        this.taskName = selectedRobot.task.taskName || "Unknown Task";
+        this.taskProgress = selectedRobot.task.percentage || 0;
 
         // Update the map view and marker position based on the selected robot's location
-        const { latitude, longitude } = selectedRobot.location; // Adjusted to use robot.location
+        const { latitude, longitude } = selectedRobot.location;
         this.map.setView([latitude, longitude], 13);
         this.marker.setLatLng([latitude, longitude])
             .bindPopup(selectedRobot.name)

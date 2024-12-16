@@ -52,6 +52,7 @@
 
 <script>
 import { post } from "../assets/utils/api/api-methods.js";
+import basketService from '../services/basketService.js';
 
 export default {
   data() {
@@ -59,6 +60,9 @@ export default {
       cart: [], // Stores renting_basket_robots
       loading: false,
       paymentConfirmed: false,
+      basketId: null, // Dynamic basket ID
+      userId: "21810db9-0040-4670-8d19-8d3d070c136a", // Replace with the actual user ID
+      timeout: 2000,
     };
   },
   computed: {
@@ -67,22 +71,36 @@ export default {
     },
   },
   methods: {
+    // Fetch the latest basketId dynamically
+    async fetchBasketId() {
+      try {
+        const basketIds = await basketService.getBasketIds();
+        this.basketId = basketIds[basketIds.length - 1]; // Use the last basket ID
+        console.log("Dynamic basketId:", this.basketId);
+      } catch (error) {
+        console.error("Failed to fetch basket IDs:", error);
+      }
+    },
+
     async fetchCart() {
-      const basketId = "a10bcdad-c37a-45e2-95c9-00a1d14fb4f5"; // Replace with the actual basket ID
-      const userId = "226d11c5-e8f8-4d8c-ad76-6f0dcada8848"; // Replace with the actual user ID
+      if (!this.basketId) {
+        console.error("Basket ID not set.");
+        return;
+      }
+
       try {
         const response = await post("basket/retrieve", {
-          userId: userId,
-          basketId: basketId,
+          userId: this.userId,
+          basketId: this.basketId,
         });
         console.log(response.robots);
-        // Populate the cart array with the robots from the response
+
         if (response.robots && response.robots.length > 0) {
           this.cart = response.robots.map((robot) => ({
             id: robot.id,
             name: robot.name,
             price: robot.price,
-            removing: false, // Add a default `removing` property for animation purposes
+            removing: false,
           }));
         } else {
           console.error("No robots found in the basket.");
@@ -90,28 +108,32 @@ export default {
         }
       } catch (error) {
         console.error("Failed to retrieve robots from the basket:", error);
-        this.cart = []; // Reset cart in case of an error
+        this.cart = [];
       }
     },
 
     goBack() {
       this.$router.push("/products");
     },
+
     proceedToPayment() {
-      const basketId = "a10bcdad-c37a-45e2-95c9-00a1d14fb4f5"; // Replace with the actual basket ID
+      if (!this.basketId) {
+        console.error("Basket ID not set.");
+        return;
+      }
+
       this.loading = true;
 
-      post("basket/finalize", { basketId: basketId })
+      post("basket/finalize", { basketId: this.basketId })
           .then(() => {
-            // Simulate processing time and then confirm payment
             setTimeout(() => {
               this.loading = false;
               this.paymentConfirmed = true;
-            }, 2000);
+            }, timeout);
           })
           .catch((error) => {
             console.error("Failed to finalize the basket:", error);
-            this.loading = false; // Stop loading in case of an error
+            this.loading = false;
             alert("Payment failed. Please try again.");
           });
     },
@@ -119,32 +141,40 @@ export default {
     goToMainScreen() {
       this.$router.push("/dashboard/watchmybot");
     },
+
     async removeFromCart(item, index) {
-      const basketId = "a10bcdad-c37a-45e2-95c9-00a1d14fb4f5"; // Replace with the actual basket ID
-      item.removing = true; // Trigger animation for removal
+      if (!this.basketId) {
+        console.error("Basket ID not set.");
+        return;
+      }
+
+      item.removing = true;
 
       try {
-        // Make API call to remove the robot from the basket
         await post("basket/remove-robot", {
-          robotId: item.id, // Use the robot's ID
-          basketId: basketId, // Use the predefined basket ID
+          robotId: item.id,
+          basketId: this.basketId,
         });
 
-        // Remove the robot from the cart array after a successful response
         setTimeout(() => {
-          this.cart.splice(index, 1); // Use the passed index to remove the correct item
-        }, 300); // Match the animation duration
+          this.cart.splice(index, 1);
+        }, );
       } catch (error) {
         console.error("Failed to remove robot from the basket:", error);
-        item.removing = false; // Reset animation state in case of error
+        item.removing = false;
       }
-    }
+    },
   },
+
   async mounted() {
-    await this.fetchCart(); // Fetch cart data on component mount
+    await this.fetchBasketId(); // Fetch dynamic basket ID first
+    if (this.basketId) {
+      await this.fetchCart(); // Fetch cart only if basketId is retrieved
+    }
   },
 };
 </script>
+
 
 
 

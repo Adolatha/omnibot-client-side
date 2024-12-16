@@ -46,7 +46,7 @@
 
   <!-- Toast Notification -->
   <div v-if="showToast" class="toast-notification">
-    <p>{{ lastAddedProduct.name }} has been added to the cart!</p>
+    <p>Product has been added to the cart!</p>
   </div>
 
   <!-- Content Section -->
@@ -79,7 +79,10 @@
             <!-- Check if this is the last product -->
             <template v-if="index === filteredProducts.length - 1">
               <!-- Customize Button -->
-              <button class="info-button" @click="customizeProduct(product)">
+              <button
+                  class="info-button"
+                  @click="openCustomizeModal(product.id)"
+              >
                 Customize
               </button>
             </template>
@@ -110,11 +113,40 @@
       <p v-else>No features available.</p>
     </div>
   </div>
+  <!-- Customize Modal -->
+  <div v-if="showCustomizeModal" class="modal-overlay" @click.self="closeCustomizeModal">
+    <div class="modal-content">
+      <h2>Customize Your Bot</h2>
+      <p>Select the packages you want to include:</p>
+      <div class="packages-list">
+        <div
+            v-for="(packageItem, index) in availablePackages"
+            :key="index"
+            class="package-item-vertical"
+        >
+          <input
+              type="checkbox"
+              :id="`package-${index}`"
+              :value="packageItem.name"
+              @change="togglePackageSelection(packageItem.name, $event)"
+          />
+          <label :for="`package-${index}`">
+            {{ packageItem.name }} - {{ packageItem.price }} ADCO
+          </label>
+        </div>
+      </div>
+      <div class="button-group">
+        <button class="cart-button" @click="saveCustomization">Add to cart</button>
+        <button class="info-button" @click="closeCustomizeModal">Cancel</button>
+      </div>
+    </div>
+  </div>
 </template>
 
 
 <script>
 import { get, post } from "../assets/utils/api/api-methods.js";
+import basketService from '../services/basketService.js';
 
 export default {
   data() {
@@ -122,12 +154,26 @@ export default {
       products: [],
       searchQuery: "",
       showModal: false,
+      showCustomizeModal: false,
       selectedProduct: null,
-      cart: JSON.parse(localStorage.getItem("cart")) || [],
+      cart: [],
       showToast: false,
       lastAddedProduct: null,
       loading: false,
       error: null,
+      availablePackages: [
+        { name: "CONVERSATIONAL", price: 75 },
+        { name: "BUTLER", price: 200 },
+        { name: "TUTORING", price: 100 },
+        { name: "HEALTH", price: 150 },
+        { name: "SECURITY", price: 250 },
+        { name: "INDUSTRIAL", price: 200 },
+        { name: "ENTERTAINMENT", price: 100 },
+        { name: "PROFESSIONAL_EXPERTISE", price: 350 },
+        { name: "ARMY_SUPPORT", price: 500 },
+      ],
+      selectedPackages: [],
+      selectedRobotId: null, // Stores the custom robot ID
     };
   },
   computed: {
@@ -150,31 +196,39 @@ export default {
         this.loading = false;
       }
     },
-
-    async addToCart(product) {
-      const basketId = "a10bcdad-c37a-45e2-95c9-00a1d14fb4f5"; // Example UUID; replace with a real one.
-      console.log(product);
+    async addToCart(productOrId) {
       try {
-        console.log("Attempting to add product with payload:", {
-          robotId: product.id,
+        let robotId;
+
+        // Determine if the input is a product object or a robotId
+        if (typeof productOrId === "object" && productOrId.id) {
+          robotId = productOrId.id; // Extract ID from product object
+          this.cart.push(productOrId); // Add the product to the cart array
+          this.lastAddedProduct = productOrId; // Track the last added product
+        } else if (typeof productOrId === "string") {
+          robotId = productOrId; // Use the ID directly
+        } else {
+          throw new Error("Invalid input to addToCart.");
+        }
+
+        // Get the basketId dynamically
+
+        const basketIds = await basketService.getBasketIds();
+        const basketId = basketIds[basketIds.length-1];
+        // Post the robotId and basketId to the server
+        await post("basket/add-robot", {
+          robotId: robotId,
           basketId: basketId,
         });
 
-        const response = await post("basket/add-robot", {
-          robotId: product.id, // Assuming product.id is a UUID or formatted like one.
-          basketId: basketId,
-        });
-
-        console.log("API Response:", response);
-        console.log("PRODUCT:", product);
-        this.cart = product || [];
-        this.lastAddedProduct = product;
+        // Show toast for confirmation
         this.showToast = true;
         setTimeout(() => {
           this.showToast = false;
         }, 3000);
       } catch (error) {
         console.error("Failed to add robot to cart:", error);
+        alert("Failed to add robot to cart. Please try again.");
       }
     },
 
@@ -182,20 +236,58 @@ export default {
       this.selectedProduct = product;
       this.showModal = true;
     },
-
     closeModal() {
       this.showModal = false;
       this.selectedProduct = null;
     },
+    openCustomizeModal(robotId) {
+      console.log("Selected Robot ID:", robotId); // Debugging
+      this.selectedRobotId = robotId; // Store the robot ID
+      this.showCustomizeModal = true;
+    },
 
-    customizeProduct(product) {
-      this.$router.push({ name: 'Customize', params: { id: product.id } });
+    closeCustomizeModal() {
+      this.showCustomizeModal = false;
+      this.selectedPackages = [];
+    },
+    togglePackageSelection(packageName, event) {
+      if (event.target.checked) {
+        this.selectedPackages.push(packageName);
+      } else {
+        this.selectedPackages = this.selectedPackages.filter(
+            (name) => name !== packageName
+        );
+      }
+    },
+
+    async saveCustomization() {
+      if (this.selectedPackages.length === 0) {
+        alert("Please select at least one package.");
+        return;
+      }
+
+      try {
+        // Send customization to the server
+        await post("/robots/custom", {
+          robotId: this.selectedRobotId, // Use the selected robot ID
+          features: this.selectedPackages, // Selected features
+        });
+
+        // Add the customized robot to the cart
+        await this.addToCart(this.selectedRobotId); // Pass the ID directly
+
+        // Close the modal and reset selected packages
+        this.closeCustomizeModal();
+      } catch (error) {
+        console.error("Failed to save customization:", error);
+        alert("Failed to save customization. Please try again.");
+      }
     },
   },
 
-  mounted() {
+    mounted() {
     this.fetchProducts();
-  },
+    },
 };
 </script>
 
@@ -438,6 +530,24 @@ em{
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   animation: fade-in 0.5s ease-in-out, fade-out 0.5s ease-in-out 3s;
+}
+
+.packages-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 7rem;
+  gap: 10px;
+}
+
+.package-item-vertical {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+input[type="checkbox"] {
+  margin: 0;
 }
 
 @keyframes fade-in {
