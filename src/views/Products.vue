@@ -169,7 +169,6 @@ export default {
         { name: "INDUSTRIAL", price: 200 },
         { name: "ENTERTAINMENT", price: 100 },
         { name: "PROFESSIONAL_EXPERTISE", price: 350 },
-        { name: "ARMY_SUPPORT", price: 500 },
       ],
       selectedPackages: [],
       selectedRobotId: null, // Stores the custom robot ID
@@ -198,7 +197,6 @@ export default {
     async addToCart(productOrId) {
       try {
         let robotId;
-
         if (typeof productOrId === "object" && productOrId.id) {
           robotId = productOrId.id; // Extract ID from product object
           this.cart.push(productOrId); // Add the product to the cart array
@@ -209,19 +207,11 @@ export default {
         }
         const basketIds = await basketService.getBasketIds();
         const basketId = basketIds[basketIds.length-1];
-        // Post the robotId and basketId to the server
-        await post("basket/add-robot", {
-          robotId: robotId,
-          basketId: basketId,
-        });
-
+        await post("basket/add-robot", { robotId, basketId });
 
         const TOAST_DURATION_MS = 3000;
-
         this.showToast = true;
-        setTimeout(() => {
-          this.showToast = false;
-        }, TOAST_DURATION_MS);
+        setTimeout(() => (this.showToast = false), TOAST_DURATION_MS);
       } catch (error) {
         console.error("Failed to add robot to cart:", error);
         alert("Failed to add robot to cart. Please try again.");

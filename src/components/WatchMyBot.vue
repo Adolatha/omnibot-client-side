@@ -37,10 +37,15 @@
       <!-- Progress Section -->
       <div class="progress-section">
         <p><strong>Task Name:</strong> {{ taskName }}</p>
-        <p><strong>Task Progress:</strong> {{ taskProgress }}%</p>
+        <p><strong>Task Progress:</strong></p>
         <div class="progress-bar">
-          <div class="progress-fill" :style="{ width: taskProgress + '%' }"></div>
+          <div
+              class="progress-fill"
+              :style="{ width: taskProgress + '%' }"
+          ></div>
+          <div class="progress-text">{{ taskProgress }}%</div>
         </div>
+
       </div>
     </div>
   </div>
@@ -102,7 +107,6 @@ export default {
           this.selectedRobotId = this.robots.length ? this.robots[0].id : null;
           this.updateBotDetails(); // Update details for the first robot
         } else {
-          console.warn("No robots found in the basket.");
           this.robots = [];
         }
       } catch (error) {
@@ -253,19 +257,63 @@ h2 {
   width: 100%;
   text-align: center;
   margin-top: 20px;
+  padding: 20px;
+  border: 2px solid #bdc3c7;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .progress-bar {
   width: 100%;
-  background-color: #ddd;
+  background: linear-gradient(to right, #ecf0f1, #bdc3c7);
   border-radius: 40px;
   height: 30px;
   margin-top: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .progress-fill {
   height: 100%;
-  background-color: #4caf50;
-  transition: width 0.3s ease;
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  border-radius: 40px 0 0 40px;
+  box-shadow: inset 0 -2px 5px rgba(0, 0, 0, 0.2);
+  transition: width 0.5s ease-in-out;
+  position: relative;
 }
+
+.progress-fill::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.3),
+      rgba(255, 255, 255, 0.1)
+  );
+  border-radius: 40px 0 0 40px;
+  pointer-events: none;
+}
+
+.progress-text {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  font-weight: bold;
+  color: #2c3e50;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
 </style>
+
+
+
+
