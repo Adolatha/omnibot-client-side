@@ -62,7 +62,6 @@ export default {
       paymentConfirmed: false,
       basketId: null, // Dynamic basket ID
       userId: "21810db9-0040-4670-8d19-8d3d070c136a", // Replace with the actual user ID
-      timeout: 2000,
     };
   },
   computed: {
@@ -117,15 +116,15 @@ export default {
         console.error("Basket ID not set.");
         return;
       }
-
       this.loading = true;
 
+      const Timeout = 3000;
       post("basket/finalize", { basketId: this.basketId })
           .then(() => {
             setTimeout(() => {
               this.loading = false;
               this.paymentConfirmed = true;
-            }, timeout);
+            }, Timeout);
           })
           .catch((error) => {
             console.error("Failed to finalize the basket:", error);
