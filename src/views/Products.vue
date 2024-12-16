@@ -161,7 +161,6 @@ export default {
       lastAddedProduct: null,
       loading: false,
       error: null,
-      timeout: 3000,
       availablePackages: [
         { name: "CONVERSATIONAL", price: 75 },
         { name: "BUTLER", price: 200 },
@@ -216,8 +215,6 @@ export default {
 
         const basketIds = await basketService.getBasketIds();
         const basketId = basketIds[basketIds.length-1];
-        console.log("basketidss:",basketIds);
-        console.log("basketid:",basketId);
         // Post the robotId and basketId to the server
         await post("basket/add-robot", {
           robotId: robotId,
@@ -228,7 +225,7 @@ export default {
         this.showToast = true;
         setTimeout(() => {
           this.showToast = false;
-        }, timeout);
+        }, 3000);
       } catch (error) {
         console.error("Failed to add robot to cart:", error);
         alert("Failed to add robot to cart. Please try again.");
