@@ -17,7 +17,6 @@
       <iframe
           v-if="isVideoAvailable"
           :src="videoEmbedUrl"
-          frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
           class="video"
@@ -77,7 +76,7 @@ export default {
       try {
         const basketIds = await basketService.getBasketIds(); // Fetch the basket IDs
         this.basketId = basketIds[basketIds.length - 1]; // Get the latest basketId
-        this.fetchRobots(); // Once we have the basket ID, fetch the robots
+        await this.fetchRobots(); // Once we have the basket ID, fetch the robots
       } catch (error) {
         this.error = "Failed to fetch basket IDs. Please try again later.";
       }
@@ -88,7 +87,6 @@ export default {
         console.error("Basket ID is not available.");
         return;
       }
-
       this.loading = true;
       this.error = null;
       try {
@@ -144,7 +142,7 @@ export default {
 
         // Update the map view and marker position based on the selected robot's location
         const { latitude, longitude } = selectedRobot.location;
-        this.map.setView([latitude, longitude], 13);
+        this.map.setView([latitude, longitude], 10);
         this.marker.setLatLng([latitude, longitude])
             .bindPopup(selectedRobot.name)
             .openPopup();

@@ -87,7 +87,6 @@ export default {
         console.error("Basket ID not set.");
         return;
       }
-
       try {
         const response = await post("basket/retrieve", {
           userId: this.userId,
@@ -102,9 +101,6 @@ export default {
             price: robot.price,
             removing: false,
           }));
-        } else {
-          console.error("No robots found in the basket.");
-          this.cart = [];
         }
       } catch (error) {
         console.error("Failed to retrieve robots from the basket:", error);

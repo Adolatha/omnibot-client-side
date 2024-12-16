@@ -31,7 +31,7 @@
       <!-- Cart Icon with Counter -->
       <div class="cart-icon-container">
         <router-link
-            :to="{ path: '/checkout', query: { cart: JSON.stringify(cart) } }"
+            :to="{ path: '/checkout'}"
         >
           <img
               src="@/assets/images/shopping-cart.png"
@@ -158,7 +158,6 @@ export default {
       selectedProduct: null,
       cart: [],
       showToast: false,
-      lastAddedProduct: null,
       loading: false,
       error: null,
       availablePackages: [
@@ -200,19 +199,14 @@ export default {
       try {
         let robotId;
 
-        // Determine if the input is a product object or a robotId
         if (typeof productOrId === "object" && productOrId.id) {
           robotId = productOrId.id; // Extract ID from product object
           this.cart.push(productOrId); // Add the product to the cart array
-          this.lastAddedProduct = productOrId; // Track the last added product
         } else if (typeof productOrId === "string") {
           robotId = productOrId; // Use the ID directly
         } else {
           throw new Error("Invalid input to addToCart.");
         }
-
-        // Get the basketId dynamically
-
         const basketIds = await basketService.getBasketIds();
         const basketId = basketIds[basketIds.length-1];
         // Post the robotId and basketId to the server
@@ -221,11 +215,13 @@ export default {
           basketId: basketId,
         });
 
-        // Show toast for confirmation
+
+        const TOAST_DURATION_MS = 3000;
+
         this.showToast = true;
         setTimeout(() => {
           this.showToast = false;
-        }, 3000);
+        }, TOAST_DURATION_MS);
       } catch (error) {
         console.error("Failed to add robot to cart:", error);
         alert("Failed to add robot to cart. Please try again.");
@@ -285,9 +281,9 @@ export default {
     },
   },
 
-    mounted() {
+  mounted() {
     this.fetchProducts();
-    },
+  },
 };
 </script>
 
