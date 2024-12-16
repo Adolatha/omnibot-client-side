@@ -5,16 +5,19 @@
     <!-- Robot selection dropdown -->
     <div class="robot-selector">
       <label for="robot-select">Select a Robot:</label>
-      <select id="robot-select" v-model="selectedRobotId" @change="updateBotDetails">
+      <select id="robot-select" v-model="selectedRobotId" @change="updateBotDetails" v-if="robots.length">
         <option v-for="robot in robots" :key="robot.id" :value="robot.id">
           {{ robot.name }}
         </option>
       </select>
+      <p v-else>Loading robots...</p>
     </div>
+
 
     <!-- Video container -->
     <div class="video-container">
       <iframe
+          title="Video"
           v-if="isVideoAvailable"
           :src="videoEmbedUrl"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
