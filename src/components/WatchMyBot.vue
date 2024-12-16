@@ -65,7 +65,7 @@ export default {
       loading: false,
       error: null,
       basketId: null, // Dynamic basketId
-      userId: "e9342b73-e5b1-4792-a541-065ddc5fdc0a", // Replace with your user ID
+      userId: "ff78ea26-33ad-4b35-9c86-87d08b2597dd", // Replace with your user ID
     };
   },
   mounted() {

@@ -62,6 +62,7 @@ export default {
       paymentConfirmed: false,
       basketId: null, // Dynamic basket ID
       userId: "21810db9-0040-4670-8d19-8d3d070c136a", // Replace with the actual user ID
+      timeout: 2000,
     };
   },
   computed: {
@@ -128,7 +129,7 @@ export default {
             setTimeout(() => {
               this.loading = false;
               this.paymentConfirmed = true;
-            }, 2000);
+            }, timeout);
           })
           .catch((error) => {
             console.error("Failed to finalize the basket:", error);
@@ -157,7 +158,7 @@ export default {
 
         setTimeout(() => {
           this.cart.splice(index, 1);
-        }, 300);
+        }, );
       } catch (error) {
         console.error("Failed to remove robot from the basket:", error);
         item.removing = false;
