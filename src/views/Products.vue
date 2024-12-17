@@ -70,7 +70,7 @@
             class="product-card"
         >
           <img
-              :src="`/images/${product.name}.png`"
+              :src="`2024/2025/images/${product.name}.png`"
               :alt="`${product.name} Image`"
               class="product-image"
           />
