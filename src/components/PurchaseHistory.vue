@@ -53,7 +53,6 @@ export default {
     return {
       orders: [],
       basketId: null,
-      userId: "62a5e26f-edac-4652-b5a5-8fe00c8d00cf",
       isOrderDetailsVisible: false,
       currentOrder: null,
     };
@@ -76,7 +75,6 @@ export default {
       if (!this.basketId) return;
       try {
         const response = await post("basket/retrieve", {
-          userId: this.userId,
           basketId: this.basketId,
         });
 

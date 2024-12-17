@@ -172,7 +172,7 @@ export default {
         { name: "PROFESSIONAL_EXPERTISE", price: 350 },
       ],
       selectedPackages: [],
-      selectedRobotId: null, // Stores the custom robot ID
+      selectedRobotId: null,
     };
   },
   computed: {
@@ -199,10 +199,10 @@ export default {
       try {
         let robotId;
         if (typeof productOrId === "object" && productOrId.id) {
-          robotId = productOrId.id; // Extract ID from product object
-          this.cart.push(productOrId); // Add the product to the cart array
+          robotId = productOrId.id;
+          this.cart.push(productOrId);
         } else if (typeof productOrId === "string") {
-          robotId = productOrId; // Use the ID directly
+          robotId = productOrId;
         } else {
           throw new Error("Invalid input to addToCart.");
         }
@@ -228,8 +228,8 @@ export default {
       this.selectedProduct = null;
     },
     openCustomizeModal(robotId) {
-      console.log("Selected Robot ID:", robotId); // Debugging
-      this.selectedRobotId = robotId; // Store the robot ID
+      console.log("Selected Robot ID:", robotId);
+      this.selectedRobotId = robotId;
       this.showCustomizeModal = true;
     },
 
@@ -254,16 +254,13 @@ export default {
       }
 
       try {
-        // Send customization to the server
         await post("/robots/custom", {
-          robotId: this.selectedRobotId, // Use the selected robot ID
-          features: this.selectedPackages, // Selected features
+          robotId: this.selectedRobotId,
+          features: this.selectedPackages,
         });
 
-        // Add the customized robot to the cart
-        await this.addToCart(this.selectedRobotId); // Pass the ID directly
+        await this.addToCart(this.selectedRobotId);
 
-        // Close the modal and reset selected packages
         this.closeCustomizeModal();
       } catch (error) {
         console.error("Failed to save customization:", error);
@@ -281,7 +278,6 @@ export default {
 
 
 <style scoped>
-/* Main content container for the white rounded box */
 .content-container {
   margin: 20px auto;
   max-width: 1400px;

@@ -15,9 +15,8 @@ export default {
 
         const data = await response.json();
 
-        // Check if the response itself is an array
         if (Array.isArray(data)) {
-            return data; // Return the full list of basket IDs
+            return data;
         }
 
         throw new Error("Unexpected response format: basket IDs not found.");

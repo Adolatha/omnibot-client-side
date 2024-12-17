@@ -57,11 +57,10 @@ import basketService from '../services/basketService.js';
 export default {
   data() {
     return {
-      cart: [], // Stores renting_basket_robots
+      cart: [],
       loading: false,
       paymentConfirmed: false,
-      basketId: null, // Dynamic basket ID
-      userId: "62a5e26f-edac-4652-b5a5-8fe00c8d00cf", // Replace with the actual user ID
+      basketId: null,
     };
   },
   computed: {
@@ -70,11 +69,10 @@ export default {
     },
   },
   methods: {
-    // Fetch the latest basketId dynamically
     async fetchBasketId() {
       try {
         const basketIds = await basketService.getBasketIds();
-        this.basketId = basketIds[basketIds.length - 1]; // Use the last basket ID
+        this.basketId = basketIds[basketIds.length - 1];
         console.log("Dynamic basketId:", this.basketId);
       } catch (error) {
         console.error("Failed to fetch basket IDs:", error);
@@ -88,7 +86,6 @@ export default {
       }
       try {
         const response = await post("basket/retrieve", {
-          userId: this.userId,
           basketId: this.basketId,
         });
         console.log(response.robots);
@@ -162,9 +159,9 @@ export default {
   },
 
   async mounted() {
-    await this.fetchBasketId(); // Fetch dynamic basket ID first
+    await this.fetchBasketId();
     if (this.basketId) {
-      await this.fetchCart(); // Fetch cart only if basketId is retrieved
+      await this.fetchCart();
     }
   },
 };

@@ -72,7 +72,6 @@ export default {
       loading: false,
       error: null,
       basketId: null, // Dynamic basketId
-      userId: "62a5e26f-edac-4652-b5a5-8fe00c8d00cf", // Replace with your user ID
     };
   },
   mounted() {
@@ -99,7 +98,6 @@ export default {
       this.error = null;
       try {
         const response = await post("basket/retrieve", {
-          userId: this.userId,
           basketId: this.basketId,
         });
         if (response.robots && response.robots.length > 0) {
