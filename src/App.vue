@@ -2,7 +2,9 @@
   <div id="app">
     <!-- Conditionally show the header -->
     <header v-if="showHeader" class="header">
-      <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
+      <router-link to="/main">
+        <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
+      </router-link>
       <nav class="nav">
         <router-link
             to="/dashboard"

@@ -1,7 +1,8 @@
 <template>
   <header class="header">
-    <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
-    <nav class="nav">
+    <router-link to="/main">
+      <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
+    </router-link>    <nav class="nav">
       <router-link
           to="/dashboard"
           class="nav-item"

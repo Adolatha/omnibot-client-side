@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import { post } from "../assets/utils/api/api-methods"; // Adjust the path as necessary
+
 export default {
   name: "Notifications",
   data() {
@@ -35,6 +37,17 @@ export default {
       }
     },
     async registerServiceWorker() {
+      // Check and request notification permissions
+      if (Notification.permission === "default") {
+        await Notification.requestPermission().then((permission) => {
+          if (permission === "granted") {
+            console.log("Notification permission granted.");
+          } else {
+            console.warn("Notification permission denied.");
+          }
+        });
+      }
+
       if ('serviceWorker' in navigator && 'PushManager' in window) {
         try {
           const swReg = await navigator.serviceWorker.register('/service-worker.js');
@@ -59,11 +72,12 @@ export default {
         }
       }
     },
+
     urlBase64ToUint8Array(base64String) {
-      const padding = '='.repeat((4 - base64String.length % 4) % 4);
+      const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
       const base64 = (base64String + padding)
-          .replace(/-/g, '+')
-          .replace(/_/g, '/');
+          .replace(/-/g, "+")
+          .replace(/_/g, "/");
       const rawData = window.atob(base64);
       const outputArray = new Uint8Array(rawData.length);
       for (let i = 0; i < rawData.length; ++i) {
@@ -72,13 +86,12 @@ export default {
       return outputArray;
     },
     async sendSubscriptionToServer(subscription) {
-      await fetch('/subscribe', {
-        method: 'POST',
-        body: JSON.stringify(subscription),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      try {
+        const response = await post("/subscribe", subscription);
+        console.log("Subscription sent to server:", response);
+      } catch (error) {
+        console.error("Failed to send subscription to server:", error);
+      }
     },
     subscribeToNotifications() {
       console.log("Subscribing to notifications...");
@@ -90,26 +103,41 @@ export default {
       const subscription = await swReg.pushManager.getSubscription();
 
       if (subscription) {
-        await subscription.unsubscribe();
-        console.log("User unsubscribed from notifications.");
-        await this.sendUnsubscriptionToServer(subscription);
+        try {
+          await subscription.unsubscribe();
+          console.log("User unsubscribed from notifications.");
+          await this.sendUnsubscriptionToServer(subscription);
+        } catch (error) {
+          console.error("Error while unsubscribing:", error);
+        }
       }
     },
     async sendUnsubscriptionToServer(subscription) {
-      await fetch('/unsubscribe', {
-        method: 'POST',
-        body: JSON.stringify(subscription),
-        headers: {
-          'Content-Type': 'application/json'
+      try {
+        const response = await post("/unsubscribe", subscription);
+        console.log("Unsubscription sent to server:", response);
+      } catch (error) {
+        console.error("Failed to send unsubscription to server:", error);
+      }
+    },
+  },
+  mounted() {
+    // Request notification permission if not already granted
+    if (Notification.permission === "default") {
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          console.log("Notification permission granted.");
+        } else {
+          console.warn("Notification permission denied.");
         }
       });
     }
-  },
-  mounted() {
-    this.registerServiceWorker(); // Register service worker on mount
+    // Register the service worker after requesting permission
+    this.registerServiceWorker();
   }
 };
 </script>
+
 
 <style scoped>
 .notifications-container {

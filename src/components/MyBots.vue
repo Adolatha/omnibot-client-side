@@ -46,7 +46,7 @@ export default {
     return {
       bots: [], // Will store robots from the basket
       basketId: null, // Dynamic basket ID
-      userId: "ff78ea26-33ad-4b35-9c86-87d08b2597dd", // Replace with your user ID
+      userId: "62a5e26f-edac-4652-b5a5-8fe00c8d00cf", // Replace with your user ID
     };
   },
   methods: {
