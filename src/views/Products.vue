@@ -1,7 +1,8 @@
 <template>
   <header class="header">
-    <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
-    <nav class="nav">
+    <router-link to="/main">
+      <img src="@/assets/images/OMNIBOT.png" alt="logo" class="logo" />
+    </router-link>    <nav class="nav">
       <router-link
           to="/dashboard"
           class="nav-item"
@@ -31,7 +32,7 @@
       <!-- Cart Icon with Counter -->
       <div class="cart-icon-container">
         <router-link
-            :to="{ path: '/checkout', query: { cart: JSON.stringify(cart) } }"
+            :to="{ path: '/checkout'}"
         >
           <img
               src="@/assets/images/shopping-cart.png"
@@ -69,7 +70,7 @@
             class="product-card"
         >
           <img
-              :src="`/images/${product.name}.png`"
+              :src="`2024/2025/images/${product.name}.png`"
               :alt="`${product.name} Image`"
               class="product-image"
           />
@@ -158,7 +159,6 @@ export default {
       selectedProduct: null,
       cart: [],
       showToast: false,
-      lastAddedProduct: null,
       loading: false,
       error: null,
       availablePackages: [
@@ -170,10 +170,9 @@ export default {
         { name: "INDUSTRIAL", price: 200 },
         { name: "ENTERTAINMENT", price: 100 },
         { name: "PROFESSIONAL_EXPERTISE", price: 350 },
-        { name: "ARMY_SUPPORT", price: 500 },
       ],
       selectedPackages: [],
-      selectedRobotId: null, // Stores the custom robot ID
+      selectedRobotId: null,
     };
   },
   computed: {
@@ -199,33 +198,21 @@ export default {
     async addToCart(productOrId) {
       try {
         let robotId;
-
-        // Determine if the input is a product object or a robotId
         if (typeof productOrId === "object" && productOrId.id) {
-          robotId = productOrId.id; // Extract ID from product object
-          this.cart.push(productOrId); // Add the product to the cart array
-          this.lastAddedProduct = productOrId; // Track the last added product
+          robotId = productOrId.id;
+          this.cart.push(productOrId);
         } else if (typeof productOrId === "string") {
-          robotId = productOrId; // Use the ID directly
+          robotId = productOrId;
         } else {
           throw new Error("Invalid input to addToCart.");
         }
-
-        // Get the basketId dynamically
-
         const basketIds = await basketService.getBasketIds();
         const basketId = basketIds[basketIds.length-1];
-        // Post the robotId and basketId to the server
-        await post("basket/add-robot", {
-          robotId: robotId,
-          basketId: basketId,
-        });
+        await post("basket/add-robot", { robotId, basketId });
 
-        // Show toast for confirmation
+        const TOAST_DURATION_MS = 3000;
         this.showToast = true;
-        setTimeout(() => {
-          this.showToast = false;
-        }, 3000);
+        setTimeout(() => (this.showToast = false), TOAST_DURATION_MS);
       } catch (error) {
         console.error("Failed to add robot to cart:", error);
         alert("Failed to add robot to cart. Please try again.");
@@ -241,8 +228,8 @@ export default {
       this.selectedProduct = null;
     },
     openCustomizeModal(robotId) {
-      console.log("Selected Robot ID:", robotId); // Debugging
-      this.selectedRobotId = robotId; // Store the robot ID
+      console.log("Selected Robot ID:", robotId);
+      this.selectedRobotId = robotId;
       this.showCustomizeModal = true;
     },
 
@@ -267,16 +254,13 @@ export default {
       }
 
       try {
-        // Send customization to the server
         await post("/robots/custom", {
-          robotId: this.selectedRobotId, // Use the selected robot ID
-          features: this.selectedPackages, // Selected features
+          robotId: this.selectedRobotId,
+          features: this.selectedPackages,
         });
 
-        // Add the customized robot to the cart
-        await this.addToCart(this.selectedRobotId); // Pass the ID directly
+        await this.addToCart(this.selectedRobotId);
 
-        // Close the modal and reset selected packages
         this.closeCustomizeModal();
       } catch (error) {
         console.error("Failed to save customization:", error);
@@ -285,22 +269,21 @@ export default {
     },
   },
 
-    mounted() {
+  mounted() {
     this.fetchProducts();
-    },
+  },
 };
 </script>
 
 
 
 <style scoped>
-/* Main content container for the white rounded box */
 .content-container {
   margin: 20px auto;
   max-width: 1400px;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   padding: 20px;
 }
 
@@ -309,20 +292,28 @@ export default {
   text-align: center;
 }
 
+.subtitle {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+
+/* Search bar styling */
 .search-bar {
   padding: 12px 20px;
   width: 80%;
   max-width: 450px;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   border-radius: 25px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   outline: none;
-  margin: 0 auto 1rem;
+  margin: 0 auto 2rem;
 }
 
 .search-bar:focus {
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
   border-color: #6a11cb;
 }
@@ -332,6 +323,7 @@ export default {
   font-style: italic;
 }
 
+/* Product grid */
 .product-list {
   display: flex;
   flex-wrap: wrap;
@@ -339,6 +331,7 @@ export default {
   gap: 20px;
 }
 
+/* Product card styling */
 .product-card {
   display: flex;
   flex-direction: column;
@@ -346,40 +339,45 @@ export default {
   border: 1px solid #ddd;
   border-radius: 16px;
   padding: 1.5rem;
-  background-color: #d4e4ff;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  background: linear-gradient(145deg, #f0f0f0, #ffffff);
+  box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.1), -6px -6px 10px #ffffff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   width: 330px;
   margin-bottom: 20px;
 }
 
 .product-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-8px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 .product-image {
   width: 100%;
-  height: 300px;
+  height: 260px;
   object-fit: cover;
-  border-radius: 16px;
+  border-radius: 12px;
   margin-bottom: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .product-name {
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1.4em;
   color: #333;
   margin-bottom: 8px;
   text-align: center;
+  text-transform: capitalize;
 }
 
 .product-price {
-  color: #666;
+  color: #3339;
   margin-bottom: 8px;
   font-weight: bold;
+  font-size: 1.1em;
 }
 
+/* Buttons */
 .button-group {
   display: flex;
   justify-content: center;
@@ -391,107 +389,70 @@ export default {
 .info-button,
 .cart-button {
   flex: 1;
-  background-color: blue;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
   color: #fff;
   border: none;
-  padding: 12px 12px;
+  padding: 10px 12px;
   border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, background 0.3s ease;
 }
 
 .info-button:hover,
 .cart-button:hover {
-  background-color: cornflowerblue;
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+  transform: scale(1.05);
 }
 
 /* Modal styles */
 .modal-overlay {
   position: fixed;
-  top: 30px;
+  top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-em{
-  font-size: 1.3rem;
-  font-weight: bold;
-}
-
-.modal-text-header{
-  font-size: 2rem;
-}
-
 .modal-content {
   background-color: #fff;
-  padding: 20px;
+  padding: 2rem;
   border-radius: 12px;
-  width: 80%;
-  max-width: 500px;
+  width: 90%;
+  max-width: 600px;
   text-align: center;
-  position: relative;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  font-family: 'Arial', sans-serif;
-}
-
-.features-title {
-  font-size: 1.5rem;
-  margin: 1.5rem 0 1rem;
-  color: #333;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: bold;
-}
-
-.features-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.features-list li {
-  font-size: 1.1rem;
-  color: #555;
-  margin: 0.5rem 0;
-  text-align: left;
-  padding-left: 1.5rem;
   position: relative;
-}
-
-.features-list li i {
-  color: #4caf50;
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
 }
 
 .close-button {
   position: absolute;
   top: 10px;
   right: 10px;
-  font-size: 1.5em;
-  cursor: pointer;
-}
-.modal-text{
-  font-size: 1.3rem;
-}
-
-.modal-content ul {
-  list-style-type: disc;
-  margin: 16px 0;
-  padding-left: 20px;
-}
-
-.modal-content li {
-  margin: 8px 0;
-  font-size: 16px;
+  font-size: 1.8rem;
   color: #333;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.close-button:hover {
+  color: #6a11cb;
+}
+
+.features-list {
+  list-style: none;
+  padding: 0;
+}
+
+.features-list li {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: #555;
 }
 
 /* Cart Icon and Counter */
@@ -532,24 +493,6 @@ em{
   animation: fade-in 0.5s ease-in-out, fade-out 0.5s ease-in-out 3s;
 }
 
-.packages-list {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-left: 7rem;
-  gap: 10px;
-}
-
-.package-item-vertical {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-input[type="checkbox"] {
-  margin: 0;
-}
-
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -571,4 +514,5 @@ input[type="checkbox"] {
     transform: translateY(20px);
   }
 }
+
 </style>

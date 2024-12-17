@@ -13,7 +13,10 @@
         Join us on the journey to a greener future and enjoy the convenience and quality
         you deserve!
       </p>
-      <button class="discover-button">DISCOVER MORE</button>
+      <router-link to="/products" class="discover-button">
+        DISCOVER MORE
+      </router-link>
+
     </section>
 
     </div>

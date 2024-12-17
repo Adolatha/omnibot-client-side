@@ -28,7 +28,7 @@
                 :key="`${item.id}-${index}`"
                 :class="['cart-item', { 'removing-item': item.removing }]"
             >
-              <img :src="`/images/${item.name}.png`" :alt="item.name" class="cart-item-image" />
+              <img :src="`2024/2025/${item.name}.png`" :alt="item.name" class="cart-item-image" />
               <div class="cart-item-details">
                 <h3 class="cart-item-name">{{ item.name }}</h3>
                 <p class="cart-item-price">{{ item.price }} ADCO/month</p>
@@ -57,12 +57,10 @@ import basketService from '../services/basketService.js';
 export default {
   data() {
     return {
-      cart: [], // Stores renting_basket_robots
+      cart: [],
       loading: false,
       paymentConfirmed: false,
-      basketId: null, // Dynamic basket ID
-      userId: "21810db9-0040-4670-8d19-8d3d070c136a", // Replace with the actual user ID
-      timeout: 2000,
+      basketId: null,
     };
   },
   computed: {
@@ -71,11 +69,10 @@ export default {
     },
   },
   methods: {
-    // Fetch the latest basketId dynamically
     async fetchBasketId() {
       try {
         const basketIds = await basketService.getBasketIds();
-        this.basketId = basketIds[basketIds.length - 1]; // Use the last basket ID
+        this.basketId = basketIds[basketIds.length - 1];
         console.log("Dynamic basketId:", this.basketId);
       } catch (error) {
         console.error("Failed to fetch basket IDs:", error);
@@ -87,10 +84,8 @@ export default {
         console.error("Basket ID not set.");
         return;
       }
-
       try {
         const response = await post("basket/retrieve", {
-          userId: this.userId,
           basketId: this.basketId,
         });
         console.log(response.robots);
@@ -102,9 +97,6 @@ export default {
             price: robot.price,
             removing: false,
           }));
-        } else {
-          console.error("No robots found in the basket.");
-          this.cart = [];
         }
       } catch (error) {
         console.error("Failed to retrieve robots from the basket:", error);
@@ -121,15 +113,15 @@ export default {
         console.error("Basket ID not set.");
         return;
       }
-
       this.loading = true;
 
+      const Timeout = 3000;
       post("basket/finalize", { basketId: this.basketId })
           .then(() => {
             setTimeout(() => {
               this.loading = false;
               this.paymentConfirmed = true;
-            }, timeout);
+            }, Timeout);
           })
           .catch((error) => {
             console.error("Failed to finalize the basket:", error);
@@ -167,9 +159,9 @@ export default {
   },
 
   async mounted() {
-    await this.fetchBasketId(); // Fetch dynamic basket ID first
+    await this.fetchBasketId();
     if (this.basketId) {
-      await this.fetchCart(); // Fetch cart only if basketId is retrieved
+      await this.fetchCart();
     }
   },
 };

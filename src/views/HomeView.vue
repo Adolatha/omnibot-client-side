@@ -1,7 +1,6 @@
 <template>
   <div class="auth-container">
     <div class="auth-box">
-      <!-- Left Section with Logo and Features -->
       <div class="left-section">
         <img src="/src/assets/images/OMNIBOT.png" alt="Omnibot Logo" class="start-logo">
         <ul class="features-list">
@@ -27,7 +26,6 @@
         </ul>
       </div>
 
-      <!-- Right Section with Login Button -->
       <div class="right-section">
         <button class="login-button" @click="goToLogin">LOGIN</button>
       </div>
@@ -40,7 +38,6 @@ export default {
   name: "HomeView",
   methods: {
     goToLogin() {
-      // Navigate to the login page
       this.$router.push("/main");
     }
   }
@@ -63,7 +60,7 @@ export default {
   background-color: #fff;
   border-radius: 8px;
   width: 600px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   padding: 3rem;
   margin: 5rem;

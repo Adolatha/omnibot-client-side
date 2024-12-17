@@ -46,7 +46,6 @@ export default {
     return {
       bots: [], // Will store robots from the basket
       basketId: null, // Dynamic basket ID
-      userId: "ff78ea26-33ad-4b35-9c86-87d08b2597dd", // Replace with your user ID
     };
   },
   methods: {
@@ -70,7 +69,6 @@ export default {
 
       try {
         const response = await post("basket/retrieve", {
-          userId: this.userId,
           basketId: this.basketId,
         });
         if (response.robots && response.robots.length > 0) {

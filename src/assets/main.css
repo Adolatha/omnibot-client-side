@@ -81,10 +81,12 @@ p{
 body {
   justify-content: center;
   align-items: center;
+  background-color: #adcdf0;
+  background-image: url("https://www.transparenttextures.com/patterns/black-thread-light.png");
   background-blend-mode: overlay;
-  background: radial-gradient(circle, #ffffff, #d4e7fc, #6ea8d4), url('https://www.transparenttextures.com/patterns/white-diamond.png') fixed;
-  background-size: cover;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
 .auth-container {
   display: flex;
   min-height: 75vh;

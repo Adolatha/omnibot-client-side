@@ -12,7 +12,7 @@ export default {
         if (!response.ok) {
             throw new Error("Failed to fetch robots.");
         }
-        return await response.json();
+        return response.json();
     },
 
     async createCustomRobot(robotId, features) {
@@ -27,7 +27,7 @@ export default {
         if (!response.ok) {
             throw new Error("Failed to create custom robot.");
         }
-        return await response.json();
+        return response.json();
     },
 
     async retrieveRobotById(robotId, adrianId) {
@@ -42,7 +42,7 @@ export default {
         if (!response.ok) {
             throw new Error("Failed to retrieve robot.");
         }
-        return await response.json();
+        return response.json();
     },
 
     async login(adriaId) {
@@ -75,6 +75,6 @@ export default {
         if (!response.ok) {
             throw new Error("Registration failed.");
         }
-        return await response.json();
+        return response.json();
     },
 };

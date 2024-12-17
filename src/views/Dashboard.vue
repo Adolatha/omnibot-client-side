@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <div class="main-content">
-      <!-- Sidebar Navigation -->
       <aside class="sidebar">
         <nav class="side-nav">
           <router-link
@@ -42,7 +41,6 @@
         </nav>
       </aside>
 
-      <!-- Main Content Area -->
       <div class="content">
         <router-view></router-view>
       </div>
