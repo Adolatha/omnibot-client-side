@@ -371,7 +371,7 @@ export default {
 }
 
 .product-price {
-  color: #333;
+  color: #3339;
   margin-bottom: 8px;
   font-weight: bold;
   font-size: 1.1em;
