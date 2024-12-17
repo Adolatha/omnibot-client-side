@@ -36,55 +36,69 @@ export default {
         this.unsubscribeFromNotifications();
       }
     },
-    async registerServiceWorker() {
-      // Check and request notification permissions
-      if (Notification.permission === "default") {
-        await Notification.requestPermission().then((permission) => {
-          if (permission === "granted") {
-            console.log("Notification permission granted.");
-          } else {
-            console.warn("Notification permission denied.");
-          }
-        });
+
+    async subscribeToNotifications() {
+      console.log("Subscribing to notifications...");
+      try {
+        await this.ensureNotificationPermissions();
+        const swReg = await this.registerServiceWorker();
+        const subscription = await this.getOrCreateSubscription(swReg);
+        await this.sendSubscriptionToServer(subscription);
+      } catch (error) {
+        console.error("Error subscribing to notifications:", error);
       }
+    },
 
-      if ('serviceWorker' in navigator && 'PushManager' in window) {
-        try {
-          const swReg = await navigator.serviceWorker.register('/service-worker.js');
-          console.log('Service Worker is registered', swReg);
+    async unsubscribeFromNotifications() {
+      console.log("Unsubscribing from notifications...");
+      try {
+        const swReg = await navigator.serviceWorker.ready;
+        const subscription = await swReg.pushManager.getSubscription();
+        if (subscription) {
+          await subscription.unsubscribe();
+          console.log("User unsubscribed from notifications.");
+          await this.sendUnsubscriptionToServer(subscription);
+        }
+      } catch (error) {
+        console.error("Error while unsubscribing:", error);
+      }
+    },
 
-          let subscription = await swReg.pushManager.getSubscription();
-
-          if (subscription === null) {
-            subscription = await swReg.pushManager.subscribe({
-              userVisibleOnly: true,
-              applicationServerKey: this.urlBase64ToUint8Array(
-                  'BJe2fcX0k7Mbw-GbqX6zzFvgVekBDR8qyFRbu1TjUp5ggSLJMjCUTmoRTV_IRMa9YNkag8d0lakv2IdQ2cA9ikU'
-              )
-            });
-            console.log('User is subscribed:', subscription);
-            await this.sendSubscriptionToServer(subscription);
-          } else {
-            console.log('User is already subscribed:', subscription);
-          }
-        } catch (error) {
-          console.error('Service Worker Error', error);
+    async ensureNotificationPermissions() {
+      if (Notification.permission === "default") {
+        const permission = await Notification.requestPermission();
+        if (permission !== "granted") {
+          throw new Error("Notification permission denied.");
         }
       }
     },
 
-    urlBase64ToUint8Array(base64String) {
-      const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
-      const base64 = (base64String + padding)
-          .replace(/-/g, "+")
-          .replace(/_/g, "/");
-      const rawData = window.atob(base64);
-      const outputArray = new Uint8Array(rawData.length);
-      for (let i = 0; i < rawData.length; ++i) {
-        outputArray[i] = rawData.charCodeAt(i);
+    async registerServiceWorker() {
+      if ("serviceWorker" in navigator && "PushManager" in window) {
+        const swReg = await navigator.serviceWorker.register("/service-worker.js");
+        console.log("Service Worker is registered", swReg);
+        return swReg;
+      } else {
+        throw new Error("Service Worker or Push Manager not supported.");
       }
-      return outputArray;
     },
+
+    async getOrCreateSubscription(swReg) {
+      let subscription = await swReg.pushManager.getSubscription();
+      if (!subscription) {
+        subscription = await swReg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: this.urlBase64ToUint8Array(
+              "BJe2fcX0k7Mbw-GbqX6zzFvgVekBDR8qyFRbu1TjUp5ggSLJMjCUTmoRTV_IRMa9YNkag8d0lakv2IdQ2cA9ikU"
+          ),
+        });
+        console.log("User subscribed:", subscription);
+      } else {
+        console.log("User already subscribed:", subscription);
+      }
+      return subscription;
+    },
+
     async sendSubscriptionToServer(subscription) {
       try {
         const response = await post("/subscribe", subscription);
@@ -93,25 +107,7 @@ export default {
         console.error("Failed to send subscription to server:", error);
       }
     },
-    subscribeToNotifications() {
-      console.log("Subscribing to notifications...");
-      this.registerServiceWorker();
-    },
-    async unsubscribeFromNotifications() {
-      console.log("Unsubscribing from notifications...");
-      const swReg = await navigator.serviceWorker.ready;
-      const subscription = await swReg.pushManager.getSubscription();
 
-      if (subscription) {
-        try {
-          await subscription.unsubscribe();
-          console.log("User unsubscribed from notifications.");
-          await this.sendUnsubscriptionToServer(subscription);
-        } catch (error) {
-          console.error("Error while unsubscribing:", error);
-        }
-      }
-    },
     async sendUnsubscriptionToServer(subscription) {
       try {
         const response = await post("/unsubscribe", subscription);
@@ -120,21 +116,29 @@ export default {
         console.error("Failed to send unsubscription to server:", error);
       }
     },
+
+    urlBase64ToUint8Array(base64String) {
+      const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+      const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+      const rawData = window.atob(base64);
+      const outputArray = new Uint8Array(rawData.length);
+      for (let i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+      }
+      return outputArray;
+    },
   },
-  mounted() {
-    // Request notification permission if not already granted
-    if (Notification.permission === "default") {
-      Notification.requestPermission().then((permission) => {
-        if (permission === "granted") {
-          console.log("Notification permission granted.");
-        } else {
-          console.warn("Notification permission denied.");
-        }
-      });
+
+  async mounted() {
+    try {
+      await this.ensureNotificationPermissions();
+      const swReg = await this.registerServiceWorker();
+      const subscription = await this.getOrCreateSubscription(swReg);
+      console.log("Initial subscription status:", subscription);
+    } catch (error) {
+      console.warn("Initialization error:", error);
     }
-    // Register the service worker after requesting permission
-    this.registerServiceWorker();
-  }
+  },
 };
 </script>
 

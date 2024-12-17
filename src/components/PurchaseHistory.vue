@@ -2,7 +2,6 @@
   <div class="order-history">
     <h2>Order History</h2>
 
-    <!-- Orders Table -->
     <div class="order-table">
       <table v-if="orders.length">
         <thead>
@@ -31,7 +30,6 @@
       <p v-else>No orders available at this time.</p>
     </div>
 
-    <!-- Order Details Modal -->
     <div v-if="isOrderDetailsVisible" class="order-details-modal">
       <div class="modal-content">
         <span class="close" @click="closeOrderDetails">&times;</span>
@@ -53,9 +51,9 @@ export default {
   name: "OrderHistory",
   data() {
     return {
-      orders: [], // Directly hold robots as orders
+      orders: [],
       basketId: null,
-      userId: "62a5e26f-edac-4652-b5a5-8fe00c8d00cf", // Replace with your user ID
+      userId: "62a5e26f-edac-4652-b5a5-8fe00c8d00cf",
       isOrderDetailsVisible: false,
       currentOrder: null,
     };
@@ -64,7 +62,6 @@ export default {
     this.fetchLatestBasketId();
   },
   methods: {
-    // Fetch latest basket ID
     async fetchLatestBasketId() {
       try {
         const basketIds = await basketService.getBasketIds();
@@ -75,7 +72,6 @@ export default {
       }
     },
 
-    // Fetch robots and set as orders
     async fetchRobots() {
       if (!this.basketId) return;
       try {
@@ -84,25 +80,21 @@ export default {
           basketId: this.basketId,
         });
 
-        // Directly assign robots to orders
         this.orders = response.robots || [];
       } catch (error) {
         console.error("Error fetching robots:", error);
       }
     },
 
-    // View order details
     viewOrderDetails(robot) {
       this.currentOrder = robot;
       this.isOrderDetailsVisible = true;
     },
 
-    // Close order details
     closeOrderDetails() {
       this.isOrderDetailsVisible = false;
     },
 
-    // Add class for status
     getOrderStatusClass(status) {
       return status === "Delivered" ? "delivered" : "pending";
     },
@@ -111,7 +103,6 @@ export default {
 </script>
 
 <style scoped>
-/* Order History Styles */
 .order-history {
   display: flex;
   flex-direction: column;
