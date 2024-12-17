@@ -63,7 +63,7 @@ export default {
   background-color: #fff;
   border-radius: 8px;
   width: 600px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   padding: 3rem;
   margin: 5rem;
