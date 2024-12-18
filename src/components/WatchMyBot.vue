@@ -82,7 +82,7 @@ export default {
     async fetchLatestBasketId() {
       try {
         const basketIds = await basketService.getBasketIds(); // Fetch the basket IDs
-        this.basketId = basketIds[basketIds.length - 1]; // Get the latest basketId
+        this.basketId = basketIds[0]; // Get the latest basketId
         await this.fetchRobots(); // Once we have the basket ID, fetch the robots
       } catch (error) {
         this.error = "Failed to fetch basket IDs. Please try again later.";
