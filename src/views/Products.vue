@@ -71,7 +71,7 @@
         >
           <img
               :src="`/2024-2025/group-23/images/${product.name}.png`"
-              :alt="`${product.name} Image`"
+              :alt="`${product.name}`"
               class="product-image"
           />
           <h3 class="product-name">{{ product.name }}</h3>
@@ -182,8 +182,7 @@ export default {
       );
     },
   },
-  methods: {
-    async fetchProducts() {
+  methods: {async fetchProducts() {
       this.loading = true;
       this.error = null;
       try {
@@ -194,8 +193,7 @@ export default {
       } finally {
         this.loading = false;
       }
-    },
-    async addToCart(productOrId) {
+    }, async addToCart(productOrId) {
       try {
         let robotId;
         if (typeof productOrId === "object" && productOrId.id) {
@@ -203,11 +201,9 @@ export default {
           this.cart.push(productOrId);
         } else if (typeof productOrId === "string") {
           robotId = productOrId;
-        } else {
-          throw new Error("Invalid input to addToCart.");
-        }
+        } else throw new Error("Invalid input to addToCart.");
         const basketIds = await basketService.getBasketIds();
-        const basketId = basketIds[0];
+        const basketId = basketIds[basketIds.length-1];
         await post("basket/add-robot", { robotId, basketId });
 
         const TOAST_DURATION_MS = 3000;
@@ -217,27 +213,20 @@ export default {
         console.error("Failed to add robot to cart:", error);
         alert("Failed to add robot to cart. Please try again.");
       }
-    },
-
-    showMoreInfo(product) {
+    }, showMoreInfo(product) {
       this.selectedProduct = product;
       this.showModal = true;
-    },
-    closeModal() {
+    }, closeModal() {
       this.showModal = false;
       this.selectedProduct = null;
-    },
-    openCustomizeModal(robotId) {
+    }, openCustomizeModal(robotId) {
       console.log("Selected Robot ID:", robotId);
       this.selectedRobotId = robotId;
       this.showCustomizeModal = true;
-    },
-
-    closeCustomizeModal() {
+    }, closeCustomizeModal() {
       this.showCustomizeModal = false;
       this.selectedPackages = [];
-    },
-    togglePackageSelection(packageName, event) {
+    }, togglePackageSelection(packageName, event) {
       if (event.target.checked) {
         this.selectedPackages.push(packageName);
       } else {
@@ -245,9 +234,7 @@ export default {
             (name) => name !== packageName
         );
       }
-    },
-
-    async saveCustomization() {
+    }, async saveCustomization() {
       if (this.selectedPackages.length === 0) {
         alert("Please select at least one package.");
         return;
@@ -266,8 +253,7 @@ export default {
         console.error("Failed to save customization:", error);
         alert("Failed to save customization. Please try again.");
       }
-    },
-  },
+    },},
 
   mounted() {
     this.fetchProducts();

@@ -20,7 +20,7 @@
     </section>
 
     </div>
-      <img class="robot-image" src="../assets/images/robotpics.png" alt="robotimage">
+      <img class="robot-image" src="../assets/images/robotpics.png" alt="robot">
 
   </div>
   </div>
