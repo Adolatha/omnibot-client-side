@@ -28,7 +28,7 @@
                 :key="`${item.id}-${index}`"
                 :class="['cart-item', { 'removing-item': item.removing }]"
             >
-              <img :src="`2024/2025/${item.name}.png`" :alt="item.name" class="cart-item-image" />
+              <img :src="`/2024-2025/group-23/images${item.name}.png`" :alt="item.name" class="cart-item-image" />
               <div class="cart-item-details">
                 <h3 class="cart-item-name">{{ item.name }}</h3>
                 <p class="cart-item-price">{{ item.price }} ADCO/month</p>
