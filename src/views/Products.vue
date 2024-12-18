@@ -207,7 +207,7 @@ export default {
           throw new Error("Invalid input to addToCart.");
         }
         const basketIds = await basketService.getBasketIds();
-        const basketId = basketIds[basketIds.length-2];
+        const basketId = basketIds[0];
         await post("basket/add-robot", { robotId, basketId });
 
         const TOAST_DURATION_MS = 3000;

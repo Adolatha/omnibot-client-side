@@ -72,7 +72,7 @@ export default {
     async fetchBasketId() {
       try {
         const basketIds = await basketService.getBasketIds();
-        this.basketId = basketIds[basketIds.length - 1];
+        this.basketId = basketIds[0];
         console.log("Dynamic basketId:", this.basketId);
       } catch (error) {
         console.error("Failed to fetch basket IDs:", error);
