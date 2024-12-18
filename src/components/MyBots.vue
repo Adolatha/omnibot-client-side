@@ -52,7 +52,7 @@ export default {
     async fetchLatestBasketId() {
       try {
         const basketIds = await basketService.getBasketIds();
-        this.basketId = basketIds[0];
+        this.basketId = basketIds[basketIds.length-1];
         console.log("Latest basketId:", this.basketId);
       } catch (error) {
         console.error("Failed to fetch basket IDs:", error);

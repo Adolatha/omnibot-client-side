@@ -210,7 +210,6 @@ export default {
         this.showToast = true;
         setTimeout(() => (this.showToast = false), TOAST_DURATION_MS);
       } catch (error) {
-        console.error("Failed to add robot to cart:", error);
         alert("Failed to add robot to cart. Please try again.");
       }
     }, showMoreInfo(product) {
@@ -220,7 +219,6 @@ export default {
       this.showModal = false;
       this.selectedProduct = null;
     }, openCustomizeModal(robotId) {
-      console.log("Selected Robot ID:", robotId);
       this.selectedRobotId = robotId;
       this.showCustomizeModal = true;
     }, closeCustomizeModal() {

@@ -72,8 +72,7 @@ export default {
     async fetchBasketId() {
       try {
         const basketIds = await basketService.getBasketIds();
-        this.basketId = basketIds[0];
-        console.log("Dynamic basketId:", this.basketId);
+        this.basketId = basketIds[basketIds.length-1];
       } catch (error) {
         console.error("Failed to fetch basket IDs:", error);
       }
@@ -88,7 +87,6 @@ export default {
         const response = await post("basket/retrieve", {
           basketId: this.basketId,
         });
-        console.log(response.robots);
 
         if (response.robots && response.robots.length > 0) {
           this.cart = response.robots.map((robot) => ({
