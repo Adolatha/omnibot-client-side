@@ -364,7 +364,7 @@ export default {
 .product-name {
   font-weight: bold;
   font-size: 1.4em;
-  color: red;
+  color: #333;
   margin-bottom: 8px;
   text-align: center;
   text-transform: capitalize;
