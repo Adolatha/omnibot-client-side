@@ -202,7 +202,9 @@ export default {
         } else if (typeof productOrId === "string") {
           robotId = productOrId;
         } else throw new Error("Invalid input to addToCart.");
+
         const basketIds = await basketService.getBasketIds();
+        console.log("baskets: ",basketIds);
         const basketId = basketIds[basketIds.length-1];
         await post("basket/add-robot", { robotId, basketId });
 
