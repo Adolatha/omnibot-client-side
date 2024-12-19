@@ -55,13 +55,13 @@
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { post } from "../assets/utils/api/api-methods.js";
-import basketService from "../services/basketService.js"; // Import the basket service
+import basketService from "../services/basketService.js";
 
 export default {
   name: "WatchMyBot",
   data() {
     return {
-      robots: [], // Will store robots from the latest basket
+      robots: [],
       selectedRobotId: null,
       videoEmbedUrl: "",
       taskName: "",
@@ -71,19 +71,19 @@ export default {
       marker: null,
       loading: false,
       error: null,
-      basketId: null, // Dynamic basketId
+      basketId: null,
     };
   },
   mounted() {
-    this.fetchLatestBasketId(); // Fetch the latest basket ID
+    this.fetchLatestBasketId();
     this.initializeMap();
   },
   methods: {
     async fetchLatestBasketId() {
       try {
-        const basketIds = await basketService.getBasketIds(); // Fetch the basket IDs
-        this.basketId = basketIds[basketIds.length-2]; // Get the latest basketId
-        await this.fetchRobots(); // Once we have the basket ID, fetch the robots
+        const basketIds = await basketService.getBasketIds();
+        this.basketId = basketIds[basketIds.length-2];
+        await this.fetchRobots();
       } catch (error) {
         this.error = "Failed to fetch basket IDs. Please try again later.";
       }
@@ -150,7 +150,6 @@ export default {
       );
 
       if (selectedRobot) {
-        // Update video embed URL with autoplay and task progress
         if (selectedRobot.videoUrl) {
           this.videoEmbedUrl = `${selectedRobot.videoUrl}?autoplay=1`;
           this.isVideoAvailable = true;
@@ -158,11 +157,9 @@ export default {
           this.isVideoAvailable = false;
         }
 
-        // Update task details
         this.taskName = selectedRobot.task.taskName || "Unknown Task";
         this.taskProgress = selectedRobot.task.percentage || 0;
 
-        // Update the map view and marker position based on the selected robot's location
         const { latitude, longitude } = selectedRobot.location;
         this.map.setView([latitude, longitude], 10);
         this.marker.setLatLng([latitude, longitude])

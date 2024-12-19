@@ -27,7 +27,7 @@
           <!-- Typing indicator -->
           <div v-if="isTyping" class="message typing-indicator">
             <div class="message-content ai">
-              <p>Omnibot AI is typing...</p>
+              <p>Typing...</p>
             </div>
           </div>
         </div>

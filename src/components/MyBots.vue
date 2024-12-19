@@ -44,8 +44,8 @@ export default {
   name: "MyBots",
   data() {
     return {
-      bots: [], // Will store robots from the basket
-      basketId: null, // Dynamic basket ID
+      bots: [],
+      basketId: null,
     };
   },
   methods: {
@@ -59,7 +59,6 @@ export default {
       }
     },
 
-    // Fetch robots in the latest basket
     async fetchBots() {
       if (!this.basketId) {
         console.error("Basket ID is not set.");
@@ -74,7 +73,7 @@ export default {
           this.bots = response.robots.map((robot) => ({
             id: robot.id,
             name: robot.name,
-            status: "Running", // Default status as 'Running' or modify as needed
+            status: "Running",
           }));
         } else {
           console.warn("No bots found in the basket.");
@@ -86,13 +85,11 @@ export default {
       }
     },
 
-    // Shutdown a bot
     shutdownBot(bot) {
       console.log(`Shutting down ${bot.name}`);
       bot.status = "Shutdown";
     },
 
-    // Determine CSS class for bot status
     getStatusClass(status) {
       return {
         "status-running": status === "Running",
@@ -101,9 +98,9 @@ export default {
     },
   },
   async mounted() {
-    await this.fetchLatestBasketId(); // Retrieve the latest basket ID
+    await this.fetchLatestBasketId();
     if (this.basketId) {
-      await this.fetchBots(); // Fetch bots for the latest basket
+      await this.fetchBots();
     }
   },
 };

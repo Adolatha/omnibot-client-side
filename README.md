@@ -9,15 +9,12 @@ Create your client-side **VUE** project in this repo.
 * Sonar reports: https://sonarqube.ti.howest.be/dashboard?id=2024.ad-project.adria.23.client
 
 ## Please complete the following instructions before committing the **final version** on the project
-Please **add** any **instructions** required to: 
+Please **add** any **instructions** required to:
 
-* make your application work if applicable 
-* be able to test the application (credentials, populated db, ...)
+#Bugs:
+* You only see the basket you just purchased in the order history and MyBots, instead of all the bots you've ever bought.  
+* When on a bigger screen the robot on the mainpage goes offscreen
 
-Also clarify
-* If there are known **bugs**.
-* If you haven't managed to finish certain required functionality.
-  
 ## Instructions for local quality checks
 You can run the validators for html, CSS and JS rules locally. 
 

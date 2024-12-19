@@ -19,13 +19,13 @@
 </template>
 
 <script>
-import { post } from "../assets/utils/api/api-methods"; // Adjust the path as necessary
+import { post } from "../assets/utils/api/api-methods";
 
 export default {
   name: "Notifications",
   data() {
     return {
-      isSubscribed: false, // Track the subscription status
+      isSubscribed: false,
     };
   },
   methods: {
