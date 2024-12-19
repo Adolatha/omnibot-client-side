@@ -123,8 +123,19 @@ export default {
         attribution: '© OpenStreetMap contributors',
       }).addTo(this.map);
 
-      // Add an initial marker
-      this.marker = L.marker([0, 0]).addTo(this.map);
+      // Define the custom icon
+      const customIcon = L.icon({
+        iconUrl: `/2024-2025/group-23/images/cursor/marker-icon.png`,
+        iconRetinaUrl: `/2024-2025/group-23/images/cursor/marker-icon-2x.png`,
+        shadowUrl: `/2024-2025/group-23/images/cursor/marker-shadow.png`,
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+      });
+
+      // Add an initial marker with the custom icon
+      this.marker = L.marker([0, 0], { icon: customIcon }).addTo(this.map);
     },
 
     updateBotDetails() {
