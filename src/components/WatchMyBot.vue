@@ -140,7 +140,6 @@ export default {
       });
 
 
-      // Add an initial marker with the custom icon
       this.marker = L.marker([0, 0], { icon: customIcon }).addTo(this.map);
     },
 
