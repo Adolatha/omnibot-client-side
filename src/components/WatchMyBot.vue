@@ -124,15 +124,21 @@ export default {
       }).addTo(this.map);
 
       // Define the custom icon
+      const ICON_WIDTH = 25;
+      const ICON_HEIGHT = 41;
+      const POPUP_ANCHOR_X = 1;
+      const POPUP_ANCHOR_Y = -34;
+
       const customIcon = L.icon({
         iconUrl: `/2024-2025/group-23/images/cursor/marker-icon.png`,
         iconRetinaUrl: `/2024-2025/group-23/images/cursor/marker-icon-2x.png`,
         shadowUrl: `/2024-2025/group-23/images/cursor/marker-shadow.png`,
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
+        iconSize: [ICON_WIDTH, ICON_HEIGHT],
+        iconAnchor: [ICON_WIDTH / 2, ICON_HEIGHT],
+        popupAnchor: [POPUP_ANCHOR_X, POPUP_ANCHOR_Y],
+        shadowSize: [ICON_HEIGHT, ICON_HEIGHT],
       });
+
 
       // Add an initial marker with the custom icon
       this.marker = L.marker([0, 0], { icon: customIcon }).addTo(this.map);
